@@ -1,2 +1,2 @@
 # CryptUrMess
-android school project
+Android School Project
