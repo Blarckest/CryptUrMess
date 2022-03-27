@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "581769697465",
+    "project_id": "crypturmess",
+    "storage_bucket": "crypturmess.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581769697465:android:3e2301ad4cc09bbd01a368",
+        "android_client_info": {
+          "package_name": "uqac.dim.crypturmess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581769697465-g6n04ruirm8oos8tchfhnukq65088da0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXLgVeFF3xiSeSEOugLA0kgdBacmZBK_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581769697465-g6n04ruirm8oos8tchfhnukq65088da0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,11 @@
-package uqac.dim.crypturmess;
+package uqac.dim.crypturmess.ui;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import uqac.dim.crypturmess.R;
 
 public class MainActivity extends AppCompatActivity {
 
