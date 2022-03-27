@@ -7,10 +7,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
+import uqac.dim.crypturmess.utils.validator.EmailValidator;
+import uqac.dim.crypturmess.utils.validator.IValidator;
+import uqac.dim.crypturmess.utils.validator.PasswordValidator;
+
 
 public class FirebaseAuthManager implements IAuthManager {
-    private final Pattern emailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private static FirebaseAuth firebaseAuthManager=FirebaseAuth.getInstance();
+    private IValidator emailValidator = new EmailValidator();
+    private IValidator passwordValidator = new PasswordValidator();
+    private FirebaseAuth firebaseAuthManager=FirebaseAuth.getInstance();
     @Override
     public Task<AuthResult> createUser(String email, String password) {
         return firebaseAuthManager.createUserWithEmailAndPassword(email, password);
@@ -27,9 +32,9 @@ public class FirebaseAuthManager implements IAuthManager {
 
     @Override
     public ValidationError validateEmailAndPassword(String email, String password) {
-        if( email.length() > 0 || emailRegex.matcher(email).find())
+        if(!emailValidator.isValid(email))
             return ValidationError.INVALID_EMAIL;
-        if(password.length() > 0)
+        if(!passwordValidator.isValid(password))
             return ValidationError.INVALID_PASSWORD;
         return ValidationError.NO_ERROR;
     }
