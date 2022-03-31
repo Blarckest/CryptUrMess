@@ -4,30 +4,31 @@ package uqac.dim.crypturmess;
  * User class represent a user.
  */
 public class User {
-
+    private int idUser;
     private String username;
     private String firstname;
     private String lastname;
+    private String email;
     private int age;
 
     /**
      * Constructor
-     * @param username
      */
-    public User(String username) {
+    public User(int id, String username) {
+        setIdUser(id);
         setUsername(username);
     }
 
     /**
      * Constructor
-     * @param username
-     * @param firstname
-     * @param lastname
      */
-    public User(String username, String firstname, String lastname) {
+    public User(int id, String username, String firstname, String lastname, String email, int age) {
+        setIdUser(id);
         setUsername(username);
         setFirstname(firstname);
         setLastname(lastname);
+        setEmail(email);
+        setAge(age);
     }
 
     public String getUsername() {
@@ -62,4 +63,19 @@ public class User {
         this.age = age;
     }
 
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
