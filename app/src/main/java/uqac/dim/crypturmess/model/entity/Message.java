@@ -1,4 +1,4 @@
-package uqac.dim.crypturmess;
+package uqac.dim.crypturmess.model.entity;
 import java.util.Date;
 
 /**
