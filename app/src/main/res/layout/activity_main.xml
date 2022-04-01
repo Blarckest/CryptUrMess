@@ -7,7 +7,7 @@
     tools:context=".ui.MainActivity"
     android:id="@+id/c_linear_contact"
     android:orientation="vertical"
-    android:background="@color/gold">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/nb_messages"
+            android:text="🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟"
             android:id="@+id/c_nb_messages"
             android:padding="5dp" />
 
@@ -80,7 +80,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="nom"
+                            android:text="🐟🐟🐟🐟🐟🐟🐟🐟"
                             android:textColor="@color/white"/>
                     </LinearLayout>
                     <View
