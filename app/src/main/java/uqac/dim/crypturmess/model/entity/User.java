@@ -1,34 +1,50 @@
 package uqac.dim.crypturmess.model.entity;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+import androidx.room.Relation;
+
 /**
  * User class represent a user.
  */
+@Entity(tableName = "User")
 public class User {
+    @ColumnInfo(name = "id")
+    @PrimaryKey
     private int idUser;
+    @ColumnInfo(name = "username")
     private String username;
+    @ColumnInfo(name = "firstname")
     private String firstname;
-    private String lastname;
-    private String email;
-    private int age;
 
     /**
-     * Constructor
+     * Empty constructor
      */
-    public User(int id, String username) {
-        setIdUser(id);
+    public User() { }
+
+    /**
+     * Constructor minimal
+     */
+    public User(String username) {
         setUsername(username);
     }
 
     /**
-     * Constructor
+     * Constructor full parameters
      */
-    public User(int id, String username, String firstname, String lastname, String email, int age) {
-        setIdUser(id);
-        setUsername(username);
+    public User(int id, String username, String firstname) {
+        this(username);
         setFirstname(firstname);
-        setLastname(lastname);
-        setEmail(email);
-        setAge(age);
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public String getUsername() {
@@ -45,37 +61,5 @@ public class User {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

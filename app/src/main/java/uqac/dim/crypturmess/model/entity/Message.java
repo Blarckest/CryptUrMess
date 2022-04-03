@@ -1,23 +1,58 @@
 package uqac.dim.crypturmess.model.entity;
-import java.util.Date;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import java.sql.Timestamp;
 
 /**
  * This class represent a message.
  */
+@Entity(tableName = "Message", foreignKeys = {
+        @ForeignKey(
+                entity = Conversation.class,
+                parentColumns = "id",
+                childColumns = "id_conversation"
+        )
+})
 public class Message {
+    @ColumnInfo(name = "id_message")
+    @PrimaryKey(autoGenerate = true)
+    private int idMessage;
+    @ColumnInfo(name = "id_conversation")
+    private int idConversation;
+    @ColumnInfo(name = "message_content")
     private String message;
-    private int idSender;
-    private int idReceiver;
-    private Date date;
+    @ColumnInfo(name = "timestamp")
+    private long timestamp;
 
     /**
-     * Constructor
+     * Empty constructor
      */
-    public Message(String message, int idSender, int idReceiver, Date date) {
+    public Message() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        setTimestamp(timestamp.getTime());
+    }
+
+    /**
+     * Constructor minimal
+     */
+    @Ignore
+    public Message(String message, int idConversation) {
+        this();
+        setIdConversation(idConversation);
         setMessage(message);
-        setIdSender(idSender);
-        setIdReceiver(idReceiver);
-        setDate(date);
+    }
+
+    /**
+     * Constructor full parameters
+     */
+    @Ignore
+    public Message(String message, int idConversation, long timestamp) {
+        this(message, idConversation);
+        setTimestamp(timestamp);
     }
 
     public String getMessage() {
@@ -28,27 +63,27 @@ public class Message {
         this.message = message;
     }
 
-    public int getIdSender() {
-        return idSender;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setIdSender(int idSender) {
-        this.idSender = idSender;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public int getIdReceiver() {
-        return idReceiver;
+    public int getIdConversation() {
+        return idConversation;
     }
 
-    public void setIdReceiver(int idReceiver) {
-        this.idReceiver = idReceiver;
+    public void setIdConversation(int idConversation) {
+        this.idConversation = idConversation;
     }
 
-    public Date getDate() {
-        return date;
+    public int getIdMessage() {
+        return idMessage;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setIdMessage(int idMessage) {
+        this.idMessage = idMessage;
     }
 }

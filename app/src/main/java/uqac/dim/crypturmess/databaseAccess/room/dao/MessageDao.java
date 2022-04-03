@@ -11,14 +11,14 @@ import uqac.dim.crypturmess.model.entity.Message;
 public interface MessageDao {
     @Delete
     void delete(Message message);
-    @Delete
+    @Query("DELETE FROM Message WHERE id_message = :id")
     void deleteById(int id);
     @Insert
     void insert(Message message);
     @Insert
     void insertAll(Message... messages);
-    @Query("DELETE FROM message WHERE date < :date")
+    @Query("DELETE FROM message WHERE timestamp < :date")
     void deleteOldMessages(long date);
-    @Query("SELECT * FROM message WHERE convId = :convID ORDER BY date ASC")
+    @Query("SELECT * FROM message WHERE id_conversation = :convID ORDER BY timestamp ASC")
     Message[] getAllMessagesByConvId(int convID);
 }

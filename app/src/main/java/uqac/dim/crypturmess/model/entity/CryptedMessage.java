@@ -27,10 +27,10 @@ public class CryptedMessage {
 
     public CryptedMessage(Message message) {
         Crypter crypter = new RSACrypter();
-        this.message = crypter.encryptToSend(message.getMessage(),message.getIdReceiver());
+        /*this.message = crypter.encryptToSend(message.getMessage(),message.getIdReceiver());
         this.idSender = message.getIdSender();
         this.idReceiver = message.getIdReceiver();
-        this.date = message.getDate();
+        this.date = message.getDate();*/
     }
 
     public byte[] getMessage() {

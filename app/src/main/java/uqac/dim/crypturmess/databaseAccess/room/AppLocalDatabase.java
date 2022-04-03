@@ -15,7 +15,7 @@ import uqac.dim.crypturmess.model.entity.User;
 
 @Database(entities={User.class, Message.class, Conversation.class}, version=1)
 public abstract class AppLocalDatabase extends RoomDatabase {
-    private AppLocalDatabase(){}
+    AppLocalDatabase(){}
     private AppLocalDatabase instance;
     public abstract UserDao userDao();
     public abstract MessageDao messageDao();
