@@ -16,7 +16,7 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE id!=0")
     User[] getFriends();
     @Query("SELECT * FROM user WHERE id=:id")
-    User getUser(int id);
+    User getUserById(int id);
     @Query("SELECT * FROM user WHERE id=1")
     User getUser();
 }
