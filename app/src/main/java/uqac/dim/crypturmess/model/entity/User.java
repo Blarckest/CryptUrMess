@@ -25,16 +25,17 @@ public class User {
      * Constructor minimal
      */
     @Ignore
-    public User(String username) {
-        setNickname(username);
+    public User(String nickname) {
+        setNickname(nickname);
     }
 
     /**
      * Constructor full parameters
      */
     @Ignore
-    public User(String id, String username) {
-        this(username);
+    public User(String id, String nickname) {
+        this(nickname);
+        this.idUser=id;
     }
 
     public String getIdUser() {
