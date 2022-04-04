@@ -6,15 +6,16 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import uqac.dim.crypturmess.model.entity.User;
+import uqac.dim.crypturmess.model.entity.UserClientSide;
 
 @Dao
 public interface UserDao {
     @Insert
-    void insert(User user);
+    void insert(UserClientSide user);
     @Delete
-    void delete(User user);
-    @Query("SELECT * FROM user WHERE id!=0")
-    User[] getFriends();
+    void delete(UserClientSide user);
+    @Query("SELECT * FROM user")
+    UserClientSide[] getFriends();
     @Query("SELECT * FROM user WHERE id=:id")
-    User getUserById(int id);
+    UserClientSide getUserById(int id);
 }

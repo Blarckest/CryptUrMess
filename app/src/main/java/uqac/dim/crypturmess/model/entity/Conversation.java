@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 @Entity(tableName = "Conversation", foreignKeys = {
         @ForeignKey(
-                entity = User.class,
+                entity = UserClientSide.class,
                 parentColumns = "id",
                 childColumns = "id_correspondant"
         )

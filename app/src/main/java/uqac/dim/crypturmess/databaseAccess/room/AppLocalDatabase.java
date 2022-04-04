@@ -12,8 +12,9 @@ import uqac.dim.crypturmess.databaseAccess.room.dao.UserDao;
 import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.Message;
 import uqac.dim.crypturmess.model.entity.User;
+import uqac.dim.crypturmess.model.entity.UserClientSide;
 
-@Database(entities={User.class, Message.class, Conversation.class}, version=1, exportSchema = false)
+@Database(entities={UserClientSide.class, Message.class, Conversation.class}, version=1, exportSchema = false)
 public abstract class AppLocalDatabase extends RoomDatabase {
     private static AppLocalDatabase instance;
     public abstract UserDao userDao();
