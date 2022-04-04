@@ -1,7 +1,12 @@
 package uqac.dim.crypturmess.model.entity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Date;
 
+import uqac.dim.crypturmess.CrypturMessApplication;
+import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.utils.crypter.Crypter;
 import uqac.dim.crypturmess.utils.crypter.RSACrypter;
 
@@ -11,21 +16,35 @@ import uqac.dim.crypturmess.utils.crypter.RSACrypter;
 
 public class CryptedMessage {
     private byte[] message;
-    private int idSender;
-    private int idReceiver;
+    private String idSender;
+    private String idReceiver;
     private Date date;
 
     /**
      * Constructor
      */
-    public CryptedMessage(byte[] message, int idSender, int idReceiver, Date date) {
+    public CryptedMessage(byte[] message, String idSender, String idReceiver, Date date) {
         setMessage(message);
         setIdSender(idSender);
         setIdReceiver(idReceiver);
         setDate(date);
     }
 
-    public CryptedMessage(Message message) {
+    public CryptedMessage(Message message, boolean isReceived) {
+//        AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
+//        Conversation conv = db.conversationDao().getConversationById(message.getIdConversation());
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (isReceived){
+//            if (user.getUid() == conv.getIdUser1()) {
+//                setIdReceiver(conv.getIdUser2());
+//                setIdSender(conv.getIdUser1());
+//            }
+//        }
+//        else{
+//            setIdReceiver(conv.getIdUser1());
+//            setIdSender(conv.getIdUser2());
+//        }
+
         Crypter crypter = new RSACrypter();
         /*this.message = crypter.encryptToSend(message.getMessage(),message.getIdReceiver());
         this.idSender = message.getIdSender();
@@ -41,19 +60,19 @@ public class CryptedMessage {
         this.message = message;
     }
 
-    public int getIdSender() {
+    public String getIdSender() {
         return idSender;
     }
 
-    public void setIdSender(int idSender) {
+    public void setIdSender(String idSender) {
         this.idSender = idSender;
     }
 
-    public int getIdReceiver() {
+    public String getIdReceiver() {
         return idReceiver;
     }
 
-    public void setIdReceiver(int idReceiver) {
+    public void setIdReceiver(String idReceiver) {
         this.idReceiver = idReceiver;
     }
 

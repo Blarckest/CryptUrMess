@@ -15,12 +15,11 @@ import uqac.dim.crypturmess.model.entity.User;
 
 @Database(entities={User.class, Message.class, Conversation.class}, version=1, exportSchema = false)
 public abstract class AppLocalDatabase extends RoomDatabase {
-    AppLocalDatabase(){}
-    private AppLocalDatabase instance;
+    private static AppLocalDatabase instance;
     public abstract UserDao userDao();
     public abstract MessageDao messageDao();
     public abstract ConversationDao conversationDao();
-    public AppLocalDatabase getInstance(Context context){
+    public static AppLocalDatabase getInstance(Context context){
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(), AppLocalDatabase.class, "crypturmess_database").build();
         }
