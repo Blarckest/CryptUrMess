@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">CryptUrMess</string>
+    <string name="app_name">Crypt\'UrMess</string>
     <string name="nb_messages">text</string>
     <string name="recherche" >recherche</string>
     <string name="hint_recherche">rechercher</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

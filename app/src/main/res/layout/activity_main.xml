@@ -51,7 +51,6 @@
             android:id="@+id/c_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg"
             android:padding="10dp">
 
             <LinearLayout
@@ -60,37 +59,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/c_scrollview_linearlayout_discussions"
+                <fragment
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:id="@+id/c_scrollview_linearlayout_discussions_icon_text">
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:src="@mipmap/ic_launcher_round" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="🐟🐟🐟🐟🐟🐟🐟🐟"
-                            android:textColor="@color/white"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="1dp"
-                        android:background="@color/white"
-                        android:paddingBottom="5dp"
-                        android:layout_marginTop="5dp"/>
-
-                </LinearLayout>
+                    class="uqac.dim.crypturmess.ui.fragments.FragmentContact"
+                    android:id="@+id/c_scrollview_fragment"/>
 
             </LinearLayout>
         </ScrollView>

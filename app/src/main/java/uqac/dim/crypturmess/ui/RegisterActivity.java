@@ -8,35 +8,33 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
-import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
+/*import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 import uqac.dim.crypturmess.utils.auth.ValidationError;
 import uqac.dim.crypturmess.utils.validator.EmailValidator;
-
-public class LoginActivity extends AppCompatActivity {
-    private IAuthManager authManager=new FirebaseAuthManager();
+*/
+public class RegisterActivity extends AppCompatActivity {
+    //private IAuthManager authManager=new FirebaseAuthManager();
     private FirebaseAuth.AuthStateListener authStateListener;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-         authStateListener= firebaseAuth -> {
+        setContentView(R.layout.activity_register);
+         /*authStateListener= firebaseAuth -> {
              if (authManager.getCurrentUser() != null) {
                  Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                  finish();
              }
-         };
+         };*/
     }
-
+/*
     @Override
     protected void onStop(){
         super.onStop();
@@ -50,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void clickOnLogin(View view) {
-        String email = ((EditText) findViewById(R.id.l_email)).getText().toString();
-        String password = ((EditText) findViewById(R.id.l_password)).getText().toString();
+        String email = ((EditText) findViewById(R.id.email)).getText().toString();
+        String password = ((EditText) findViewById(R.id.password)).getText().toString();
         if(authManager.validateEmailAndPassword(email,password)== ValidationError.NO_ERROR){
             authManager.signIn(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -68,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void clickOnForgotPassword(View view) {
-       if (new EmailValidator().isValid(((EditText) findViewById(R.id.l_email)).getText().toString())){
-           authManager.resetPassword(((EditText) findViewById(R.id.l_email)).getText().toString()).addOnCompleteListener(task -> {
+       if (new EmailValidator().isValid(((EditText) findViewById(R.id.email)).getText().toString())){
+           authManager.resetPassword(((EditText) findViewById(R.id.email)).getText().toString()).addOnCompleteListener(task -> {
                if (task.isSuccessful()) {
-                   Log.d(TAG, "Email sent to "+((EditText) findViewById(R.id.l_email)).getText().toString());
+                   Log.d(TAG, "Email sent to "+((EditText) findViewById(R.id.email)).getText().toString());
                }
                else {
                    Log.d(TAG, "Failed to send email");
@@ -82,5 +80,5 @@ public class LoginActivity extends AppCompatActivity {
        else{
            //todo display error to user
        }
-    }
+    }*/
 }
