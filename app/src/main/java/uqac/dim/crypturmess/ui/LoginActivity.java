@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +47,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void clickOnRegister(View view) {
-        //todo lauch register activity
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        /*intent.putExtra(EXTRA_NOM, nom);
+        intent.putExtra(EXTRA_URL, url);*/
+        startActivity(intent);
     }
 
     public void clickOnLogin(View view) {
@@ -56,14 +60,21 @@ public class LoginActivity extends AppCompatActivity {
             authManager.signIn(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
                 else {
-                    //todo display error to user
+                    Log.d(TAG, "signInWithEmail:error");
+                    Toast toast = Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             });
         }
         else{
             //todo display error to user
+            Log.d(TAG, "signInWithEmail:error");
+            Toast toast = Toast.makeText(LoginActivity.this, R.string.error_psw_mail, Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 

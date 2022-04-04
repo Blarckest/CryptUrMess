@@ -5,4 +5,7 @@
     <string name="hint_recherche">rechercher</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+
+    <string name="error_psw_mail">Invalid password or email</string>
+    <string name="error_login">Authentication error</string>
 </resources>
