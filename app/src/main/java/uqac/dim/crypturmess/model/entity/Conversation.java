@@ -16,25 +16,17 @@ import java.util.ArrayList;
         @ForeignKey(
                 entity = User.class,
                 parentColumns = "id",
-                childColumns = "id_user_1"
-        ),
-        @ForeignKey(
-                entity = User.class,
-                parentColumns = "id",
-                childColumns = "id_user_2"
+                childColumns = "id_correspondant"
         )
 }, indices={
-        @Index(value = {"id_user_1"}),
-        @Index(value={"id_user_2"})
+        @Index(value = {"id_correspondant"}),
 })
 public class Conversation {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     private int idConversation;
-    @ColumnInfo(name = "id_user_1")
-    private int idUser1;
-    @ColumnInfo(name = "id_user_2")
-    private int idUser2;
+    @ColumnInfo(name = "id_correspondant")
+    private String idCorrespondant;
     @Ignore
     private final ArrayList<Message> listMessages;
 
@@ -48,10 +40,9 @@ public class Conversation {
      * Construction
      */
     @Ignore
-    public Conversation(int idUser1, int idUser2) {
+    public Conversation(String idCorrespondant) {
         this();
-        setIdUser1(idUser1);
-        setIdUser2(idUser2);
+        setIdCorrespondant(idCorrespondant);
     }
 
     public ArrayList<Message> getListMessages() {
@@ -66,19 +57,11 @@ public class Conversation {
         this.idConversation = idConversation;
     }
 
-    public int getIdUser1() {
-        return idUser1;
+    public String getIdCorrespondant() {
+        return idCorrespondant;
     }
 
-    public void setIdUser1(int idUser1) {
-        this.idUser1 = idUser1;
-    }
-
-    public int getIdUser2() {
-        return idUser2;
-    }
-
-    public void setIdUser2(int idUser2) {
-        this.idUser2 = idUser2;
+    public void setIdCorrespondant(String idCorrespondant) {
+        this.idCorrespondant = idCorrespondant;
     }
 }

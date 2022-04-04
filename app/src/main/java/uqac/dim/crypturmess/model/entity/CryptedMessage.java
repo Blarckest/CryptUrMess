@@ -18,38 +18,34 @@ public class CryptedMessage {
     private byte[] message;
     private String idSender;
     private String idReceiver;
-    private Date date;
+    private long timestamp;
 
     /**
      * Constructor
      */
-    public CryptedMessage(byte[] message, String idSender, String idReceiver, Date date) {
+    public CryptedMessage(byte[] message, String idSender, String idReceiver, long date) {
         setMessage(message);
         setIdSender(idSender);
         setIdReceiver(idReceiver);
-        setDate(date);
+        setTimestamp(date);
     }
 
     public CryptedMessage(Message message, boolean isReceived) {
-//        AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
-//        Conversation conv = db.conversationDao().getConversationById(message.getIdConversation());
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (isReceived){
-//            if (user.getUid() == conv.getIdUser1()) {
-//                setIdReceiver(conv.getIdUser2());
-//                setIdSender(conv.getIdUser1());
-//            }
-//        }
-//        else{
-//            setIdReceiver(conv.getIdUser1());
-//            setIdSender(conv.getIdUser2());
-//        }
+        AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
+        Conversation conv = db.conversationDao().getConversationById(message.getIdConversation());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (isReceived) {
+            setIdReceiver(conv.getIdCorrespondant());
+            setIdSender(user.getUid());
+        }
+        else {
+            setIdReceiver(user.getUid());
+            setIdSender(conv.getIdCorrespondant());
+        }
 
         Crypter crypter = new RSACrypter();
-        /*this.message = crypter.encryptToSend(message.getMessage(),message.getIdReceiver());
-        this.idSender = message.getIdSender();
-        this.idReceiver = message.getIdReceiver();
-        this.date = message.getDate();*/
+        this.message = crypter.encryptToSend(message.getMessage(),conv.getIdCorrespondant());
+        this.timestamp = message.getTimestamp();
     }
 
     public byte[] getMessage() {
@@ -76,11 +72,11 @@ public class CryptedMessage {
         this.idReceiver = idReceiver;
     }
 
-    public Date getDate() {
-        return date;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

@@ -1,5 +1,6 @@
 package uqac.dim.crypturmess.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -14,6 +15,7 @@ import androidx.room.Relation;
 public class User {
     @ColumnInfo(name = "id")
     @PrimaryKey
+    @NonNull
     private String idUser;
     @ColumnInfo(name = "username")
     private String username;
