@@ -13,7 +13,7 @@ import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.Message;
 import uqac.dim.crypturmess.model.entity.User;
 
-@Database(entities={User.class, Message.class, Conversation.class}, version=1)
+@Database(entities={User.class, Message.class, Conversation.class}, version=1, exportSchema = false)
 public abstract class AppLocalDatabase extends RoomDatabase {
     AppLocalDatabase(){}
     private AppLocalDatabase instance;

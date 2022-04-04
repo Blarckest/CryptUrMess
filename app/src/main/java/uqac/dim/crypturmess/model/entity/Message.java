@@ -3,6 +3,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.sql.Timestamp;
@@ -16,6 +17,8 @@ import java.sql.Timestamp;
                 parentColumns = "id",
                 childColumns = "id_conversation"
         )
+}, indices={
+        @Index(value = "id_conversation")
 })
 public class Message {
     @ColumnInfo(name = "id_message")

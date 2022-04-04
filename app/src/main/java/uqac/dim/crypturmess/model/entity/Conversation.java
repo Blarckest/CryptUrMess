@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
                 parentColumns = "id",
                 childColumns = "id_user_2"
         )
+}, indices={
+        @Index(value = {"id_user_1"}),
+        @Index(value={"id_user_2"})
 })
 public class Conversation {
     @ColumnInfo(name = "id")

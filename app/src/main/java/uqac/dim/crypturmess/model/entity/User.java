@@ -3,6 +3,7 @@ package uqac.dim.crypturmess.model.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.Relation;
 
@@ -27,6 +28,7 @@ public class User {
     /**
      * Constructor minimal
      */
+    @Ignore
     public User(String username) {
         setUsername(username);
     }
@@ -34,6 +36,7 @@ public class User {
     /**
      * Constructor full parameters
      */
+    @Ignore
     public User(int id, String username, String firstname) {
         this(username);
         setFirstname(firstname);

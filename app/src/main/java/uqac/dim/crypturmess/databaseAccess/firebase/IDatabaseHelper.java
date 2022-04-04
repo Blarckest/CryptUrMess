@@ -5,7 +5,7 @@ import uqac.dim.crypturmess.model.entity.User;
 
 public interface IDatabaseHelper {
     void sendMessage(CryptedMessage cryptedMessage);
-    void pushRSAPublicKey(User user);
-    void pushPrivateKeyForSignature(User user);
+    void pushRSAPublicKey();
+    void pushPrivateKeyForSignature();
     void saveUser(User user);
 }
