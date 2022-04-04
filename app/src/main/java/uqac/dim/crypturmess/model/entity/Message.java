@@ -6,7 +6,15 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.sql.Timestamp;
+
+import uqac.dim.crypturmess.CrypturMessApplication;
+import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
+import uqac.dim.crypturmess.utils.crypter.IDecrypter;
+import uqac.dim.crypturmess.utils.crypter.RSADecrypter;
 
 /**
  * This class represent a message.
@@ -35,8 +43,24 @@ public class Message {
      * Empty constructor
      */
     public Message() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        setTimestamp(timestamp.getTime());
+    }
+
+    @Ignore
+    public Message(CryptedMessage message, boolean insertIntoDatabase) {
+        IDecrypter decrypter = new RSADecrypter();
+        AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String idCorrespondant = user.getUid()==message.getIdSender()?message.getIdReceiver():message.getIdSender();
+        Conversation conv = db.conversationDao().getConversation(idCorrespondant);
+        this.idConversation = conv.getIdConversation();
+        this.message = decrypter.decrypt(message.getMessage());
+        this.timestamp = message.getTimestamp();
+        if(insertIntoDatabase) {
+            db.messageDao().insert(this);
+        }
+        else {
+            this.idMessage = -1;
+        }
     }
 
     /**
@@ -44,7 +68,8 @@ public class Message {
      */
     @Ignore
     public Message(String message, int idConversation) {
-        this();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        setTimestamp(timestamp.getTime());
         setIdConversation(idConversation);
         setMessage(message);
     }

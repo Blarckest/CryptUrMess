@@ -1,6 +1,6 @@
 package uqac.dim.crypturmess.utils.crypter;
 
-public interface Decrypter extends SignatureVersion {
+public interface IDecrypter extends SignatureVersion {
    boolean verifySignature(byte[] encrypted, int friendId);
    String decrypt(byte[] cypherText);
 }

@@ -3,11 +3,9 @@ package uqac.dim.crypturmess.model.entity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Date;
-
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
-import uqac.dim.crypturmess.utils.crypter.Crypter;
+import uqac.dim.crypturmess.utils.crypter.ICrypter;
 import uqac.dim.crypturmess.utils.crypter.RSACrypter;
 
 /**
@@ -43,7 +41,7 @@ public class CryptedMessage {
             setIdSender(conv.getIdCorrespondant());
         }
 
-        Crypter crypter = new RSACrypter();
+        ICrypter crypter = new RSACrypter();
         this.message = crypter.encryptToSend(message.getMessage(),conv.getIdCorrespondant());
         this.timestamp = message.getTimestamp();
     }

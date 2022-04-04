@@ -13,7 +13,7 @@ import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.RSASignKeysManager;
 
-public class RSACrypter implements Crypter {
+public class RSACrypter implements ICrypter {
     private Cipher cipher;
     private IKeysManager keysToSign=new RSASignKeysManager();
     private IKeysManager myKeys =new RSAKeysManager();
