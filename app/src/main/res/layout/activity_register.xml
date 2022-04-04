@@ -24,7 +24,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="login"
+        android:hint="@string/nickname"
         android:paddingRight="100dp"
         android:paddingLeft="100dp"
         android:id="@+id/r_login" />
@@ -34,20 +34,23 @@
         android:hint="e-mail"
         android:paddingRight="100dp"
         android:paddingLeft="100dp"
-        android:id="@+id/r_email" />
+        android:id="@+id/r_email"
+        android:inputType="textEmailAddress"/>
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="100dp"
         android:paddingLeft="100dp"
         android:id="@+id/r_password"
-        android:hint="password"/>
+        android:hint="password"
+        android:inputType="textPassword"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
         android:paddingRight="100dp"
         android:paddingLeft="100dp"
-        android:id="@+id/l_login_button"/>
+        android:id="@+id/l_login_button"
+        android:onClick="clickOnRegister"/>
 
 </LinearLayout>

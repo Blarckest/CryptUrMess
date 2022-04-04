@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import uqac.dim.crypturmess.R;
 
-public class MainActivity extends AppCompatActivity {
+public class ContactActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

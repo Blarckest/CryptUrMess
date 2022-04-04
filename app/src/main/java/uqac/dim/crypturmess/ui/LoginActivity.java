@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
@@ -32,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
          authStateListener= firebaseAuth -> {
              if (authManager.getCurrentUser() != null) {
                  Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                 startActivity(new Intent(LoginActivity.this, ContactActivity.class));
                  finish();
              }
          };
@@ -60,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             authManager.signIn(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
                     startActivity(intent);
                 }
                 else {

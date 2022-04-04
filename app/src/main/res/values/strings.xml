@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Crypt\'UrMess</string>
-    <string name="nb_messages">text</string>
-    <string name="recherche" >recherche</string>
-    <string name="hint_recherche">rechercher</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
-
     <string name="error_psw_mail">Invalid password or email</string>
     <string name="error_login">Authentication error</string>
+
+    <string name="app_name">Crypt\'UrMess</string>
+    <string name="nb_messages">text</string>
+    <string name="research" >research</string>
+    <string name="hint_research">search</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="nickname">Nickname</string>
 </resources>

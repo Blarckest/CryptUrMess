@@ -31,6 +31,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.RegisterActivity"/>
         </activity>
+        <activity
+            android:name=".ui.ContactActivity"
+            android:configChanges="screenSize|orientation|screenLayout|navigation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ContactActivity"/>
+        </activity>
 
     </application>
 
