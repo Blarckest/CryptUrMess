@@ -1,5 +1,6 @@
 package uqac.dim.crypturmess.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -14,7 +15,8 @@ import androidx.room.Relation;
 public class User {
     @ColumnInfo(name = "id")
     @PrimaryKey
-    private int idUser;
+    @NonNull
+    private String idUser;
     @ColumnInfo(name = "username")
     private String username;
     @ColumnInfo(name = "firstname")
@@ -37,16 +39,16 @@ public class User {
      * Constructor full parameters
      */
     @Ignore
-    public User(int id, String username, String firstname) {
+    public User(String id, String username, String firstname) {
         this(username);
         setFirstname(firstname);
     }
 
-    public int getIdUser() {
+    public String getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setIdUser(String idUser) {
         this.idUser = idUser;
     }
 

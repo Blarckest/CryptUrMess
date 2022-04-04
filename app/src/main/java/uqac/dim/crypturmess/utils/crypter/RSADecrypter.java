@@ -1,8 +1,6 @@
 package uqac.dim.crypturmess.utils.crypter;
 
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.BadPaddingException;
@@ -14,7 +12,7 @@ import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.RSASignKeysManager;
 
-public class RSADecrypter implements Decrypter {
+public class RSADecrypter implements IDecrypter {
     private Cipher cipher;
     private IKeysManager keysToSign=new RSASignKeysManager();
     private IKeysManager myKeys =new RSAKeysManager();

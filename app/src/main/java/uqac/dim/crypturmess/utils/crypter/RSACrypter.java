@@ -1,17 +1,8 @@
 package uqac.dim.crypturmess.utils.crypter;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -22,7 +13,7 @@ import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.RSASignKeysManager;
 
-public class RSACrypter implements Crypter {
+public class RSACrypter implements ICrypter {
     private Cipher cipher;
     private IKeysManager keysToSign=new RSASignKeysManager();
     private IKeysManager myKeys =new RSAKeysManager();
@@ -46,7 +37,7 @@ public class RSACrypter implements Crypter {
     }
 
     @Override
-    public byte[] encryptToSend(String plaintext, int friendId) {
+    public byte[] encryptToSend(String plaintext, String friendId) {
         initCipher();
         try {
             throw new InvalidKeyException("Not implemented");
