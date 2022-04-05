@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import uqac.dim.crypturmess.databaseAccess.room.dao.ConversationDao;
+import uqac.dim.crypturmess.databaseAccess.room.dao.LocalUserDao;
 import uqac.dim.crypturmess.databaseAccess.room.dao.MessageDao;
 import uqac.dim.crypturmess.databaseAccess.room.dao.UserDao;
 import uqac.dim.crypturmess.model.entity.Conversation;
@@ -21,6 +22,7 @@ public abstract class AppLocalDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract MessageDao messageDao();
     public abstract ConversationDao conversationDao();
+    public abstract LocalUserDao localUserDao();
     public static AppLocalDatabase getInstance(Context context){
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(), AppLocalDatabase.class, "crypturmess_database").allowMainThreadQueries().build();
