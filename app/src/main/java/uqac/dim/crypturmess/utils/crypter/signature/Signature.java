@@ -1,4 +1,4 @@
-package uqac.dim.crypturmess.utils.crypter;
+package uqac.dim.crypturmess.utils.crypter.signature;
 
 import java.util.HashMap;
 import java.util.Map;

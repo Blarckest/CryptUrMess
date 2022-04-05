@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.utils.crypter.IDecrypter;
-import uqac.dim.crypturmess.utils.crypter.RSADecrypter;
 
 /**
  * This class represent a message.
@@ -46,8 +45,7 @@ public class Message {
     }
 
     @Ignore
-    public Message(CryptedMessage message, boolean insertIntoDatabase) {
-        IDecrypter decrypter = new RSADecrypter();
+    public Message(CryptedMessage message, IDecrypter decrypter, boolean insertIntoDatabase) {
         AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String idCorrespondant = user.getUid()==message.getIdSender()?message.getIdReceiver():message.getIdSender();

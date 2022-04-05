@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseUser;
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.utils.crypter.ICrypter;
-import uqac.dim.crypturmess.utils.crypter.RSACrypter;
+import uqac.dim.crypturmess.utils.crypter.RSA.RSACrypter;
 
 /**
  * This class represent a message.
@@ -28,7 +28,7 @@ public class CryptedMessage {
         setTimestamp(date);
     }
 
-    public CryptedMessage(Message message, boolean isReceived) {
+    public CryptedMessage(Message message, ICrypter crypter, boolean isReceived) {
         AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
         Conversation conv = db.conversationDao().getConversationById(message.getIdConversation());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -40,8 +40,6 @@ public class CryptedMessage {
             setIdReceiver(user.getUid());
             setIdSender(conv.getIdCorrespondant());
         }
-
-        ICrypter crypter = new RSACrypter();
         this.message = crypter.encryptToSend(message.getMessage(),conv.getIdCorrespondant());
         this.timestamp = message.getTimestamp();
     }

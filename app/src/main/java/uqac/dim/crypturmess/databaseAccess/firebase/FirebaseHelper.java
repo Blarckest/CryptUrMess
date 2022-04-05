@@ -8,8 +8,8 @@ import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSASignKeysManager;
+import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSAKeysManager;
+import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSASignKeysManager;
 
 public class FirebaseHelper implements IDatabaseHelper {
     private IKeysManager keysManager=new RSAKeysManager();
