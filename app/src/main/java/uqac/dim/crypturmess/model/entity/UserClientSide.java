@@ -18,6 +18,17 @@ public class UserClientSide extends User {
     @ColumnInfo(name = "username")
     private String username;
 
+    @ColumnInfo(name="RSA_public_key")
+    private String rsaPublicKey;
+
+    public String getRsaPublicKey() {
+        return rsaPublicKey;
+    }
+
+    public void setRsaPublicKey(String rsaPublicKey) {
+        this.rsaPublicKey = rsaPublicKey;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

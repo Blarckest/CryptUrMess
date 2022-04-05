@@ -1,4 +1,4 @@
-package uqac.dim.crypturmess.utils.crypter.keys;
+package uqac.dim.crypturmess.utils.crypter.keys.RSA;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,16 +8,17 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.IKeyInitializer;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.KeyInitializer;
 
-public class RSAKeysManager implements IKeysManager {
+public class RSASignKeysManager implements IKeysManager {
     private String algorithm="RSA/ECB/PKCS1Padding";
     private int keySize=2048;
 
     @Override
     public PublicKey getPublicKey() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./RSApublic.key"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./RSAsignPublic.key"))) {
             return (PublicKey) ois.readObject();
         } catch (Exception e) {
             IKeyInitializer keyInitializer = new KeyInitializer();
@@ -29,7 +30,7 @@ public class RSAKeysManager implements IKeysManager {
 
     @Override
     public PrivateKey getPrivateKey() {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./RSAprivate.key"))) {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./RSAsignPrivate.key"))) {
             return (PrivateKey) ois.readObject();
         } catch (Exception e) {
             IKeyInitializer keyInitializer = new KeyInitializer();
@@ -40,20 +41,24 @@ public class RSAKeysManager implements IKeysManager {
     }
 
     private void saveKeys(PrivateKey privateKey, PublicKey publicKey) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./RSAprivate.key"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./RSAsignPrivate.key"))) {
             oos.writeObject(privateKey);
             //todo save key to firebase here
         }
         catch (Exception e) {
+            getPrivateKey();
             e.printStackTrace();
+            return;
         }
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./RSApublic.key"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./RSAsignPublic.key"))) {
             oos.writeObject(publicKey);
             //todo save key to firebase here
 
         }
         catch (Exception e) {
+            getPublicKey();
             e.printStackTrace();
+            return;
         }
     }
 }

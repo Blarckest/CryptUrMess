@@ -1,4 +1,4 @@
-package uqac.dim.crypturmess.utils.crypter;
+package uqac.dim.crypturmess.utils.crypter.signature;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -9,14 +9,13 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import uqac.dim.crypturmess.utils.crypter.ISigner;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSASignKeysManager;
+import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSASignKeysManager;
 
-public class RSACrypter implements ICrypter {
-    private Cipher cipher;
+public class Signer implements ISigner {
     private IKeysManager keysToSign=new RSASignKeysManager();
-    private IKeysManager myKeys =new RSAKeysManager();
+    private Cipher cipher;
     @Override
     public byte[] signMessage(String plaintext) {
         initCipher();
@@ -37,7 +36,7 @@ public class RSACrypter implements ICrypter {
     }
 
     @Override
-    public byte[] encryptToSend(String plaintext, String friendId) {
+    public boolean verifySignature(byte[] encrypted, int friendId) {
         initCipher();
         try {
             throw new InvalidKeyException("Not implemented");
@@ -48,15 +47,14 @@ public class RSACrypter implements ICrypter {
         }
         byte[] bytes=null;
         try {
-            bytes=cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
+            bytes=cipher.doFinal(encrypted);
         } catch (BadPaddingException e) {
             e.printStackTrace();
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
-        return bytes;
+        return Signature.verify(bytes, version);
     }
-
     private boolean initCipher() {
         try {
             cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
@@ -66,4 +64,5 @@ public class RSACrypter implements ICrypter {
         }
         return true;
     }
+
 }

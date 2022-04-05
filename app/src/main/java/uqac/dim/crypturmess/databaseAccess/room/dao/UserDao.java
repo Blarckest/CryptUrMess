@@ -17,5 +17,7 @@ public interface UserDao {
     @Query("SELECT * FROM user")
     UserClientSide[] getFriends();
     @Query("SELECT * FROM user WHERE id=:id")
-    UserClientSide getUserById(int id);
+    UserClientSide getUserById(String id);
+    @Query("UPDATE user SET RSA_public_key=:key WHERE id=:id ")
+    void addRSAPublicKeyToUser(String id, String key);
 }
