@@ -1,5 +1,11 @@
 package uqac.dim.crypturmess.utils.crypter.keys.RSA;
 
+import android.util.Base64;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -8,6 +14,8 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
+import uqac.dim.crypturmess.utils.crypter.Algorithms;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.IKeyInitializer;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.KeyInitializer;
@@ -18,47 +26,37 @@ public class RSASignKeysManager implements IKeysManager {
 
     @Override
     public PublicKey getPublicKey() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./RSAsignPublic.key"))) {
-            return (PublicKey) ois.readObject();
-        } catch (Exception e) {
-            IKeyInitializer keyInitializer = new KeyInitializer();
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+        String publicKey=sharedPreferencesHelper.getValue("publicKeySign");
+        IKeyInitializer keyInitializer = new KeyInitializer();
+        if(publicKey.equals("")) {
             KeyPair pair = keyInitializer.generateKeyPair(algorithm,keySize);
-            saveKeys(pair.getPrivate(), pair.getPublic());
+            saveKeysLocally(pair.getPrivate(), pair.getPublic());
             return getPublicKey();
+        }
+        else {
+            return (PublicKey) keyInitializer.createKeyFromKeyBytes(Algorithms.RSA,Base64.decode(publicKey.getBytes(),Base64.DEFAULT),false);
         }
     }
 
     @Override
     public PrivateKey getPrivateKey() {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./RSAsignPrivate.key"))) {
-            return (PrivateKey) ois.readObject();
-        } catch (Exception e) {
-            IKeyInitializer keyInitializer = new KeyInitializer();
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+        String privateKey= sharedPreferencesHelper.getValue("privateKeySign");
+        IKeyInitializer keyInitializer = new KeyInitializer();
+        if(privateKey.equals("")) {
             KeyPair pair = keyInitializer.generateKeyPair(algorithm,keySize);
-            saveKeys(pair.getPrivate(), pair.getPublic());
+            saveKeysLocally(pair.getPrivate(), pair.getPublic());
             return getPrivateKey();
+        }
+        else {
+            return (PrivateKey) keyInitializer.createKeyFromKeyBytes(Algorithms.RSA,Base64.decode(privateKey.getBytes(),Base64.DEFAULT),true);
         }
     }
 
-    private void saveKeys(PrivateKey privateKey, PublicKey publicKey) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./RSAsignPrivate.key"))) {
-            oos.writeObject(privateKey);
-            //todo save key to firebase here
-        }
-        catch (Exception e) {
-            getPrivateKey();
-            e.printStackTrace();
-            return;
-        }
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./RSAsignPublic.key"))) {
-            oos.writeObject(publicKey);
-            //todo save key to firebase here
-
-        }
-        catch (Exception e) {
-            getPublicKey();
-            e.printStackTrace();
-            return;
-        }
+    private void saveKeysLocally(PrivateKey privateKey, PublicKey publicKey) {
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+        sharedPreferencesHelper.setValue("privateKeySign", Base64.encodeToString(privateKey.getEncoded(), Base64.DEFAULT));
+        sharedPreferencesHelper.setValue("publicKeySign",Base64.encodeToString(publicKey.getEncoded(), Base64.DEFAULT));
     }
 }

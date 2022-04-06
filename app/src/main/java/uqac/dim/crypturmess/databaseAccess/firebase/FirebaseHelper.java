@@ -1,5 +1,7 @@
 package uqac.dim.crypturmess.databaseAccess.firebase;
 
+import android.util.Base64;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,12 +25,12 @@ public class FirebaseHelper implements IDatabaseHelper {
 
     @Override
     public void pushRSAPublicKey() {
-        db.child("keys").child("RSA").child(authManager.getCurrentUser().getUid()).setValue(keysManager.getPublicKey());
+        db.child("keys").child("RSA").child(authManager.getCurrentUser().getUid()).setValue(Base64.encodeToString(keysManager.getPublicKey().getEncoded(),Base64.DEFAULT));
     }
 
     @Override
     public void pushPrivateKeyForSignature() {
-        db.child("keys").child("RSAsign").child(authManager.getCurrentUser().getUid()).setValue(signKeyManager.getPrivateKey());
+        db.child("keys").child("RSAsign").child(authManager.getCurrentUser().getUid()).setValue(new String(signKeyManager.getPrivateKey().getEncoded()));
     }
 
     @Override

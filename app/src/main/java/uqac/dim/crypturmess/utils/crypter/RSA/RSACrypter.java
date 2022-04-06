@@ -1,5 +1,7 @@
 package uqac.dim.crypturmess.utils.crypter.RSA;
 
+import android.util.Base64;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,7 +32,7 @@ public class RSACrypter implements ICrypter {
         CipherInitializer.initCipher(cipher, Algorithms.RSA);
         try {
             UserClientSide user = AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getUserById(friendId);
-            PublicKey publicKey = (PublicKey) new KeyInitializer().createKeyFromKeyBytes(Algorithms.RSA,user.getRsaPublicKey().getBytes(),false);
+            PublicKey publicKey = (PublicKey) new KeyInitializer().createKeyFromKeyBytes(Algorithms.RSA, Base64.decode(user.getRsaPublicKey(),Base64.DEFAULT),false);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         } catch (InvalidKeyException e) {
             e.printStackTrace();

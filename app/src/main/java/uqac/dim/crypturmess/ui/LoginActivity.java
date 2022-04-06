@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
+import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 import uqac.dim.crypturmess.utils.auth.ValidationError;
@@ -58,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             authManager.signIn(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
+                    pushKeys();
                     Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
                     startActivity(intent);
                 }
@@ -91,5 +94,10 @@ public class LoginActivity extends AppCompatActivity {
        else{
            //todo display error to user
        }
+    }
+
+    public void pushKeys(){
+        IDatabaseHelper dbHelper=new FirebaseHelper();
+        dbHelper.pushRSAPublicKey();
     }
 }

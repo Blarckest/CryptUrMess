@@ -7,6 +7,8 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -34,7 +36,7 @@ public class KeyInitializer implements IKeyInitializer {
     public KeyPair generateKeyPair(String algorithm, int keySize) {
         KeyPairGenerator keyGen = null;
         try {
-            keyGen = KeyPairGenerator.getInstance(algorithm);
+            keyGen = KeyPairGenerator.getInstance(algorithm.substring(0,algorithm.indexOf("/")));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
@@ -48,7 +50,7 @@ public class KeyInitializer implements IKeyInitializer {
         if (algorithm.equals(Algorithms.AES)){
             SecretKeyFactory keyFactory = null;
             try {
-                SecretKeyFactory.getInstance(algorithm);
+                SecretKeyFactory.getInstance(algorithm.substring(0,algorithm.indexOf("/")));
             }
             catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
@@ -70,20 +72,14 @@ public class KeyInitializer implements IKeyInitializer {
         if (algorithm.equals(Algorithms.RSA)){
             KeyFactory keyFactory = null;
             try {
-                KeyFactory.getInstance(algorithm);
+                keyFactory=KeyFactory.getInstance(algorithm.substring(0,algorithm.indexOf("/")));
             } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                return null;
-            }
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
-            try {
-                keyFactory.generatePrivate(keySpec);
-            } catch (InvalidKeySpecException e) {
                 e.printStackTrace();
                 return null;
             }
             if (isPrivate){
                 try {
+                    PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
                     return keyFactory.generatePrivate(keySpec);
                 } catch (InvalidKeySpecException e) {
                     e.printStackTrace();
@@ -92,6 +88,7 @@ public class KeyInitializer implements IKeyInitializer {
             }
             else {
                 try {
+                    X509EncodedKeySpec keySpec=new X509EncodedKeySpec(keyBytes);
                     return keyFactory.generatePublic(keySpec);
                 } catch (InvalidKeySpecException e) {
                     e.printStackTrace();
