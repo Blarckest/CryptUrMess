@@ -25,6 +25,7 @@ import uqac.dim.crypturmess.utils.validator.EmailValidator;
 public class LoginActivity extends AppCompatActivity {
     private IAuthManager authManager=new FirebaseAuthManager();
     private FirebaseAuth.AuthStateListener authStateListener;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -7,7 +7,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
-import uqac.dim.crypturmess.utils.crypter.Algorithms;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.CipherInitializer;
 import uqac.dim.crypturmess.utils.crypter.ICrypter;
 
@@ -15,7 +16,7 @@ public class AESCrypter implements ICrypter {
     private Cipher cipher;
     @Override
     public byte[] encryptToSend(String plaintext, String friendId) {
-        CipherInitializer.initCipher(cipher, Algorithms.AES);
+        CipherInitializer.initCipher(cipher, AlgorithmsSpec.AES);
         try {
             throw new InvalidKeyException("Not implemented");
             //todo get la  key
@@ -32,5 +33,10 @@ public class AESCrypter implements ICrypter {
             e.printStackTrace();
         }
         return bytes;
+    }
+
+    @Override
+    public Algorithm getAlgorithm() {
+        return Algorithm.AES;
     }
 }

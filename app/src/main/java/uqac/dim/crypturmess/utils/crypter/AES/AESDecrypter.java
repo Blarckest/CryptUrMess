@@ -6,11 +6,11 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
-import uqac.dim.crypturmess.utils.crypter.Algorithms;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.CipherInitializer;
 import uqac.dim.crypturmess.utils.crypter.IDecrypter;
 import uqac.dim.crypturmess.utils.crypter.keys.AESKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.ISecretKeyManager;
 
 public class AESDecrypter implements IDecrypter {
@@ -18,7 +18,7 @@ public class AESDecrypter implements IDecrypter {
     private ISecretKeyManager myKeys =new AESKeysManager();
     @Override
     public String decrypt(byte[] cypherText) {
-        CipherInitializer.initCipher(cipher, Algorithms.AES);
+        CipherInitializer.initCipher(cipher, AlgorithmsSpec.AES);
         try {
             throw new InvalidKeyException();
             //todo get the key
@@ -35,5 +35,10 @@ public class AESDecrypter implements IDecrypter {
             e.printStackTrace();
         }
         return new String(bytes);
+    }
+
+    @Override
+    public Algorithm getAlgorithm() {
+        return Algorithm.AES;
     }
 }

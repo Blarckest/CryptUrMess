@@ -4,18 +4,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 
 import javax.crypto.SecretKey;
 
-import uqac.dim.crypturmess.utils.crypter.Algorithms;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.IKeyInitializer;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.KeyInitializer;
 
 public class AESKeysManager implements ISecretKeyManager {
-    private String algorithm= Algorithms.AES;
+    private Algorithm algorithm= Algorithm.AES;
     private int keySize=256;
 
     @Override
