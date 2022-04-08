@@ -10,7 +10,7 @@ import uqac.dim.crypturmess.utils.crypter.Algorithms;
 import uqac.dim.crypturmess.utils.crypter.CipherInitializer;
 import uqac.dim.crypturmess.utils.crypter.IDecrypter;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSAKeysManager;
+import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
 
 public class RSADecrypter implements IDecrypter {
     private Cipher cipher;

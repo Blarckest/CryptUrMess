@@ -10,12 +10,10 @@ import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSAKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSASignKeysManager;
+import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
 
 public class FirebaseHelper implements IDatabaseHelper {
     private IKeysManager keysManager=new RSAKeysManager();
-    private IKeysManager signKeyManager=new RSASignKeysManager();
     private IAuthManager authManager=new FirebaseAuthManager();
     private DatabaseReference db= FirebaseDatabase.getInstance().getReference();
     @Override
@@ -26,11 +24,6 @@ public class FirebaseHelper implements IDatabaseHelper {
     @Override
     public void pushRSAPublicKey() {
         db.child("keys").child("RSA").child(authManager.getCurrentUser().getUid()).setValue(Base64.encodeToString(keysManager.getPublicKey().getEncoded(),Base64.DEFAULT));
-    }
-
-    @Override
-    public void pushPrivateKeyForSignature() {
-        db.child("keys").child("RSAsign").child(authManager.getCurrentUser().getUid()).setValue(new String(signKeyManager.getPrivateKey().getEncoded()));
     }
 
     @Override

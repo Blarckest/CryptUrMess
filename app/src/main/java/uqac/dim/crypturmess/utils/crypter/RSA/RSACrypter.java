@@ -2,9 +2,6 @@ package uqac.dim.crypturmess.utils.crypter.RSA;
 
 import android.util.Base64;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.PublicKey;
@@ -20,7 +17,7 @@ import uqac.dim.crypturmess.utils.crypter.Algorithms;
 import uqac.dim.crypturmess.utils.crypter.CipherInitializer;
 import uqac.dim.crypturmess.utils.crypter.ICrypter;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
-import uqac.dim.crypturmess.utils.crypter.keys.RSA.RSAKeysManager;
+import uqac.dim.crypturmess.utils.crypter.keys.RSAKeysManager;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.KeyInitializer;
 
 public class RSACrypter implements ICrypter {

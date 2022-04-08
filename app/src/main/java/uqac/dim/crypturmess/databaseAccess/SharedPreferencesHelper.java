@@ -15,4 +15,9 @@ public class SharedPreferencesHelper {
     public void setValue(String key,String value){
         context.getSharedPreferences(uid, Context.MODE_PRIVATE).edit().putString(key,value).apply();
     }
+
+    public void setValue(int key,String value){
+        context.getSharedPreferences(uid, Context.MODE_PRIVATE).edit().putString(context.getString(key),value).apply();
+    }
 }
+

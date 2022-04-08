@@ -9,4 +9,7 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="nickname">Nickname</string>
+    <string name="publicKeySharedPref">publicKey</string>
+    <string name="privateKeySharedPref">privateKey</string>
+    <string name="userIDSharedPref">userID</string>
 </resources>

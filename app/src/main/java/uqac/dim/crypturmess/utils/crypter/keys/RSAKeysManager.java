@@ -1,5 +1,6 @@
-package uqac.dim.crypturmess.utils.crypter.keys.RSA;
+package uqac.dim.crypturmess.utils.crypter.keys;
 
+import android.provider.Settings;
 import android.util.Base64;
 
 import com.google.firebase.database.DatabaseReference;
@@ -14,6 +15,7 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.utils.crypter.Algorithms;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
@@ -56,7 +58,7 @@ public class RSAKeysManager implements IKeysManager {
 
     private void saveKeysLocally(PrivateKey privateKey, PublicKey publicKey) {
         SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
-        sharedPreferencesHelper.setValue("privateKey", Base64.encodeToString(privateKey.getEncoded(), Base64.DEFAULT));
-        sharedPreferencesHelper.setValue("publicKey",Base64.encodeToString(publicKey.getEncoded(), Base64.DEFAULT));
+        sharedPreferencesHelper.setValue(R.string.privateKeySharedPref, Base64.encodeToString(privateKey.getEncoded(), Base64.DEFAULT));
+        sharedPreferencesHelper.setValue(R.string.publicKeySharedPref,Base64.encodeToString(publicKey.getEncoded(), Base64.DEFAULT));
     }
 }
