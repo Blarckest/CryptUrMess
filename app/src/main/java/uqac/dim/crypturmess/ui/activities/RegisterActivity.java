@@ -1,4 +1,4 @@
-package uqac.dim.crypturmess.ui;
+package uqac.dim.crypturmess.ui.activities;
 
 import static android.content.ContentValues.TAG;
 
@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
@@ -59,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity{
                     Log.i("DIM", "ok boomer");
                     Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
                     fbHelper.saveUser(new User(authManager.getCurrentUser().getUid(), nickname));
+                    Intent intent = new Intent(RegisterActivity.this, ContactActivity.class);
+                    pushKeys();
+                    startActivity(intent);
                 }
                 else {
                     Log.d(TAG, "signInWithEmail:error");
@@ -72,5 +76,10 @@ public class RegisterActivity extends AppCompatActivity{
             Toast toast = Toast.makeText(RegisterActivity.this, R.string.error_psw_mail, Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public void pushKeys(){
+        IDatabaseHelper dbHelper=new FirebaseHelper();
+        dbHelper.pushRSAPublicKey();
     }
 }

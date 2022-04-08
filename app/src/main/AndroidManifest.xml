@@ -10,13 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptUrMess">
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
         <service
             android:name=".services.AppService"
             android:enabled="true"
             android:exported="true"></service>
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,19 +26,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name=".ui.activities.RegisterActivity"
             android:configChanges="screenSize|orientation|screenLayout|navigation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.RegisterActivity"/>
+                android:value=".ui.activities.RegisterActivity"/>
         </activity>
         <activity
-            android:name=".ui.ContactActivity"
+            android:name=".ui.activities.ContactActivity"
             android:configChanges="screenSize|orientation|screenLayout|navigation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.ContactActivity"/>
+                android:value=".ui.activities.ContactActivity"/>
         </activity>
+        <activity
+            android:name=".ui.activities.MessagesActivity"
+            android:configChanges="screenSize|orientation|screenLayout|navigation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MessagesActivity"/>
+        </activity>
+
 
     </application>
 

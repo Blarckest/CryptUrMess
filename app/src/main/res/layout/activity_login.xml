@@ -25,7 +25,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="e-mail"
+        android:hint="@string/email"
         android:paddingRight="100dp"
         android:paddingLeft="100dp"
         android:id="@+id/l_email"
@@ -37,7 +37,7 @@
         android:paddingRight="100dp"
         android:paddingLeft="100dp"
         android:id="@+id/l_password"
-        android:hint="password"
+        android:hint="@string/password"
         android:inputType="textPassword"/>
 
     <Button

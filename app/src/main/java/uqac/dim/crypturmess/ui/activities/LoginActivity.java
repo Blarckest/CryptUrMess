@@ -1,4 +1,4 @@
-package uqac.dim.crypturmess.ui;
+package uqac.dim.crypturmess.ui.activities;
 
 import static android.content.ContentValues.TAG;
 
@@ -15,8 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
-import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
-import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
+import uqac.dim.crypturmess.ui.notifications.Notifier;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 import uqac.dim.crypturmess.utils.auth.ValidationError;
@@ -29,13 +28,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-         authStateListener= firebaseAuth -> {
-             if (authManager.getCurrentUser() != null) {
-                 Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                 startActivity(new Intent(LoginActivity.this, ContactActivity.class));
-                 finish();
-             }
-         };
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        authStateListener = firebaseAuth -> {
+            if (authManager.getCurrentUser() != null) {
+                Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
+                startActivity(new Intent(LoginActivity.this, ContactActivity.class));
+                finish();
+            }
+        };
     }
 
     @Override
@@ -60,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
             authManager.signIn(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
-                    pushKeys();
                     Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
                     startActivity(intent);
                 }
@@ -96,8 +100,4 @@ public class LoginActivity extends AppCompatActivity {
        }
     }
 
-    public void pushKeys(){
-        IDatabaseHelper dbHelper=new FirebaseHelper();
-        dbHelper.pushRSAPublicKey();
-    }
 }

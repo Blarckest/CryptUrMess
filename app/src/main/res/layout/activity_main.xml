@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ContactActivity"
+    tools:context=".ui.activities.ContactActivity"
     android:id="@+id/c_linear_contact"
     android:orientation="vertical"
     >
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟"
-            android:id="@+id/c_nb_messages"
+            android:id="@+id/c_text_user"
             android:padding="5dp" />
 
 
@@ -56,14 +56,14 @@
             <LinearLayout
                 android:id="@+id/c_scrollview_linearlayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <fragment
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/c_scrollview_fragment"
                     class="uqac.dim.crypturmess.ui.fragments.FragmentContact"
-                    android:id="@+id/c_scrollview_fragment"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp" />
 
             </LinearLayout>
         </ScrollView>
