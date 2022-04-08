@@ -12,12 +12,16 @@ public class SharedPreferencesHelper {
     public String getValue(String key){
         return context.getSharedPreferences(uid, Context.MODE_PRIVATE).getString(key,"");
     }
+
+    public String getValue(int key){
+        return getValue(context.getString(key));
+    }
     public void setValue(String key,String value){
         context.getSharedPreferences(uid, Context.MODE_PRIVATE).edit().putString(key,value).apply();
     }
 
     public void setValue(int key,String value){
-        context.getSharedPreferences(uid, Context.MODE_PRIVATE).edit().putString(context.getString(key),value).apply();
+        setValue(context.getString(key),value);
     }
 }
 

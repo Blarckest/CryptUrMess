@@ -29,7 +29,7 @@ public class RSAKeysManager implements IKeysManager {
     @Override
     public PublicKey getPublicKey() {
         SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
-        String publicKey=sharedPreferencesHelper.getValue("publicKey");
+        String publicKey=sharedPreferencesHelper.getValue(R.string.publicKeySharedPref);
         IKeyInitializer keyInitializer = new KeyInitializer();
         if(publicKey.equals("")) {
             KeyPair pair = keyInitializer.generateKeyPair(algorithm,keySize);
@@ -44,7 +44,7 @@ public class RSAKeysManager implements IKeysManager {
     @Override
     public PrivateKey getPrivateKey() {
         SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
-        String privateKey= sharedPreferencesHelper.getValue("privateKey");
+        String privateKey= sharedPreferencesHelper.getValue(R.string.privateKeySharedPref);
         IKeyInitializer keyInitializer = new KeyInitializer();
         if(privateKey.equals("")) {
             KeyPair pair = keyInitializer.generateKeyPair(algorithm,keySize);
