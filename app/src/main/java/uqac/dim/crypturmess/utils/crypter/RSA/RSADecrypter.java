@@ -6,7 +6,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
-import uqac.dim.crypturmess.utils.crypter.Algorithms;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.CipherInitializer;
 import uqac.dim.crypturmess.utils.crypter.IDecrypter;
 import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
@@ -18,7 +19,7 @@ public class RSADecrypter implements IDecrypter {
 
     @Override
     public String decrypt(byte[] cypherText) {
-       CipherInitializer.initCipher(cipher, Algorithms.RSA);
+       CipherInitializer.initCipher(cipher, AlgorithmsSpec.RSA);
         try {
             cipher.init(Cipher.DECRYPT_MODE, myKeys.getPrivateKey());
         } catch (InvalidKeyException e) {
@@ -33,6 +34,11 @@ public class RSADecrypter implements IDecrypter {
             e.printStackTrace();
         }
         return new String(bytes);
+    }
+
+    @Override
+    public Algorithm getAlgorithm() {
+        return Algorithm.RSA;
     }
 }
 

@@ -1,29 +1,20 @@
 package uqac.dim.crypturmess.utils.crypter.keys;
 
-import android.provider.Settings;
 import android.util.Base64;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
-import uqac.dim.crypturmess.utils.crypter.Algorithms;
-import uqac.dim.crypturmess.utils.crypter.keys.IKeysManager;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.IKeyInitializer;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.KeyInitializer;
 
 public class RSAKeysManager implements IKeysManager {
-    private String algorithm= Algorithms.RSA;
+    private Algorithm algorithm= Algorithm.RSA.RSA;
     private int keySize=2048;
 
     @Override
@@ -37,7 +28,7 @@ public class RSAKeysManager implements IKeysManager {
             return getPublicKey();
         }
         else {
-            return (PublicKey) keyInitializer.createKeyFromKeyBytes(Algorithms.RSA,Base64.decode(publicKey.getBytes(),Base64.DEFAULT),false);
+            return (PublicKey) keyInitializer.createKeyFromKeyBytes(algorithm,Base64.decode(publicKey.getBytes(),Base64.DEFAULT),false);
         }
     }
 
@@ -52,7 +43,7 @@ public class RSAKeysManager implements IKeysManager {
             return getPrivateKey();
         }
         else {
-            return (PrivateKey) keyInitializer.createKeyFromKeyBytes(Algorithms.RSA,Base64.decode(privateKey.getBytes(),Base64.DEFAULT),true);
+            return (PrivateKey) keyInitializer.createKeyFromKeyBytes(algorithm,Base64.decode(privateKey.getBytes(),Base64.DEFAULT),true);
         }
     }
 

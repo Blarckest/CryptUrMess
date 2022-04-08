@@ -5,8 +5,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.ICrypter;
-import uqac.dim.crypturmess.utils.crypter.RSA.RSACrypter;
 
 /**
  * This class represent a message.
@@ -17,18 +18,21 @@ public class CryptedMessage {
     private String idSender;
     private String idReceiver;
     private long timestamp;
+    private Algorithm algorithm;
 
     /**
      * Constructor
      */
-    public CryptedMessage(byte[] message, String idSender, String idReceiver, long date) {
+    public CryptedMessage(byte[] message, String idSender, String idReceiver, long date, Algorithm algorithm) {
         setMessage(message);
         setIdSender(idSender);
         setIdReceiver(idReceiver);
         setTimestamp(date);
+        setAlgorithm(algorithm);
     }
 
     public CryptedMessage(Message message, ICrypter crypter, boolean isReceived) {
+        setAlgorithm(crypter.getAlgorithm());
         AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
         Conversation conv = db.conversationDao().getConversationById(message.getIdConversation());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,5 +78,12 @@ public class CryptedMessage {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+    public Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
     }
 }

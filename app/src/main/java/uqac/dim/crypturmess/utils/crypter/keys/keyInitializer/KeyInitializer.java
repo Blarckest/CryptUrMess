@@ -7,7 +7,6 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.KeyGenerator;
@@ -15,14 +14,15 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.SecretKeySpec;
 
-import uqac.dim.crypturmess.utils.crypter.Algorithms;
+import uqac.dim.crypturmess.utils.crypter.Algorithm;
+import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 
 public class KeyInitializer implements IKeyInitializer {
     @Override
-    public SecretKey generateSecretKey(String algorithm, int keySize) {
+    public SecretKey generateSecretKey(Algorithm algorithm, int keySize) {
         KeyGenerator keyGen = null;
         try {
-            keyGen = KeyGenerator.getInstance(algorithm);
+            keyGen = KeyGenerator.getInstance(algorithm.toString());
         }
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -33,10 +33,10 @@ public class KeyInitializer implements IKeyInitializer {
     }
 
     @Override
-    public KeyPair generateKeyPair(String algorithm, int keySize) {
+    public KeyPair generateKeyPair(Algorithm algorithm, int keySize) {
         KeyPairGenerator keyGen = null;
         try {
-            keyGen = KeyPairGenerator.getInstance(algorithm.substring(0,algorithm.indexOf("/")));
+            keyGen = KeyPairGenerator.getInstance(algorithm.toString());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
@@ -46,17 +46,17 @@ public class KeyInitializer implements IKeyInitializer {
     }
 
     @Override
-    public SecretKey createKeyFromKeyBytes(String algorithm, byte[] keyBytes) {
-        if (algorithm.equals(Algorithms.AES)){
+    public SecretKey createKeyFromKeyBytes(Algorithm algorithm, byte[] keyBytes) {
+        if (algorithm.equals(AlgorithmsSpec.AES)){
             SecretKeyFactory keyFactory = null;
             try {
-                SecretKeyFactory.getInstance(algorithm.substring(0,algorithm.indexOf("/")));
+                SecretKeyFactory.getInstance(algorithm.toString());
             }
             catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
                 return null;
             }
-            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, algorithm);
+            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, algorithm.toString());
             try {
                 keyFactory.generateSecret(keySpec);
             } catch (InvalidKeySpecException e) {
@@ -68,11 +68,11 @@ public class KeyInitializer implements IKeyInitializer {
     }
 
     @Override
-    public Key createKeyFromKeyBytes(String algorithm, byte[] keyBytes, boolean isPrivate) {
-        if (algorithm.equals(Algorithms.RSA)){
+    public Key createKeyFromKeyBytes(Algorithm algorithm, byte[] keyBytes, boolean isPrivate) {
+        if (algorithm.equals(Algorithm.RSA)){
             KeyFactory keyFactory = null;
             try {
-                keyFactory=KeyFactory.getInstance(algorithm.substring(0,algorithm.indexOf("/")));
+                keyFactory=KeyFactory.getInstance(algorithm.toString());
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
                 return null;
