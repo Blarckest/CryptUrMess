@@ -14,7 +14,7 @@ public interface UserDao {
     void insert(UserClientSide user);
     @Delete
     void delete(UserClientSide user);
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM user ORDER BY pseudo DESC")
     UserClientSide[] getFriends();
     @Query("SELECT * FROM user WHERE id=:id")
     UserClientSide getUserById(String id);
