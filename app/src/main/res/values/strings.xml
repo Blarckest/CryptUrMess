@@ -1,7 +1,8 @@
 <resources>
     <string name="error_psw_mail">Invalid password or email</string>
     <string name="error_login">Authentication error</string>
-    <string name="error_contact"></string>
+    <string name="error_contact">Invalid login ID</string>
+    <string name="error_server">Something went wrong</string>
 
     <string name="publicKeySharedPref">publicKey</string>
     <string name="privateKeySharedPref">privateKey</string>
