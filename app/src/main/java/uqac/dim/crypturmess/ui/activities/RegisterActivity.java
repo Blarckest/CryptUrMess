@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
+import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.model.entity.User;
@@ -62,6 +63,9 @@ public class RegisterActivity extends AppCompatActivity{
                     fbHelper.saveUser(new User(authManager.getCurrentUser().getUid(), nickname));
                     Intent intent = new Intent(RegisterActivity.this, ContactActivity.class);
                     pushKeys();
+                    SharedPreferencesHelper sharedPreferencesHelper= new SharedPreferencesHelper();
+                    sharedPreferencesHelper.setValue(R.string.userIDSharedPref, authManager.getCurrentUser().getUid());
+                    sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, nickname);
                     startActivity(intent);
                 }
                 else {
