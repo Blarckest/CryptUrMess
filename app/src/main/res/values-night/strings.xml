@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="publicKeySharedPref">publicKey</string>
-    <string name="privateKeySharedPref">privateKey</string>
+    <string name="publicKeySharedPref" translatable="false">publicKey</string>
+    <string name="privateKeySharedPref" translatable="false">privateKey</string>
 </resources>

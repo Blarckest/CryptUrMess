@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
+
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
@@ -37,6 +39,7 @@ public class AppService extends Service {
     private UserClientSide[] users=database.userDao().getFriends();
     private IDecrypter RSADecrypter = new RSADecrypter();
     private IDecrypter AESDecrypter = new AESDecrypter();
+    //private Array<ChildEventListener> listeners= new
 
     @Override
     public void onCreate() {

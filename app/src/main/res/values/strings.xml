@@ -17,7 +17,8 @@
 
     <string name="publicKeySharedPref">publicKey</string>
     <string name="privateKeySharedPref">privateKey</string>
-    <string name="userIDSharedPref">userID</string>
-    <string name="nicknameSharedPref">nickname</string>
+    <string name="userIDSharedPref" translatable="false">userID</string>
+    <string name="nicknameSharedPref" translatable="false">nickname</string>
+    <string name="AESKeySharedPref" translatable="false">AESKey</string>
 
 </resources>

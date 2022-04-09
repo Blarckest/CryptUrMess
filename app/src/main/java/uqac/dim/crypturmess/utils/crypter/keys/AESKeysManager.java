@@ -1,14 +1,16 @@
 package uqac.dim.crypturmess.utils.crypter.keys;
 
+import android.util.Base64;
+
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.security.PrivateKey;
 
 import javax.crypto.SecretKey;
 
+import uqac.dim.crypturmess.R;
+import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.utils.crypter.Algorithm;
-import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.IKeyInitializer;
 import uqac.dim.crypturmess.utils.crypter.keys.keyInitializer.KeyInitializer;
 
@@ -18,24 +20,21 @@ public class AESKeysManager implements ISecretKeyManager {
 
     @Override
     public SecretKey getSecretKey() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./AES.key"))) {
-            return (SecretKey) ois.readObject();
-        } catch (Exception e) {
-            IKeyInitializer keyInitializer = new KeyInitializer();
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+        String secretKey= sharedPreferencesHelper.getValue(R.string.AESKeySharedPref);
+        IKeyInitializer keyInitializer = new KeyInitializer();
+        if(secretKey.equals("")) {
             SecretKey key = keyInitializer.generateSecretKey(algorithm,keySize);
-            saveKeys(key);
+            saveKeyLocally(key);
             return key;
+        }
+        else {
+            return keyInitializer.createKeyFromKeyBytes(algorithm,Base64.decode(secretKey.getBytes(),Base64.DEFAULT));
         }
     }
 
-    private void saveKeys(SecretKey Key) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./AES.key"))) {
-            oos.writeObject(Key);
-            //todo save key to firebase here
-        }
-        catch (Exception e) {
-            getSecretKey(); //create key
-            e.printStackTrace();
-        }
+    private void saveKeyLocally(SecretKey secretKey) {
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+        sharedPreferencesHelper.setValue(R.string.AESKeySharedPref, Base64.encodeToString(secretKey.getEncoded(), Base64.DEFAULT));
     }
 }
