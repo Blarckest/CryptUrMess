@@ -1,6 +1,14 @@
 <resources>
     <string name="error_psw_mail">Invalid password or email</string>
     <string name="error_login">Authentication error</string>
+    <string name="error_contact"></string>
+
+    <string name="publicKeySharedPref">publicKey</string>
+    <string name="privateKeySharedPref">privateKey</string>
+    <string name="userIDSharedPref" translatable="false">userID</string>
+    <string name="nicknameSharedPref" translatable="false">nickname</string>
+    <string name="AESKeySharedPref" translatable="false">AESKey</string>
+
 
     <string name="app_name">Crypt\'UrMess</string>
     <string name="nb_messages">text</string>
@@ -11,14 +19,11 @@
     <string name="nickname">Nickname</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
+    <string name="add">Add</string>
+    <string name="id">login ID</string>
 
 
 
 
-    <string name="publicKeySharedPref">publicKey</string>
-    <string name="privateKeySharedPref">privateKey</string>
-    <string name="userIDSharedPref" translatable="false">userID</string>
-    <string name="nicknameSharedPref" translatable="false">nickname</string>
-    <string name="AESKeySharedPref" translatable="false">AESKey</string>
 
 </resources>

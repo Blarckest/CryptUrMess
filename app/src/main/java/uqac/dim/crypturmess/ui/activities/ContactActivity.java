@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,11 @@ public class ContactActivity extends AppCompatActivity {
         /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.contact_toolbar);*/
         //(TextView)findViewById(R.id.c_text_user)).setText(new SharedPreferencesHelper().getValue(R.string.));
+    }
+
+    public void addContact(View view) {
+        Intent intent = new Intent(ContactActivity.this, AddContactActivity.class);
+        startActivity(intent);
     }
 
 }

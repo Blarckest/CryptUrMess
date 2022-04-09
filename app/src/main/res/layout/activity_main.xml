@@ -42,34 +42,45 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"/>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="620dp"
-        app:cardCornerRadius="25dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ScrollView
-            android:id="@+id/c_scrollview"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="25dp">
 
-            <LinearLayout
-                android:id="@+id/c_scrollview_linearlayout"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:orientation="vertical">
 
                 <fragment
                     android:id="@+id/c_scrollview_fragment"
                     class="uqac.dim.crypturmess.ui.fragments.FragmentContact"
                     android:layout_width="match_parent"
-                    android:layout_height="600dp" />
+                    android:layout_height="match_parent" />
 
-            </LinearLayout>
-        </ScrollView>
-    </androidx.cardview.widget.CardView>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/c_floating_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="10dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@mipmap/ic_launcher_round"
+                    tools:layout_editor_absoluteX="50dp"
+                    tools:layout_editor_absoluteY="50dp"
+                    android:onClick="addContact"/>
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
 
 
-
+    </LinearLayout>
 
 </LinearLayout>
