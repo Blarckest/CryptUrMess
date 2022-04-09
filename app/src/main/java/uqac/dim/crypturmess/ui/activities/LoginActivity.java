@@ -34,22 +34,17 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        if (authManager.getCurrentUser() != null) {
+            Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
+            startActivity(new Intent(LoginActivity.this, ContactActivity.class));
+            finish();
+        }
         super.onStart();
-        authStateListener = firebaseAuth -> {
-            if (authManager.getCurrentUser() != null) {
-                Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                startActivity(new Intent(LoginActivity.this, ContactActivity.class));
-                finish();
-            }
-        };
     }
 
     @Override
     protected void onStop(){
         super.onStop();
-        if (authStateListener != null) {
-            FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
-        }
     }
 
     public void clickOnRegister(View view) {
