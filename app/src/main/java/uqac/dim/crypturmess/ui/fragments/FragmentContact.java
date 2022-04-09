@@ -32,6 +32,7 @@ public class FragmentContact extends ListFragment {
 
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());
+        intent.putExtra("ID_CONVERSATION", id);
         startActivity(intent);
     }
 }
