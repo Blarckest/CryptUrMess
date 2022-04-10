@@ -14,25 +14,26 @@ import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.adapter.UserListAdapter;
 
 public class FragmentContact extends ListFragment {
+    private AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
-        //db.userDao().insert(new UserClientSide("ondqndzoindnqodfzejbfehhzeofozan", "ok boomer", "mon chum"));
-        UserListAdapter adapter = new UserListAdapter(getActivity(), AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getFriends());
-        setListAdapter(adapter);
-
     }
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         UserClientSide user = (UserClientSide) getListAdapter().getItem(position);
-
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());
         intent.putExtra("ID_CONVERSATION", id);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserListAdapter adapter = new UserListAdapter(getActivity(), AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getFriends());
+        setListAdapter(adapter);
     }
 }

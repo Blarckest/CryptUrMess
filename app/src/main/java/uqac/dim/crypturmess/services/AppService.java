@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ import uqac.dim.crypturmess.utils.crypter.AES.AESDecrypter;
 import uqac.dim.crypturmess.utils.crypter.Algorithm;
 import uqac.dim.crypturmess.utils.crypter.IDecrypter;
 import uqac.dim.crypturmess.utils.crypter.RSA.RSADecrypter;
+import uqac.dim.crypturmess.utils.looper.DeleteMessagesLooper;
 
 
 public class AppService extends Service {
@@ -44,6 +47,7 @@ public class AppService extends Service {
     private IDecrypter AESDecrypter = new AESDecrypter();
     private ArrayList<ChildEventListener> listeners= new ArrayList<>();
     private Notifier notifier=null;
+    private DeleteMessagesLooper deleteMessagesLooper=new DeleteMessagesLooper();
 
     @Override
     public void onCreate() {
@@ -117,6 +121,7 @@ public class AppService extends Service {
                 }
             }));
         }
+        new Thread(deleteMessagesLooper).start();
     }
 
     @Override

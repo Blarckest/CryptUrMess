@@ -17,7 +17,7 @@ public interface MessageDao {
     void insert(Message message);
     @Insert
     void insertAll(Message... messages);
-    @Query("DELETE FROM message WHERE timestamp < :date")
+    @Query("DELETE FROM message WHERE timestamp < :date") //J-1
     void deleteOldMessages(long date);
     @Query("SELECT * FROM message WHERE id_conversation = :convID ORDER BY timestamp ASC")
     Message[] getAllMessagesByConvId(int convID);

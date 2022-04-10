@@ -32,7 +32,7 @@ public class UserListAdapter extends BaseAdapter {
     }
 
     @Override
-    public User getItem(int i) {
+    public UserClientSide getItem(int i) {
         return customListDataModelArrayList[i];
     }
 
@@ -54,12 +54,9 @@ public class UserListAdapter extends BaseAdapter {
         View vi=view;
 
         if(vi==null) {
-
             //viewHolder = new ViewHolder();
-
             vi = layoutInflater.inflate(R.layout.contact_fragment, null);
-            ((TextView)vi.findViewById(R.id.c_user_name)).setText(getItem(i).getNickname());
-
+            ((TextView)vi.findViewById(R.id.c_user_name)).setText(getItem(i).getNickname()+"("+getItem(i).getUsername()+")");
         }
 
         return vi;

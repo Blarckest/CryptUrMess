@@ -35,6 +35,7 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
+        dialog.show();
         String idUser = ((EditText)findViewById(R.id.adc_edit)).getText().toString();
         String username= ((EditText)findViewById(R.id.adc_username)).getText().toString();
         firebaseHelper.getUser(idUser).addOnCompleteListener(task -> {
@@ -43,15 +44,18 @@ public class AddContactActivity extends AppCompatActivity {
                 if (user != null) {
                     UserClientSide friend = new UserClientSide(user, username);
                     appLocalDatabase.userDao().insert(friend);
+                    dialog.dismiss();
+                    dialog.hide();
                     finish();
                 }
-                addError(R.string.error_contact);
+                else{
+                    addError(R.string.error_contact);
+                }
             }
             else {
                 addError(R.string.error_server);
             }
         });
-        dialog.show();
     }
 
     public void addError(int stringErrorId){
