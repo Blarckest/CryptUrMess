@@ -2,4 +2,5 @@
 <resources>
     <string name="publicKeySharedPref" translatable="false">publicKey</string>
     <string name="privateKeySharedPref" translatable="false">privateKey</string>
+    <string name="username">Username</string>
 </resources>

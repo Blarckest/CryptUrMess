@@ -2,6 +2,8 @@ package uqac.dim.crypturmess.databaseAccess.firebase;
 
 import android.util.Base64;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,5 +31,9 @@ public class FirebaseHelper implements IDatabaseHelper {
     @Override
     public void saveUser(User user) {
         db.child("users").child(authManager.getCurrentUser().getUid()).setValue(user);
+    }
+
+    public Task<DataSnapshot> getUser(String uid){
+        return db.child("users").child(uid).get();
     }
 }

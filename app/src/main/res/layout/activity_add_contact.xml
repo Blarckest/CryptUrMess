@@ -17,6 +17,12 @@
         android:id="@+id/adc_edit"
         android:hint="@string/id"/>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/adc_username"
+        android:hint="@string/username"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

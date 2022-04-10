@@ -1,5 +1,6 @@
 package uqac.dim.crypturmess.model.entity;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -8,6 +9,12 @@ import androidx.room.Ignore;
 public class UserClientSide extends User {
     public UserClientSide(){
         super();
+    }
+
+    @Ignore
+    public UserClientSide(User user, @Nullable String username){
+        super(user.getIdUser(), user.getNickname());
+        setUsername(username);
     }
 
     @Ignore

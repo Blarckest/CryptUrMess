@@ -17,14 +17,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
+import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.CryptedMessage;
 import uqac.dim.crypturmess.model.entity.Message;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
+import uqac.dim.crypturmess.ui.notifications.Notifier;
 import uqac.dim.crypturmess.utils.crypter.AES.AESDecrypter;
 import uqac.dim.crypturmess.utils.crypter.Algorithm;
 import uqac.dim.crypturmess.utils.crypter.IDecrypter;
@@ -39,16 +42,18 @@ public class AppService extends Service {
     private UserClientSide[] users=database.userDao().getFriends();
     private IDecrypter RSADecrypter = new RSADecrypter();
     private IDecrypter AESDecrypter = new AESDecrypter();
-    //private Array<ChildEventListener> listeners= new
+    private ArrayList<ChildEventListener> listeners= new ArrayList<>();
+    private Notifier notifier=null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
+        notifier=new Notifier(this);
+        listeners.add(firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 CryptedMessage msgCrypte= snapshot.getValue(CryptedMessage.class);
-                Message msg;
+                Message msg=null;
                 if(msgCrypte.getAlgorithm()== Algorithm.RSA)
                     msg=new Message(msgCrypte,RSADecrypter,true);
                 else if(msgCrypte.getAlgorithm()== Algorithm.AES)
@@ -56,7 +61,11 @@ public class AppService extends Service {
                 else
                     Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
                 snapshot.getRef().removeValue();
-                //todo send notification here
+                if(msg!=null) {
+                    Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
+                    UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
+                    notifier.sendNotification(user.getNickname()+"("+user.getUsername()+")",msg.getMessage().substring(0,msg.getMessage().length()>50?50:msg.getMessage().length())+"...");
+                }
             }
 
             @Override
@@ -78,9 +87,9 @@ public class AppService extends Service {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        }));
         for (UserClientSide user: users) {
-            firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
+            listeners.add(firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
 
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -106,13 +115,16 @@ public class AppService extends Service {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            }));
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        for (ChildEventListener listener: listeners) {
+            firebaseDB.addChildEventListener(listener);
+        }
     }
 
     @Override

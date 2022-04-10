@@ -26,7 +26,7 @@ public class MessagesActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String id = extras.getString("ID_USER");
-            ((TextView)findViewById(R.id.m_ok)).setText(id);
+            //((TextView)findViewById(R.id.m_ok)).setText(id);
         }
     }
 
