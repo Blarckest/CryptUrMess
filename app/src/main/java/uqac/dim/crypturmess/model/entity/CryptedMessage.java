@@ -41,12 +41,12 @@ public class CryptedMessage {
         Conversation conv = db.conversationDao().getConversationById(message.getIdConversation());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (isReceived) {
-            setIdReceiver(conv.getIdCorrespondant());
-            setIdSender(user.getUid());
-        }
-        else {
             setIdReceiver(user.getUid());
             setIdSender(conv.getIdCorrespondant());
+        }
+        else {
+            setIdReceiver(conv.getIdCorrespondant());
+            setIdSender(user.getUid());
         }
         this.message = Base64.encodeToString(crypter.encryptToSend(message.getMessage(),conv.getIdCorrespondant()), Base64.DEFAULT);
         this.timestamp = message.getTimestamp();

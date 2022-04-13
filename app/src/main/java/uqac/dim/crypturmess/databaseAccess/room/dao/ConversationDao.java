@@ -13,8 +13,8 @@ public interface ConversationDao {
     void delete(Conversation conversationid);
     @Insert
     void insert(Conversation conversationid);
-    @Query("SELECT * FROM Conversation WHERE id_correspondant = id_correspondant=:id_correspondant")
+    @Query("SELECT * FROM Conversation WHERE id_correspondant=:id_correspondant")
     Conversation getConversation(String id_correspondant);
-    @Query("SELECT * FROM Conversation WHERE id = :id")
+    @Query("SELECT * FROM Conversation WHERE id_conv = :id")
     Conversation getConversationById(int id);
 }

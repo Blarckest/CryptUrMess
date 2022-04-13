@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @Entity(tableName = "Conversation", foreignKeys = {
         @ForeignKey(
                 entity = UserClientSide.class,
-                parentColumns = "id",
+                parentColumns = "id_user",
                 childColumns = "id_correspondant",
                 onDelete=ForeignKey.CASCADE
         )
@@ -24,7 +24,7 @@ import java.util.ArrayList;
         @Index(value = {"id_correspondant"}),
 })
 public class Conversation {
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "id_conv")
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int idConversation;

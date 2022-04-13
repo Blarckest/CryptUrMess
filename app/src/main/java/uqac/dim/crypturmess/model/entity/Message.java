@@ -1,6 +1,7 @@
 package uqac.dim.crypturmess.model.entity;
 import android.util.Base64;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -23,7 +24,7 @@ import uqac.dim.crypturmess.utils.crypter.IDecrypter;
 @Entity(tableName = "Message", foreignKeys = {
         @ForeignKey(
                 entity = Conversation.class,
-                parentColumns = "id",
+                parentColumns = "id_conv",
                 childColumns = "id_conversation",
                 onDelete=ForeignKey.CASCADE
         )
@@ -33,6 +34,7 @@ import uqac.dim.crypturmess.utils.crypter.IDecrypter;
 public class Message {
     @ColumnInfo(name = "id_message")
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int idMessage;
     @ColumnInfo(name = "id_conversation")
     private int idConversation;

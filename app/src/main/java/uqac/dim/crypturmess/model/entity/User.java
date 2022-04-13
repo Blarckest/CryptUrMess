@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
  * User class represent a user.
  */
 public class User {
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "id_user")
     @PrimaryKey
     @NonNull
     private String idUser;

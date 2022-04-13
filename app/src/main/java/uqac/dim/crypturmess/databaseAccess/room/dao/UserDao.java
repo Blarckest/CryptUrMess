@@ -16,8 +16,8 @@ public interface UserDao {
     void delete(UserClientSide user);
     @Query("SELECT * FROM user ORDER BY pseudo DESC")
     UserClientSide[] getFriends();
-    @Query("SELECT * FROM user WHERE id=:id")
+    @Query("SELECT * FROM user WHERE id_user=:id")
     UserClientSide getUserById(String id);
-    @Query("UPDATE user SET RSA_public_key=:key WHERE id=:id ")
+    @Query("UPDATE user SET RSA_public_key=:key WHERE id_user=:id ")
     void addRSAPublicKeyToUser(String id, String key);
 }

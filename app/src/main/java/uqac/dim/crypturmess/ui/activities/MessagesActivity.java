@@ -16,6 +16,7 @@ import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
+import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.CryptedMessage;
 import uqac.dim.crypturmess.model.entity.Message;
 import uqac.dim.crypturmess.ui.adapter.MessageListAdapter;
@@ -49,15 +50,10 @@ public class MessagesActivity extends AppCompatActivity {
      */
     public void onSendMessage(View view) {
         ICrypter crypter = new RSACrypter();
-        //String message_content = ((EditText) findViewById(R.id.c_edittext_message)).getText().toString();
         int id_conversation = getIntent().getExtras().getInt("ID_CONVERSATION");
-        //Message message = new Message(message_content, id_conversation);
-        //CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
         FirebaseHelper firebaseHelper = new FirebaseHelper();
-        //firebaseHelper.sendMessage(cryptedMessage);
-
         String strMessage = ((EditText) findViewById(R.id.m_enter_message)).getText().toString();
-        Message message = new Message(strMessage, id);
+        Message message = new Message(strMessage, id_conversation);
         AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().insert(message);
 
         CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
