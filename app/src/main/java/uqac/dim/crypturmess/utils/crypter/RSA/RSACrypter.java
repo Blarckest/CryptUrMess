@@ -28,7 +28,7 @@ public class RSACrypter implements ICrypter {
 
     @Override
     public byte[] encryptToSend(String plaintext, String friendId) {
-        CipherInitializer.initCipher(cipher, AlgorithmsSpec.RSA);
+        cipher=CipherInitializer.initCipher(AlgorithmsSpec.RSA);
         try {
             UserClientSide user = AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getUserById(friendId);
             PublicKey publicKey = (PublicKey) new KeyInitializer().createKeyFromKeyBytes(algorithm, Base64.decode(user.getRsaPublicKey(),Base64.DEFAULT),false);

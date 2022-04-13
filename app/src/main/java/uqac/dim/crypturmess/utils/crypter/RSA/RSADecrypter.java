@@ -19,7 +19,7 @@ public class RSADecrypter implements IDecrypter {
 
     @Override
     public String decrypt(byte[] cypherText) {
-       CipherInitializer.initCipher(cipher, AlgorithmsSpec.RSA);
+       cipher=CipherInitializer.initCipher(AlgorithmsSpec.RSA);
         try {
             cipher.init(Cipher.DECRYPT_MODE, myKeys.getPrivateKey());
         } catch (InvalidKeyException e) {

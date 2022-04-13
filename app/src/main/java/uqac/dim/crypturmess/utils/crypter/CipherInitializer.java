@@ -6,13 +6,12 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 public class CipherInitializer {
-    public static boolean initCipher(Cipher cipher, String algorithm) {
+    public static Cipher initCipher(String algorithm) {
         try {
-            cipher = Cipher.getInstance(algorithm);
+            return Cipher.getInstance(algorithm);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
     }
 }

@@ -16,7 +16,7 @@ public class AESCrypter implements ICrypter {
     private Cipher cipher;
     @Override
     public byte[] encryptToSend(String plaintext, String friendId) {
-        CipherInitializer.initCipher(cipher, AlgorithmsSpec.AES);
+        cipher=CipherInitializer.initCipher(AlgorithmsSpec.AES);
         try {
             throw new InvalidKeyException("Not implemented");
             //todo get la  key

@@ -19,6 +19,7 @@ import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.model.entity.User;
+import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 import uqac.dim.crypturmess.utils.auth.ValidationError;
@@ -59,8 +60,9 @@ public class RegisterActivity extends AppCompatActivity{
             authManager.createUser(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.i("DIM", "ok boomer");
-                    Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
-                    fbHelper.saveUser(new User(authManager.getCurrentUser().getUid(), nickname));
+                    Log.d("DIM", "create user :success: for uid:"+ authManager.getCurrentUser().getUid());
+                    User user=new User(authManager.getCurrentUser().getUid(),nickname);
+                    fbHelper.saveUser(user);
                     Intent intent = new Intent(RegisterActivity.this, ContactActivity.class);
                     pushKeys();
                     SharedPreferencesHelper sharedPreferencesHelper= new SharedPreferencesHelper();
@@ -69,14 +71,14 @@ public class RegisterActivity extends AppCompatActivity{
                     startActivity(intent);
                 }
                 else {
-                    Log.d(TAG, "signInWithEmail:error");
+                    Log.d(TAG, "create user:error");
                     Toast toast = Toast.makeText(RegisterActivity.this, R.string.error_login, Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });
         }
         else{
-            Log.d(TAG, "signInWithEmail:error");
+            Log.d(TAG, "create user:error");
             Toast toast = Toast.makeText(RegisterActivity.this, R.string.error_psw_mail, Toast.LENGTH_SHORT);
             toast.show();
         }

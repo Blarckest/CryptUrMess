@@ -57,7 +57,6 @@ public class MessagesActivity extends AppCompatActivity {
         AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().insert(message);
 
         CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
-
     }
 
 }

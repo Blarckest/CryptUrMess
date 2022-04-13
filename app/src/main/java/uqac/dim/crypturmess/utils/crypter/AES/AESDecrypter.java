@@ -18,7 +18,7 @@ public class AESDecrypter implements IDecrypter {
     private ISecretKeyManager myKeys =new AESKeysManager();
     @Override
     public String decrypt(byte[] cypherText) {
-        CipherInitializer.initCipher(cipher, AlgorithmsSpec.AES);
+        cipher = CipherInitializer.initCipher(AlgorithmsSpec.AES);
         try {
             throw new InvalidKeyException();
             //todo get the key
