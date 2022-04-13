@@ -24,9 +24,10 @@ public class FragmentContact extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         UserClientSide user = (UserClientSide) getListAdapter().getItem(position);
+        int id_conv = AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().getConversation(user.getIdUser()).getIdConversation();
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());
-        intent.putExtra("ID_CONVERSATION", id);
+        intent.putExtra("ID_CONVERSATION", id_conv);
         startActivity(intent);
     }
 
