@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         if (authManager.getCurrentUser() != null) {
             FirebaseAuth.getInstance().updateCurrentUser(authManager.getCurrentUser()).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful() && authManager.getCurrentUser() == null) {
                     Log.d(TAG, "updateCurrentUser:success");
                     startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                 }
