@@ -1,5 +1,6 @@
 package uqac.dim.crypturmess.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -16,7 +17,8 @@ import java.util.ArrayList;
         @ForeignKey(
                 entity = UserClientSide.class,
                 parentColumns = "id",
-                childColumns = "id_correspondant"
+                childColumns = "id_correspondant",
+                onDelete=ForeignKey.CASCADE
         )
 }, indices={
         @Index(value = {"id_correspondant"}),
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 public class Conversation {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int idConversation;
     @ColumnInfo(name = "id_correspondant")
     private String idCorrespondant;

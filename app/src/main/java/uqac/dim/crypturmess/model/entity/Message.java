@@ -24,7 +24,8 @@ import uqac.dim.crypturmess.utils.crypter.IDecrypter;
         @ForeignKey(
                 entity = Conversation.class,
                 parentColumns = "id",
-                childColumns = "id_conversation"
+                childColumns = "id_conversation",
+                onDelete=ForeignKey.CASCADE
         )
 }, indices={
         @Index(value = "id_conversation")
