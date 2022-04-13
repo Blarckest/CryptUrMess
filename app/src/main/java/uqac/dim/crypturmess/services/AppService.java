@@ -64,7 +64,7 @@ public class AppService extends IntentService {
         super.onCreate();
         notifier=new Notifier(this);
         for (UserClientSide user: users) {
-            listeners.add(firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
+            listeners.add(firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     CryptedMessage msgCrypte= snapshot.getValue(CryptedMessage.class);
