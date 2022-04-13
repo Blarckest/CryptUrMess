@@ -1,5 +1,7 @@
 package uqac.dim.crypturmess.model.entity;
 
+import android.util.Base64;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -14,7 +16,7 @@ import uqac.dim.crypturmess.utils.crypter.ICrypter;
  */
 
 public class CryptedMessage {
-    private byte[] message;
+    private String message;
     private String idSender;
     private String idReceiver;
     private long timestamp;
@@ -25,7 +27,7 @@ public class CryptedMessage {
     /**
      * Constructor
      */
-    public CryptedMessage(byte[] message, String idSender, String idReceiver, long date, Algorithm algorithm) {
+    public CryptedMessage(String message, String idSender, String idReceiver, long date, Algorithm algorithm) {
         setMessage(message);
         setIdSender(idSender);
         setIdReceiver(idReceiver);
@@ -46,15 +48,15 @@ public class CryptedMessage {
             setIdReceiver(user.getUid());
             setIdSender(conv.getIdCorrespondant());
         }
-        this.message = crypter.encryptToSend(message.getMessage(),conv.getIdCorrespondant());
+        this.message = Base64.encodeToString(crypter.encryptToSend(message.getMessage(),conv.getIdCorrespondant()), Base64.DEFAULT);
         this.timestamp = message.getTimestamp();
     }
 
-    public byte[] getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(byte[] message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 

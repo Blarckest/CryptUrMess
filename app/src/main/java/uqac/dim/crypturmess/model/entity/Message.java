@@ -1,4 +1,6 @@
 package uqac.dim.crypturmess.model.entity;
+import android.util.Base64;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -53,7 +55,7 @@ public class Message {
         String idCorrespondant = user.getUid()==message.getIdSender()?message.getIdReceiver():message.getIdSender();
         Conversation conv = db.conversationDao().getConversation(idCorrespondant);
         this.idConversation = conv.getIdConversation();
-        this.message = decrypter.decrypt(message.getMessage());
+        this.message = decrypter.decrypt(Base64.decode(message.getMessage(), Base64.DEFAULT));
         this.timestamp = message.getTimestamp();
         if(insertIntoDatabase) {
             db.messageDao().insert(this);
