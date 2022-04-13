@@ -38,15 +38,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         if (authManager.getCurrentUser() != null) {
-            FirebaseAuth.getInstance().updateCurrentUser(authManager.getCurrentUser()).addOnCompleteListener(task -> {
+            authManager.getCurrentUser().reload().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && authManager.getCurrentUser() == null) {
-                    Log.d(TAG, "updateCurrentUser:success");
+                    Log.d("DIM", "updateCurrentUser:success");
                     startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                 }
             });
             Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
             startActivity(new Intent(LoginActivity.this, ContactActivity.class));
             finish();
+        }
+        else {
+            Log.d("DIM", "onAuthStateChanged: user is logged out");
         }
         super.onStart();
     }

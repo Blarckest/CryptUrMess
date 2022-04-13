@@ -33,7 +33,13 @@ public class FirebaseHelper implements IDatabaseHelper {
         db.child("users").child(authManager.getCurrentUser().getUid()).setValue(user);
     }
 
+    @Override
     public Task<DataSnapshot> getUser(String uid){
         return db.child("users").child(uid).get();
+    }
+
+    @Override
+    public Task<DataSnapshot> getRSAPublicKeyOfUser(String uid){
+        return db.child("keys").child("RSA").child(uid).get();
     }
 }

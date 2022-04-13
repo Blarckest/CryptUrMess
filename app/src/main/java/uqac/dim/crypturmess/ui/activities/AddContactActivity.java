@@ -55,6 +55,16 @@ public class AddContactActivity extends AppCompatActivity {
             else {
                 addError(R.string.error_server);
             }
+        }).addOnSuccessListener(task -> {
+            firebaseHelper.getRSAPublicKeyOfUser(idUser).addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful()) {
+                    String publicKey = task1.getResult().getValue(String.class);
+                    appLocalDatabase.userDao().addRSAPublicKeyToUser(idUser, publicKey);
+                }
+                else {
+                    appLocalDatabase.userDao().addRSAPublicKeyToUser(idUser, "");
+                }
+            });
         });
     }
 
