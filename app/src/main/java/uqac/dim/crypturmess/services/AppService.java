@@ -1,6 +1,7 @@
 package uqac.dim.crypturmess.services;
 
 import android.Manifest;
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -29,6 +30,7 @@ import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.CryptedMessage;
 import uqac.dim.crypturmess.model.entity.Message;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
+import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.notifications.Notifier;
 import uqac.dim.crypturmess.utils.crypter.AES.AESDecrypter;
 import uqac.dim.crypturmess.utils.crypter.Algorithm;
@@ -37,7 +39,7 @@ import uqac.dim.crypturmess.utils.crypter.RSA.RSADecrypter;
 import uqac.dim.crypturmess.utils.looper.DeleteMessagesLooper;
 
 
-public class AppService extends Service {
+public class AppService extends IntentService {
     private IBinder binder=new LocalBinder();
     private AppLocalDatabase database= AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
     private DatabaseReference firebaseDB=FirebaseDatabase.getInstance().getReference();
@@ -48,6 +50,14 @@ public class AppService extends Service {
     private ArrayList<ChildEventListener> listeners= new ArrayList<>();
     private Notifier notifier=null;
     private DeleteMessagesLooper deleteMessagesLooper=new DeleteMessagesLooper();
+
+    public AppService() {
+        super("AppService");
+    }
+
+    public AppService(String name) {
+        super(name);
+    }
 
     @Override
     public void onCreate() {
@@ -68,7 +78,9 @@ public class AppService extends Service {
                 if(msg!=null) {
                     Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                     UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
-                    notifier.sendNotification(user.getNickname()+"("+user.getUsername()+")",msg.getMessage().substring(0,msg.getMessage().length()>50?50:msg.getMessage().length())+"...");
+                    Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
+                    intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
+                    notifier.sendNotification(user.getNickname()+"("+user.getUsername()+")",msg.getMessage().substring(0,msg.getMessage().length()>50?50:msg.getMessage().length())+"...",intent);
                 }
             }
 
@@ -135,6 +147,11 @@ public class AppService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+
     }
 
     @Override

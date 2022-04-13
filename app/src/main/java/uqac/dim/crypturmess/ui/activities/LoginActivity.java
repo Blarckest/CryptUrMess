@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import uqac.dim.crypturmess.R;
+import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.ui.notifications.Notifier;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
@@ -72,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
         else{
-            //todo display error to user
             Log.d(TAG, "signInWithEmail:error");
             Toast toast = Toast.makeText(LoginActivity.this, R.string.error_psw_mail, Toast.LENGTH_SHORT);
             toast.show();
@@ -87,12 +88,15 @@ public class LoginActivity extends AppCompatActivity {
                }
                else {
                    Log.d(TAG, "Failed to send email");
-                   //todo display error to user
+                   Toast toast = Toast.makeText(LoginActivity.this, R.string.error_server, Toast.LENGTH_SHORT);
+                   toast.show();
                }
            });
        }
        else{
-           //todo display error to user
+           Log.d(TAG, "forgotPassword:error");
+           Toast toast = Toast.makeText(LoginActivity.this, R.string.error_mail, Toast.LENGTH_SHORT);
+           toast.show();
        }
     }
 

@@ -3,4 +3,6 @@
     <string name="publicKeySharedPref" translatable="false">publicKey</string>
     <string name="privateKeySharedPref" translatable="false">privateKey</string>
     <string name="username">Username</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="error_mail">Invalid email</string>
 </resources>

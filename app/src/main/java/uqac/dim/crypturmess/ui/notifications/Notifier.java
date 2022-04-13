@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 
 public class Notifier{
@@ -42,12 +44,17 @@ public class Notifier{
         }
     }
 
-    public void sendNotification(String title, String text) {
+    public void sendNotification(String title, String text, @Nullable Intent intent){
+        PendingIntent pendingIntent = null;
+        if (intent != null) {
+            pendingIntent = PendingIntent.getActivity(CrypturMessApplication.getContext(), 0, intent, 0);
+        }
         Notification n  = new Notification.Builder(context, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
                 //.setFullScreenIntent(pIntent, true)
                 //.setStyle(new Notification.BigTextStyle().bigText(extra_nom))
                 .build();
