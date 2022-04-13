@@ -37,6 +37,8 @@ public class Message {
     private String message;
     @ColumnInfo(name = "timestamp")
     private long timestamp;
+    @ColumnInfo(name = "isReceived")
+    private boolean isReceived;
 
     /**
      * Empty constructor
@@ -45,7 +47,7 @@ public class Message {
     }
 
     @Ignore
-    public Message(CryptedMessage message, IDecrypter decrypter, boolean insertIntoDatabase) {
+    public Message(CryptedMessage message, IDecrypter decrypter, boolean insertIntoDatabase, boolean isReceived) {
         AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String idCorrespondant = user.getUid()==message.getIdSender()?message.getIdReceiver():message.getIdSender();
@@ -59,6 +61,8 @@ public class Message {
         else {
             this.idMessage = -1;
         }
+
+        this.isReceived = isReceived;
     }
 
     /**
@@ -111,5 +115,13 @@ public class Message {
 
     public void setIdMessage(int idMessage) {
         this.idMessage = idMessage;
+    }
+
+    public boolean isReceived() {
+        return isReceived;
+    }
+
+    public void setReceived(boolean isReceived) {
+        this.isReceived = isReceived;
     }
 }

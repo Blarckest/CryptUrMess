@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/m_recycle"/>
 
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
@@ -14,24 +19,25 @@
 
         <EditText
             android:layout_marginStart="16dp"
-            android:id="@+id/edit_gchat_message"
+            android:id="@+id/m_enter_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/button_gchat_send"
             android:background="@android:color/transparent"
-            android:hint="Enter Message"
+            android:hint="@string/enter_message"
             android:inputType="text"
             android:maxLines="5" />
 
         <Button
-            android:id="@+id/button_gchat_send"
+            android:id="@+id/m_button_send"
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
-            android:text="Send"
-            android:textColor="@color/purple_500" />
+            android:textSize="18sp"
+            android:text="@string/send"
+            android:textColor="@color/purple_500"
+            android:onClick="onSendMessage"/>
 
     </RelativeLayout>
 
