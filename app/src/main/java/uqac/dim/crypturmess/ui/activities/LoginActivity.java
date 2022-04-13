@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
@@ -37,6 +38,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         if (authManager.getCurrentUser() != null) {
+            FirebaseAuth.getInstance().updateCurrentUser(authManager.getCurrentUser()).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "updateCurrentUser:success");
+                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                }
+            });
             Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
             startActivity(new Intent(LoginActivity.this, ContactActivity.class));
             finish();
