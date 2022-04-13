@@ -9,6 +9,7 @@ import androidx.fragment.app.ListFragment;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
+import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.adapter.UserListAdapter;
@@ -24,10 +25,14 @@ public class FragmentContact extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         UserClientSide user = (UserClientSide) getListAdapter().getItem(position);
-        int id_conv = AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().getConversation(user.getIdUser()).getIdConversation();
+        Conversation conv = AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().getConversation(user.getIdUser());
+        if (conv == null) {
+            conv= new Conversation(user.getIdUser());
+            AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().insert(conv);
+        }
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());
-        intent.putExtra("ID_CONVERSATION", id_conv);
+        intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
         startActivity(intent);
     }
 
