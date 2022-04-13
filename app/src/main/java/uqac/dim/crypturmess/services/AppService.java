@@ -80,6 +80,7 @@ public class AppService extends IntentService {
                     UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
                     Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
                     intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
+                    intent.putExtra("ID_USER", conv.getIdCorrespondant());
                     notifier.sendNotification(user.getNickname()+"("+user.getUsername()+")",msg.getMessage().substring(0,msg.getMessage().length()>50?50:msg.getMessage().length())+"...",intent);
                 }
             }
