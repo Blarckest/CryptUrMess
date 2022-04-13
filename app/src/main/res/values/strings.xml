@@ -25,6 +25,8 @@
     <string name="username">Username</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="error_mail">Invalid email</string>
-
+    <string name="send">send</string>
+    <string name="enter_message">Enter message</string>
+    <string name="unknown">Unknown</string>
 
 </resources>

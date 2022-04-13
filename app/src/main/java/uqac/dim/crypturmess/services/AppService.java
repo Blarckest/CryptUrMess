@@ -69,9 +69,9 @@ public class AppService extends IntentService {
                 CryptedMessage msgCrypte= snapshot.getValue(CryptedMessage.class);
                 Message msg=null;
                 if(msgCrypte.getAlgorithm()== Algorithm.RSA)
-                    msg=new Message(msgCrypte,RSADecrypter,true);
+                    msg=new Message(msgCrypte,RSADecrypter,true, true);
                 else if(msgCrypte.getAlgorithm()== Algorithm.AES)
-                    msg=new Message(msgCrypte,AESDecrypter,true);
+                    msg=new Message(msgCrypte,AESDecrypter,true, true);
                 else
                     Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
                 snapshot.getRef().removeValue();
