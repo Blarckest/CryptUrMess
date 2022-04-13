@@ -63,49 +63,50 @@ public class AppService extends IntentService {
     public void onCreate() {
         super.onCreate();
         notifier=new Notifier(this);
-        listeners.add(firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                CryptedMessage msgCrypte= snapshot.getValue(CryptedMessage.class);
-                Message msg=null;
-                if(msgCrypte.getAlgorithm()== Algorithm.RSA)
-                    msg=new Message(msgCrypte,RSADecrypter,true, true);
-                else if(msgCrypte.getAlgorithm()== Algorithm.AES)
-                    msg=new Message(msgCrypte,AESDecrypter,true, true);
-                else
-                    Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
-                snapshot.getRef().removeValue();
-                if(msg!=null) {
-                    Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
-                    UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
-                    Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
-                    intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
-                    intent.putExtra("ID_USER", conv.getIdCorrespondant());
-                    notifier.sendNotification(user.getNickname()+"("+user.getUsername()+")",msg.getMessage().substring(0,msg.getMessage().length()>50?50:msg.getMessage().length())+"...",intent);
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        }));
         for (UserClientSide user: users) {
+            listeners.add(firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    CryptedMessage msgCrypte= snapshot.getValue(CryptedMessage.class);
+                    Message msg=null;
+                    if(msgCrypte.getAlgorithm()== Algorithm.RSA)
+                        msg=new Message(msgCrypte,RSADecrypter,true, true);
+                    else if(msgCrypte.getAlgorithm()== Algorithm.AES)
+                        msg=new Message(msgCrypte,AESDecrypter,true, true);
+                    else
+                        Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
+                    snapshot.getRef().removeValue();
+                    if(msg!=null) {
+                        Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
+                        UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
+                        Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
+                        intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
+                        intent.putExtra("ID_USER", conv.getIdCorrespondant());
+                        notifier.sendNotification(user.getNickname()+"("+user.getUsername()+")",msg.getMessage().substring(0,msg.getMessage().length()>50?50:msg.getMessage().length())+"...",intent);
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            }));
+
             listeners.add(firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
 
                 @Override

@@ -20,7 +20,7 @@ public class FirebaseHelper implements IDatabaseHelper {
     private DatabaseReference db= FirebaseDatabase.getInstance().getReference();
     @Override
     public void sendMessage(CryptedMessage cryptedMessage) {
-        db.child("messages").child(String.valueOf(cryptedMessage.getIdReceiver())).setValue(cryptedMessage);
+        db.child("messages").child(String.valueOf(cryptedMessage.getIdReceiver())).child(authManager.getCurrentUser().getUid()).setValue(cryptedMessage);
     }
 
     @Override
