@@ -20,6 +20,8 @@ public class CryptedMessage {
     private long timestamp;
     private Algorithm algorithm;
 
+    public CryptedMessage() {}
+
     /**
      * Constructor
      */

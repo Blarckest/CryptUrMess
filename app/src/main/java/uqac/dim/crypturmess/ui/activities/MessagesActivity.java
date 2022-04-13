@@ -24,12 +24,14 @@ import uqac.dim.crypturmess.utils.crypter.RSA.RSACrypter;
 
 public class MessagesActivity extends AppCompatActivity {
 
+    private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
         Bundle extras = getIntent().getExtras();
-        int id = 0;
+        id = 0;
         if (extras != null) {
             id = extras.getInt("ID_CONVERSATION");
         }
@@ -53,6 +55,13 @@ public class MessagesActivity extends AppCompatActivity {
         //CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         //firebaseHelper.sendMessage(cryptedMessage);
+
+        String strMessage = ((EditText) findViewById(R.id.m_enter_message)).getText().toString();
+        Message message = new Message(strMessage, id);
+        AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().insert(message);
+
+        CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
+
     }
 
 }
