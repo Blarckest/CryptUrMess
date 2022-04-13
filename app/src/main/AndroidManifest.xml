@@ -17,7 +17,7 @@
             android:exported="true"></service>
 
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.activities.ContactActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
                 android:value=".ui.activities.RegisterActivity"/>
         </activity>
         <activity
-            android:name=".ui.activities.ContactActivity"
+            android:name=".ui.activities.LoginActivity"
             android:configChanges="screenSize|orientation|screenLayout|navigation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

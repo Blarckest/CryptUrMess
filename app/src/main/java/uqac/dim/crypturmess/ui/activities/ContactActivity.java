@@ -17,17 +17,34 @@ import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.services.AppService;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
+import uqac.dim.crypturmess.utils.auth.IAuthManager;
 
 public class ContactActivity extends AppCompatActivity {
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private IAuthManager authManager=new FirebaseAuthManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (authManager.getCurrentUser() != null) {
+            authManager.getCurrentUser().reload().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && authManager.getCurrentUser() == null) {
+                    Log.d("DIM", "updateCurrentUser:success");
+                    startActivity(new Intent(ContactActivity.this, LoginActivity.class));
+                }
+                else {
+                    Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
+                    startService(new Intent(this, AppService.class));
+                }
+            });
+        }
+        else {
+            Log.d("DIM", "onAuthStateChanged: user is logged out");
+            startActivity(new Intent(ContactActivity.this, LoginActivity.class));
+            finish();
+        }
         setContentView(R.layout.activity_main);
-        startService(new Intent(this, AppService.class));
-        /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.contact_toolbar);*/
-        //(TextView)findViewById(R.id.c_text_user)).setText(new SharedPreferencesHelper().getValue(R.string.));
     }
 
     public void addContact(View view) {

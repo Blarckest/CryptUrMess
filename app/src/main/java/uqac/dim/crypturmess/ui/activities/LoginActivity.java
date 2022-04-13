@@ -26,7 +26,6 @@ import uqac.dim.crypturmess.utils.validator.EmailValidator;
 
 public class LoginActivity extends AppCompatActivity {
     private IAuthManager authManager=new FirebaseAuthManager();
-    private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,20 +36,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        if (authManager.getCurrentUser() != null) {
-            authManager.getCurrentUser().reload().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && authManager.getCurrentUser() == null) {
-                    Log.d("DIM", "updateCurrentUser:success");
-                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                }
-            });
-            Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-            startActivity(new Intent(LoginActivity.this, ContactActivity.class));
-            finish();
-        }
-        else {
-            Log.d("DIM", "onAuthStateChanged: user is logged out");
-        }
         super.onStart();
     }
 
