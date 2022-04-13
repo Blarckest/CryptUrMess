@@ -26,6 +26,8 @@ import uqac.dim.crypturmess.utils.crypter.RSA.RSACrypter;
 public class MessagesActivity extends AppCompatActivity {
 
     private int id;
+    private RecyclerView recyclerView;
+    private FirebaseHelper firebaseHelper = new FirebaseHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MessagesActivity extends AppCompatActivity {
         }
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.m_recycle);
+        recyclerView = (RecyclerView) findViewById(R.id.m_recycle);
         MessageListAdapter adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -51,12 +53,17 @@ public class MessagesActivity extends AppCompatActivity {
     public void onSendMessage(View view) {
         ICrypter crypter = new RSACrypter();
         int id_conversation = getIntent().getExtras().getInt("ID_CONVERSATION");
-        FirebaseHelper firebaseHelper = new FirebaseHelper();
         String strMessage = ((EditText) findViewById(R.id.m_enter_message)).getText().toString();
         Message message = new Message(strMessage, id_conversation);
         AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().insert(message);
 
         CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
+        firebaseHelper.sendMessage(cryptedMessage);
+
+
+        MessageListAdapter adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
 }

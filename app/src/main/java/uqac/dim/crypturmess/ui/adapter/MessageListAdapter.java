@@ -3,6 +3,7 @@ package uqac.dim.crypturmess.ui.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.TimeUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.model.entity.Message;
@@ -31,8 +36,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         Message message = (Message) mMessageList[position];
-        if(message.isReceived()) return 1;
-        return 2;
+        if(message.isReceived()) return 2;
+        return 1;
     }
 
     @NonNull
@@ -73,8 +78,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
 
     private class SentMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText, timeText;
-        LinearLayout linear;
+        private TextView messageText, timeText;
+        private LinearLayout linear;
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE d MMM yyyy HH:mm:ss");
 
         SentMessageHolder(View itemView) {
             super(itemView);
@@ -88,14 +94,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         void bind(Message message) {
             messageText.setText(message.getMessage());
             messageText.setBackgroundColor(R.color.gold);
-            timeText.setText(DateUtils.formatDateTime(itemView.getContext(), message.getTimestamp(),0));
-            linear.setGravity(View.FOCUS_RIGHT);
+            timeText.setText(dateFormat.format(new Date(message.getTimestamp())));// DateUtils.formatDateTime(itemView.getContext(), message.getTimestamp(),0)
+            linear.setGravity(Gravity.END);
         }
     }
 
    private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText, timeText;
-        LinearLayout linear;
+        private TextView messageText, timeText;
+        private LinearLayout linear;
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE d MMM yyyy HH:mm:ss");
 
         ReceivedMessageHolder(View itemView) {
             super(itemView);
@@ -109,8 +116,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         void bind(Message message) {
             messageText.setText(message.getMessage());
             messageText.setBackgroundColor(R.color.purple_500);
-            timeText.setText(DateUtils.formatDateTime(itemView.getContext(), message.getTimestamp(),0));
-            linear.setGravity(View.FOCUS_LEFT);
+            timeText.setText(dateFormat.format(new Date(message.getTimestamp())));
+            linear.setGravity(Gravity.START);
         }
     }
 }
