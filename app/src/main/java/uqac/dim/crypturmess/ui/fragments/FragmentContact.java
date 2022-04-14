@@ -29,6 +29,7 @@ public class FragmentContact extends ListFragment {
         if (conv == null) {
             conv= new Conversation(user.getIdUser());
             AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().insert(conv);
+            conv= AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().getConversation(user.getIdUser());
         }
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());

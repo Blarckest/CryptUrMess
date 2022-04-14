@@ -14,6 +14,7 @@ import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
+import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.services.AppService;
@@ -44,6 +45,7 @@ public class AddContactActivity extends AppCompatActivity {
                 if (user != null) {
                     UserClientSide friend = new UserClientSide(user, username);
                     appLocalDatabase.userDao().insert(friend);
+                    appLocalDatabase.conversationDao().insert(new Conversation(friend.getIdUser()));
                     dialog.dismiss();
                     dialog.hide();
                     finish();

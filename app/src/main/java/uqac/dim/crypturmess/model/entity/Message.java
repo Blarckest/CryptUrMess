@@ -37,7 +37,7 @@ public class Message {
     @NonNull
     private int idMessage;
     @ColumnInfo(name = "id_conversation")
-    private int idConversation;
+    private Integer idConversation;
     @ColumnInfo(name = "message_content")
     private String message;
     @ColumnInfo(name = "timestamp")
@@ -106,11 +106,11 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public int getIdConversation() {
+    public Integer getIdConversation() {
         return idConversation;
     }
 
-    public void setIdConversation(int idConversation) {
+    public void setIdConversation(Integer idConversation) {
         this.idConversation = idConversation;
     }
 

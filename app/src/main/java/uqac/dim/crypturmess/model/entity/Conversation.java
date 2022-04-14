@@ -52,11 +52,11 @@ public class Conversation {
         return listMessages;
     }
 
-    public int getIdConversation() {
+    public Integer getIdConversation() {
         return idConversation;
     }
 
-    public void setIdConversation(int idConversation) {
+    public void setIdConversation(Integer idConversation) {
         this.idConversation = idConversation;
     }
 

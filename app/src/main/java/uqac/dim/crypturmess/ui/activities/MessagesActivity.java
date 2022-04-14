@@ -44,6 +44,7 @@ public class MessagesActivity extends AppCompatActivity {
         MessageListAdapter adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        ((RecyclerView)findViewById(R.id.m_recycle)).scrollToPosition(adapter.getItemCount() - 1);
     }
 
     /**
@@ -64,6 +65,9 @@ public class MessagesActivity extends AppCompatActivity {
         MessageListAdapter adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        ((EditText) findViewById(R.id.m_enter_message)).setText("");
+        ((RecyclerView)findViewById(R.id.m_recycle)).scrollToPosition(adapter.getItemCount() - 1);
     }
 
 }
