@@ -29,14 +29,16 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         if (authManager.getCurrentUser() != null) {
             authManager.getCurrentUser().reload().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && authManager.getCurrentUser() == null) {
-                    Log.d("DIM", "updateCurrentUser:success");
-                    startActivity(new Intent(ContactActivity.this, LoginActivity.class));
-                    finish();
-                }
-                else {
-                    Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                    startService(new Intent(this, AppService.class));
+                if (task.isSuccessful()) {
+                    if (authManager.getCurrentUser() == null) {
+                        Log.d("DIM", "updateCurrentUser:success");
+                        startActivity(new Intent(ContactActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                    else {
+                        Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
+                        //startService(new Intent(this, AppService.class));
+                    }
                 }
             });
         }

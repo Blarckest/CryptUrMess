@@ -27,7 +27,7 @@ public class Conversation {
     @ColumnInfo(name = "id_conv")
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    private int idConversation;
+    private Integer idConversation;
     @ColumnInfo(name = "id_correspondant")
     private String idCorrespondant;
     @Ignore
