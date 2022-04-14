@@ -37,7 +37,7 @@ public class ContactActivity extends AppCompatActivity {
                     }
                     else {
                         Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                        //startService(new Intent(this, AppService.class));
+                        startService(new Intent(this, AppService.class));
                     }
                 }
             });

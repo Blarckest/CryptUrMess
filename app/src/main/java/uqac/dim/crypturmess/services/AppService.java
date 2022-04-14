@@ -75,7 +75,7 @@ public class AppService extends IntentService {
                         msg=new Message(msgCrypte,AESDecrypter,true, true);
                     else
                         Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
-                    snapshot.getRef().removeValue();
+                    //snapshot.getRef().removeValue(); //todo remove comment on this line
                     if(msg!=null) {
                         Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                         UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
