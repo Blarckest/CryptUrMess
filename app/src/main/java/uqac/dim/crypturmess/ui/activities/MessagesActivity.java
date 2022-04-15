@@ -62,7 +62,6 @@ public class MessagesActivity extends AppCompatActivity {
             id = extras.getInt("ID_CONVERSATION");
             id_user = extras.getString("ID_USER");
         }
-        Notifier.blockNotifForUser(id_user);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.m_recycle);
@@ -77,8 +76,8 @@ public class MessagesActivity extends AppCompatActivity {
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         if (snapshot.getValue() != null) {
                             CryptedMessage msgCrypte = snapshot.getValue(CryptedMessage.class);
-                            if (msgCrypte.getIdSender().equals(id_user)) {
-                                Message msg = null;
+                            Message msg = null;
+                            if (msgCrypte.getAlgorithm()!=null){
                                 if (msgCrypte.getAlgorithm().equals(Algorithm.RSA))
                                     msg = new Message(msgCrypte, RSADecrypter, true, true);
                                 else if (msgCrypte.getAlgorithm().equals(Algorithm.AES))
@@ -115,9 +114,15 @@ public class MessagesActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         Notifier.unblockNotifForUser(id_user);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Notifier.blockNotifForUser(id_user);
     }
 
     /**

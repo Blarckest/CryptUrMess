@@ -41,16 +41,16 @@ import uqac.dim.crypturmess.utils.looper.DeleteMessagesLooper;
 
 
 public class AppService extends IntentService {
-    private IBinder binder=new LocalBinder();
-    private AppLocalDatabase database= AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
-    private DatabaseReference firebaseDB=FirebaseDatabase.getInstance().getReference();
-    private SharedPreferencesHelper sharedPreferencesHelper=new SharedPreferencesHelper();
-    private UserClientSide[] users=database.userDao().getFriends();
+    private IBinder binder = new LocalBinder();
+    private AppLocalDatabase database = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
+    private DatabaseReference firebaseDB = FirebaseDatabase.getInstance().getReference();
+    private SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+    private UserClientSide[] users = database.userDao().getFriends();
     private IDecrypter RSADecrypter = new RSADecrypter();
     private IDecrypter AESDecrypter = new AESDecrypter();
-    private ArrayList<ChildEventListener> listeners= new ArrayList<>();
-    private Notifier notifier=null;
-    private DeleteMessagesLooper deleteMessagesLooper=new DeleteMessagesLooper();
+    private ArrayList<ChildEventListener> listeners = new ArrayList<>();
+    private Notifier notifier = null;
+    private DeleteMessagesLooper deleteMessagesLooper = new DeleteMessagesLooper();
 
     public AppService() {
         super("AppService");
@@ -63,13 +63,14 @@ public class AppService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        notifier=new Notifier(this);
-            firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    if(snapshot.getValue()!=null) {
-                        CryptedMessage msgCrypte = snapshot.getValue(CryptedMessage.class);
-                        Message msg = null;
+        notifier = new Notifier(this);
+        firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.getValue() != null) {
+                    CryptedMessage msgCrypte = snapshot.getValue(CryptedMessage.class);
+                    Message msg = null;
+                    if (msgCrypte.getAlgorithm()!=null){
                         if (msgCrypte.getAlgorithm().equals(Algorithm.RSA))
                             msg = new Message(msgCrypte, RSADecrypter, true, true);
                         else if (msgCrypte.getAlgorithm().equals(Algorithm.AES))
@@ -87,29 +88,30 @@ public class AppService extends IntentService {
                         }
                     }
                 }
+            }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    //onChildAdded(snapshot,previousChildName);
-                }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //onChildAdded(snapshot,previousChildName);
+            }
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                }
+            }
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
+            }
+        });
 
-        for (UserClientSide user: users) {
+        for (UserClientSide user : users) {
             firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
 
                 @Override
@@ -119,7 +121,7 @@ public class AppService extends IntentService {
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    database.userDao().addRSAPublicKeyToUser(user.getIdUser(),snapshot.getValue(String.class));
+                    database.userDao().addRSAPublicKeyToUser(user.getIdUser(), snapshot.getValue(String.class));
                 }
 
                 @Override
