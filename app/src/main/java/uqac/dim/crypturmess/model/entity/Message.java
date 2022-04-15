@@ -60,14 +60,13 @@ public class Message {
         this.idConversation = conv.getIdConversation();
         this.message = decrypter.decrypt(Base64.decode(message.getMessage(), Base64.DEFAULT));
         this.timestamp = message.getTimestamp();
+        this.isReceived = isReceived;
         if(insertIntoDatabase) {
             db.messageDao().insert(this);
         }
         else {
             this.idMessage = -1;
         }
-
-        this.isReceived = isReceived;
     }
 
     /**
