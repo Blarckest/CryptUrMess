@@ -18,6 +18,8 @@ import androidx.core.util.TimeUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.SimpleTimeZone;
@@ -28,16 +30,16 @@ import uqac.dim.crypturmess.model.entity.Message;
 public class MessageListAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
-    private Message mMessageList[];
+    private ArrayList<Message> mMessageList;
 
     public MessageListAdapter(Context context, Message messageList[]) {
         mContext = context;
-        mMessageList = messageList;
+        mMessageList = new ArrayList<>(Arrays.asList(messageList));
     }
 
     @Override
     public int getItemViewType(int position) {
-        Message message = (Message) mMessageList[position];
+        Message message = mMessageList.get(position);
         if(message.isReceived()) return 2;
         return 1;
     }
@@ -62,7 +64,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Message message = (Message) mMessageList[position];
+        Message message = mMessageList.get(position);
         Log.i("ADAPT", "holder.getItemViewType() : "+message.isReceived());//holder.getItemViewType()
         if (message.isReceived())
             ((ReceivedMessageHolder) holder).bind(message);
@@ -74,9 +76,13 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mMessageList.length;
+        return mMessageList.size();
     }
 
+    public void addMessage(Message msg){
+        mMessageList.add(msg);
+        notifyDataSetChanged();
+    }
 
     private class SentMessageHolder extends RecyclerView.ViewHolder {
         private TextView messageText, timeText;

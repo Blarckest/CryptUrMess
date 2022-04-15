@@ -83,7 +83,7 @@ public class AppService extends IntentService {
                             Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
                             intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
                             intent.putExtra("ID_USER", conv.getIdCorrespondant());
-                            notifier.sendNotification(user.getNickname() + "(" + user.getUsername() + ")", msg.getMessage().substring(0, msg.getMessage().length() > 50 ? 50 : msg.getMessage().length()) + "...", intent);
+                            notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, msg.getMessage().length() > 50 ? 50 : msg.getMessage().length()) + "...", intent);
                         }
                     }
                 }
