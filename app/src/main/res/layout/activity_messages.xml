@@ -6,10 +6,12 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/m_recycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:id="@+id/m_recycle"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"
@@ -18,11 +20,11 @@
 
 
         <EditText
-            android:layout_marginStart="16dp"
             android:id="@+id/m_enter_message"
-            android:layout_width="match_parent"
+            android:layout_width="253dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:background="@android:color/transparent"
             android:hint="@string/enter_message"
             android:inputType="text"

@@ -2,7 +2,9 @@ package uqac.dim.crypturmess.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,12 +42,13 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         return 1;
     }
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-
-        if (viewType == 1) {
+        Log.i("ADAPT", "ViewType : " + viewType);
+        if (viewType ==1) {//getItemViewType(getItemCount())
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.bubble_message, parent, false);
             return new SentMessageHolder(view);
@@ -54,21 +57,19 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                     .inflate(R.layout.bubble_message, parent, false);
             return new ReceivedMessageHolder(view);
         }
-
         return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = (Message) mMessageList[position];
+        Log.i("ADAPT", "holder.getItemViewType() : "+message.isReceived());//holder.getItemViewType()
+        if (message.isReceived())
+            ((ReceivedMessageHolder) holder).bind(message);
+        else
+            ((SentMessageHolder) holder).bind(message);
 
-        switch (holder.getItemViewType()) {
-            case 1:
-                ((SentMessageHolder) holder).bind(message);
-                break;
-            case 2:
-                ((ReceivedMessageHolder) holder).bind(message);
-        }
+
     }
 
     @Override
@@ -93,7 +94,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         @SuppressLint("ResourceAsColor")
         void bind(Message message) {
             messageText.setText(message.getMessage());
-            messageText.setBackgroundColor(R.color.gold);
+            messageText.setBackgroundResource(R.color.green);
             timeText.setText(dateFormat.format(new Date(message.getTimestamp())));// DateUtils.formatDateTime(itemView.getContext(), message.getTimestamp(),0)
             linear.setGravity(Gravity.END);
         }
@@ -115,7 +116,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         @SuppressLint("ResourceAsColor")
         void bind(Message message) {
             messageText.setText(message.getMessage());
-            messageText.setBackgroundColor(R.color.purple_500);
+            messageText.setBackgroundResource(R.color.grey_200);
+            messageText.setTextColor(R.color.black);
             timeText.setText(dateFormat.format(new Date(message.getTimestamp())));
             linear.setGravity(Gravity.START);
         }
