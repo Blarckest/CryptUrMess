@@ -64,7 +64,6 @@ public class AppService extends IntentService {
     public void onCreate() {
         super.onCreate();
         notifier=new Notifier(this);
-        for (UserClientSide user: users) {
             firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -110,6 +109,7 @@ public class AppService extends IntentService {
                 }
             });
 
+        for (UserClientSide user: users) {
             firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
 
                 @Override
