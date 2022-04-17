@@ -16,8 +16,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import uqac.dim.crypturmess.R;
+import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
+import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.ui.notifications.Notifier;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
@@ -26,6 +28,7 @@ import uqac.dim.crypturmess.utils.validator.EmailValidator;
 
 public class LoginActivity extends AppCompatActivity {
     private IAuthManager authManager=new FirebaseAuthManager();
+    private IDatabaseHelper databaseHelper=new FirebaseHelper();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +69,15 @@ public class LoginActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(LoginActivity.this, R.string.error_login, Toast.LENGTH_SHORT);
                     toast.show();
                 }
+            }).addOnSuccessListener(task->{
+                pushKeys();
+                SharedPreferencesHelper sharedPreferencesHelper= new SharedPreferencesHelper();
+                sharedPreferencesHelper.setValue(R.string.userIDSharedPref, authManager.getCurrentUser().getUid());
+                databaseHelper.getUser(authManager.getCurrentUser().getUid()).addOnSuccessListener(taskNickname -> {
+                    User user=taskNickname.getValue(User.class);
+                    sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, user.getNickname());
+
+                });
             });
         }
         else{
@@ -94,5 +106,8 @@ public class LoginActivity extends AppCompatActivity {
            toast.show();
        }
     }
-
+    public void pushKeys(){
+        IDatabaseHelper dbHelper=new FirebaseHelper();
+        dbHelper.pushRSAPublicKey();
+    }
 }

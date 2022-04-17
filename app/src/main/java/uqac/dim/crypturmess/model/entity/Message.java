@@ -57,7 +57,14 @@ public class Message {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String idCorrespondant = user.getUid()==message.getIdSender()?message.getIdReceiver():message.getIdSender();
         Conversation conv = db.conversationDao().getConversation(idCorrespondant);
-        this.idConversation = conv.getIdConversation();
+        if(conv==null){
+            UserClientSide[] users = db.userDao().getFriends();
+            conv = new Conversation(idCorrespondant);
+            db.conversationDao().insert(conv);
+            this.idConversation = db.conversationDao().getConversation(idCorrespondant).getIdConversation();
+        }
+        else
+            this.idConversation = conv.getIdConversation();
         this.message = decrypter.decrypt(Base64.decode(message.getMessage(), Base64.DEFAULT));
         this.timestamp = message.getTimestamp();
         this.isReceived = isReceived;

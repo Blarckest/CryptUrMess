@@ -64,7 +64,11 @@ public class AppService extends IntentService {
     public void onCreate() {
         super.onCreate();
         notifier = new Notifier(this);
-        firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
+        for (UserClientSide user : users) {
+            DatabaseReference ref=firebaseDB.child("messages");
+            DatabaseReference ref2=ref.child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref));
+            DatabaseReference ref3 = ref2.child(user.getIdUser());
+            ref3.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.getValue() != null) {
@@ -77,7 +81,6 @@ public class AppService extends IntentService {
                             msg = new Message(msgCrypte, AESDecrypter, true, true);
                         else
                             Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
-                        snapshot.getRef().removeValue();
                         if (msg != null) {
                             Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                             UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
@@ -88,6 +91,7 @@ public class AppService extends IntentService {
                         }
                     }
                 }
+                snapshot.getRef().removeValue();
             }
 
             @Override
@@ -111,7 +115,6 @@ public class AppService extends IntentService {
             }
         });
 
-        for (UserClientSide user : users) {
             firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
 
                 @Override
