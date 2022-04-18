@@ -50,6 +50,7 @@ public class MessagesActivity extends AppCompatActivity {
     private SharedPreferencesHelper sharedPreferencesHelper=new SharedPreferencesHelper();
     private IDecrypter RSADecrypter=new RSADecrypter();
     private IDecrypter AESDecrypter=new AESDecrypter();
+    private MessageListAdapter adapter;
 
 
     @Override
@@ -65,7 +66,7 @@ public class MessagesActivity extends AppCompatActivity {
 
 
         recyclerView = (RecyclerView) findViewById(R.id.m_recycle);
-        MessageListAdapter adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
+        adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         ((RecyclerView) findViewById(R.id.m_recycle)).scrollToPosition(adapter.getItemCount() - 1);
@@ -79,9 +80,9 @@ public class MessagesActivity extends AppCompatActivity {
                             Message msg = null;
                             if (msgCrypte.getAlgorithm()!=null){
                                 if (msgCrypte.getAlgorithm().equals(Algorithm.RSA))
-                                    msg = new Message(msgCrypte, RSADecrypter, true, true);
+                                    msg = new Message(msgCrypte, RSADecrypter, false, true);
                                 else if (msgCrypte.getAlgorithm().equals(Algorithm.AES))
-                                    msg = new Message(msgCrypte, AESDecrypter, true, true);
+                                    msg = new Message(msgCrypte, AESDecrypter, false, true);
                                 else
                                     Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
                                 adapter.addMessage(msg);
@@ -140,10 +141,7 @@ public class MessagesActivity extends AppCompatActivity {
         CryptedMessage cryptedMessage = new CryptedMessage(message, crypter, false);
         firebaseHelper.sendMessage(cryptedMessage);
 
-
-        MessageListAdapter adapter = new MessageListAdapter(this, AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).messageDao().getAllMessagesByConvId(id));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        adapter.addMessage(message);
 
         ((EditText) findViewById(R.id.m_enter_message)).setText("");
         ((RecyclerView) findViewById(R.id.m_recycle)).scrollToPosition(adapter.getItemCount() - 1);
