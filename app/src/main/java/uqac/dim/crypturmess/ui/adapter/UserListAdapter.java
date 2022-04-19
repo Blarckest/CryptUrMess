@@ -98,13 +98,9 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            if (results.count > 0 || true) {
-                users.clear();
-                users.addAll((ArrayList<UserClientSide>) results.values);
-                notifyDataSetChanged();
-            } else {
-                notifyDataSetInvalidated();
-            }
+            users.clear();
+            users.addAll((ArrayList<UserClientSide>) results.values);
+            notifyDataSetChanged();
         }
     }
 }
