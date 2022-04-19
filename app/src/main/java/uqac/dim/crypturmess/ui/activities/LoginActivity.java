@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 databaseHelper.getUser(authManager.getCurrentUser().getUid()).addOnSuccessListener(taskNickname -> {
                     User user=taskNickname.getValue(User.class);
                     sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, user.getNickname());
-
+                    finish();
                 });
             });
         }

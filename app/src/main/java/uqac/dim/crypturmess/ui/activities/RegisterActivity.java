@@ -69,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity{
                     sharedPreferencesHelper.setValue(R.string.userIDSharedPref, authManager.getCurrentUser().getUid());
                     sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, nickname);
                     startActivity(intent);
+                    finish();
                 }
                 else {
                     Log.d(TAG, "create user:error");

@@ -43,6 +43,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        //TODO
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
