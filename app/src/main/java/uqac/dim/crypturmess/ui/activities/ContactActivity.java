@@ -49,7 +49,28 @@ public class ContactActivity extends AppCompatActivity {
                     else {
                         Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
                         startService(new Intent(this, AppService.class));
+                        String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
+                        ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
+                        ((ImageView)findViewById(R.id.c_img_icon_user)).setImageResource(new UserBGManager().getBackgroundByUserName(nickname));
+                        ((TextView)findViewById(R.id.c_text_user)).setText(nickname);
                     }
+                }
+            });
+            setContentView(R.layout.activity_main);
+            ((EditText)findViewById(R.id.c_edittext_recherche)).addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    ((FragmentContact)getSupportFragmentManager().findFragmentById(R.id.c_scrollview_fragment)).filter(charSequence);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
                 }
             });
         }
@@ -58,28 +79,6 @@ public class ContactActivity extends AppCompatActivity {
             startActivity(new Intent(ContactActivity.this, LoginActivity.class));
             finish();
         }
-        setContentView(R.layout.activity_main);
-        ((EditText)findViewById(R.id.c_edittext_recherche)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                ((FragmentContact)getSupportFragmentManager().findFragmentById(R.id.c_scrollview_fragment)).filter(charSequence);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
-        ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
-        ((ImageView)findViewById(R.id.c_img_icon_user)).setImageResource(new UserBGManager().getBackgroundByUserName(nickname));
-        ((TextView)findViewById(R.id.c_text_user)).setText(nickname);
     }
 
     public void addContact(View view) {

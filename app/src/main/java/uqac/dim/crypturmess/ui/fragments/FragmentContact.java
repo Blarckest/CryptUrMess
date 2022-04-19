@@ -2,16 +2,22 @@ package uqac.dim.crypturmess.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
+import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
@@ -26,17 +32,16 @@ public class FragmentContact extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        users= new ArrayList<>(Arrays.asList(AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getFriends()));
     }
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         UserClientSide user = (UserClientSide) getListAdapter().getItem(position);
-        Conversation conv = AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().getConversation(user.getIdUser());
+        Conversation conv = db.conversationDao().getConversation(user.getIdUser());
         if (conv == null) {
             conv= new Conversation(user.getIdUser());
-            AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().insert(conv);
-            conv= AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).conversationDao().getConversation(user.getIdUser());
+            db.conversationDao().insert(conv);
+            conv= db.conversationDao().getConversation(user.getIdUser());
         }
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());
@@ -45,13 +50,36 @@ public class FragmentContact extends ListFragment {
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = this.getActivity().getMenuInflater();
+        inflater.inflate(R.menu.contact_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        super.onContextItemSelected(item);
+        if (item.getItemId() == R.id.menu_c_contact_delete) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+             db.userDao().delete(adapter.getItem(info.position));
+             adapter.remove(adapter.getItem(info.position));
+             return false;
+        }
+        return false;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        users= new ArrayList<>(Arrays.asList(AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getFriends()));
         adapter = new UserListAdapter(getActivity(), users);
         setListAdapter(adapter);
+        registerForContextMenu(getListView());
     }
 
     public void filter(CharSequence query) {
+        adapter.clear();
         adapter.getFilter().filter(query);
     }
 }

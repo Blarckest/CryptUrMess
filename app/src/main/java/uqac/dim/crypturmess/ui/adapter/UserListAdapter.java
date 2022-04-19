@@ -14,6 +14,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -55,13 +56,13 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
     }
 
     @Override
-    public UserClientSide getItem(int i) {
-        return users.get(i);
+    public UserClientSide getItem(int position) {
+        return users.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public int getPosition(@Nullable UserClientSide item) {
+        return users.indexOf(item);
     }
 
     @Override
@@ -95,7 +96,6 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
             return f;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             users.clear();
