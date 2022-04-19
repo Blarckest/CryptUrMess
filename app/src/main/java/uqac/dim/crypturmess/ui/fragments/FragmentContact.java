@@ -15,7 +15,7 @@ import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.adapter.UserListAdapter;
 
 public class FragmentContact extends ListFragment {
-    private AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
+    //private AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -28,5 +28,8 @@
     <string name="send">send</string>
     <string name="enter_message">Enter message</string>
     <string name="unknown">Unknown</string>
+    <string name="your_id">Your login ID : </string>
+    <string name="id_copied">ID copied</string>
+    <string name="logout">Logout</string>
 
 </resources>

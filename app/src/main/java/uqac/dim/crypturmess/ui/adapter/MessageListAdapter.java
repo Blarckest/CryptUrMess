@@ -32,7 +32,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private ArrayList<Message> mMessageList;
 
-    public MessageListAdapter(Context context, Message messageList[]) {
+    public MessageListAdapter(Context context, Message[] messageList) {
         mContext = context;
         mMessageList = new ArrayList<>(Arrays.asList(messageList));
     }

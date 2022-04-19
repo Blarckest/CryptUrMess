@@ -53,6 +53,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.AddContactActivity"/>
         </activity>
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:configChanges="screenSize|orientation|screenLayout|navigation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.SettingsActivity"/>
+        </activity>
 
 
     </application>

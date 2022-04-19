@@ -7,6 +7,7 @@
     tools:context=".ui.activities.ContactActivity"
     android:id="@+id/c_linear_contact"
     android:orientation="vertical"
+    android:background="@color/grey"
     >
 
     <LinearLayout
@@ -18,17 +19,54 @@
         android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
-            android:id="@+id/c_img_icon_user"/>
+            app:cardCornerRadius="50dp"
+            android:elevation="0dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher_round"
+                android:id="@+id/c_img_icon_user" />
+
+            <TextView
+                android:id="@+id/c_user_letter_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🐟"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center"/>
+        </androidx.cardview.widget.CardView>
+
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟"
             android:id="@+id/c_text_user"
-            android:padding="5dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="5dp"
+            android:text="🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/c_settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/grey"
+                android:text="@string/send"
+                android:textColor="@color/purple_500"
+                android:src="@drawable/ic_baseline_settings_24"
+                android:onClick="settings" />
+        </androidx.cardview.widget.CardView>
 
 
     </LinearLayout>
@@ -51,7 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:cardCornerRadius="25dp">
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -72,10 +111,9 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@mipmap/ic_launcher_round"
-                    tools:layout_editor_absoluteX="50dp"
-                    tools:layout_editor_absoluteY="50dp"
-                    android:onClick="addContact"/>
+                    android:src="@drawable/ic_baseline_add_24"
+                    android:onClick="addContact"
+                    android:background="@color/green"/>
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>
