@@ -65,10 +65,8 @@ public class AppService extends IntentService {
         super.onCreate();
         notifier = new Notifier(this);
         for (UserClientSide user : users) {
-            DatabaseReference ref=firebaseDB.child("messages");
-            DatabaseReference ref2=ref.child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref));
-            DatabaseReference ref3 = ref2.child(user.getIdUser());
-            ref3.addChildEventListener(new ChildEventListener() {
+            DatabaseReference ref=firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).child(user.getIdUser());
+            ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.getValue() != null) {

@@ -2,12 +2,20 @@ package uqac.dim.crypturmess.ui.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import android.content.Intent;
+import android.media.MediaDataSource;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +26,7 @@ import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.services.AppService;
 import uqac.dim.crypturmess.ui.UserBGManager;
+import uqac.dim.crypturmess.ui.fragments.FragmentContact;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 
@@ -50,6 +59,22 @@ public class ContactActivity extends AppCompatActivity {
             finish();
         }
         setContentView(R.layout.activity_main);
+        ((EditText)findViewById(R.id.c_edittext_recherche)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ((FragmentContact)getSupportFragmentManager().findFragmentById(R.id.c_scrollview_fragment)).filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
         ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());

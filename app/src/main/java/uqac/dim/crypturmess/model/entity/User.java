@@ -1,6 +1,8 @@
 package uqac.dim.crypturmess.model.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -20,6 +22,11 @@ public class User {
      * Empty constructor
      */
     public User() { }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return obj instanceof User && ((User) obj).getIdUser().equals(this.idUser);
+    }
 
     /**
      * Constructor minimal
@@ -53,6 +60,4 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
-
 }
