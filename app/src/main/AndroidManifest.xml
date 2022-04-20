@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="uqac.dim.crypturmess">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name="uqac.dim.crypturmess.CrypturMessApplication"
@@ -11,10 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptUrMess">
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+
         <service
             android:name=".services.AppService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".ui.activities.ContactActivity"
@@ -44,7 +50,8 @@
             android:configChanges="screenSize|orientation|screenLayout|navigation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MessagesActivity"/>
+                android:value=".ui.activities.MessagesActivity" />
+
         </activity>
         <activity
             android:name=".ui.activities.AddContactActivity"
