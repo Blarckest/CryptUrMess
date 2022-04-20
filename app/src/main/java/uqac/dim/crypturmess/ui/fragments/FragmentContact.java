@@ -6,12 +6,15 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +23,7 @@ import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.model.entity.Conversation;
+import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.adapter.UserListAdapter;
@@ -64,8 +68,7 @@ public class FragmentContact extends ListFragment {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
              db.userDao().delete(adapter.getItem(info.position));
              adapter.remove(adapter.getItem(info.position));
-//             adapter.clear();
-//             adapter.notifyDataSetChanged();
+             setListAdapter(adapter);
              return false;
         }
         return false;
@@ -79,6 +82,10 @@ public class FragmentContact extends ListFragment {
         setListAdapter(adapter);
         registerForContextMenu(getListView());
     }
+
+//    LiveData<UserClientSide> getData(){
+//       // return new Transformations.distinctUntilChanged(LiveData<UserClientSide> );
+//    }
 
     public void filter(CharSequence query) {
         adapter.clear();

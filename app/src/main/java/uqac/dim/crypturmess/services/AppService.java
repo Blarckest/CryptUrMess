@@ -21,15 +21,19 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.model.entity.Conversation;
 import uqac.dim.crypturmess.model.entity.CryptedMessage;
 import uqac.dim.crypturmess.model.entity.Message;
+import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.notifications.Notifier;
@@ -45,12 +49,12 @@ public class AppService extends IntentService {
     private AppLocalDatabase database = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
     private DatabaseReference firebaseDB = FirebaseDatabase.getInstance().getReference();
     private SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
-    private UserClientSide[] users = database.userDao().getFriends();
+    private ArrayList<UserClientSide> users = new ArrayList<>(Arrays.asList(database.userDao().getFriends()));
     private IDecrypter RSADecrypter = new RSADecrypter();
     private IDecrypter AESDecrypter = new AESDecrypter();
-    private ArrayList<ChildEventListener> listeners = new ArrayList<>();
     private Notifier notifier = null;
     private DeleteMessagesLooper deleteMessagesLooper = new DeleteMessagesLooper();
+    private IDatabaseHelper fbHelper = new FirebaseHelper();
 
     public AppService() {
         super("AppService");
@@ -65,14 +69,117 @@ public class AppService extends IntentService {
         super.onCreate();
         notifier = new Notifier(this);
         for (UserClientSide user : users) {
-            DatabaseReference ref=firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).child(user.getIdUser());
-            ref.addChildEventListener(new ChildEventListener() {
+            registerUser(user);
+        }
+        new Thread(deleteMessagesLooper).start();
+        firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                User user = new User(snapshot.getKey(), "");
+                if (!users.contains(user) || !users.containsAll(Arrays.asList(database.userDao().getFriends()))) {
+                    fbHelper.getUser(snapshot.getKey()).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            User userTask = task.getResult().getValue(User.class);
+                            if (userTask != null) {
+                                UserClientSide friend = new UserClientSide(userTask, "");
+                                database.userDao().insert(friend);
+                                database.conversationDao().insert(new Conversation(friend.getIdUser()));
+                            }
+                        }
+                    }).addOnSuccessListener(task -> {
+                        fbHelper.getRSAPublicKeyOfUser(user.getIdUser()).addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                String publicKey = task1.getResult().getChildren().iterator().next().getValue(String.class);
+                                database.userDao().addRSAPublicKeyToUser(user.getIdUser(), publicKey);
+                            } else {
+                                database.userDao().addRSAPublicKeyToUser(user.getIdUser(), "");
+                            }
+                        }).addOnSuccessListener(task2 -> {
+                            if (snapshot.getValue() != null) {
+                                DatabaseReference ref = snapshot.getChildren().iterator().next().getRef();
+                                ref.get().addOnSuccessListener(taskGet -> {
+                                    if (task2.getValue() != null) {
+                                        CryptedMessage msgCrypte = taskGet.getValue(CryptedMessage.class);
+                                        Message msg = null;
+                                        if (msgCrypte.getAlgorithm() != null) {
+                                            if (msgCrypte.getAlgorithm().equals(Algorithm.RSA))
+                                                msg = new Message(msgCrypte, RSADecrypter, true, true);
+                                            else if (msgCrypte.getAlgorithm().equals(Algorithm.AES))
+                                                msg = new Message(msgCrypte, AESDecrypter, true, true);
+                                            else
+                                                Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
+                                            if (msg != null) {
+                                                Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
+                                                UserClientSide userClientSide = database.userDao().getUserById(conv.getIdCorrespondant());
+                                                Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
+                                                intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
+                                                intent.putExtra("ID_USER", conv.getIdCorrespondant());
+                                                notifier.sendNotification(userClientSide.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
+                                                users.add(userClientSide);
+                                                registerUser(userClientSide);
+                                            }
+                                        }
+                                    }
+                                });
+                                ref.removeValue();
+                            }
+                        });
+                    });
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i("DIM", "onStartCommand: Service");
+        return START_STICKY;
+    }
+
+    protected void registerUser(UserClientSide user){
+        DatabaseReference ref = firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).child(user.getIdUser());
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.getValue() != null) {
                     CryptedMessage msgCrypte = snapshot.getValue(CryptedMessage.class);
                     Message msg = null;
-                    if (msgCrypte.getAlgorithm()!=null){
+                    if (msgCrypte.getAlgorithm() != null) {
                         if (msgCrypte.getAlgorithm().equals(Algorithm.RSA))
                             msg = new Message(msgCrypte, RSADecrypter, true, true);
                         else if (msgCrypte.getAlgorithm().equals(Algorithm.AES))
@@ -113,58 +220,32 @@ public class AppService extends IntentService {
             }
         });
 
-            firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
+        firebaseDB.child("keys").child("RSA").child(user.getIdUser()).addChildEventListener(new ChildEventListener() {
 
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    database.userDao().addRSAPublicKeyToUser(snapshot.getRef().getParent().getKey(), snapshot.getValue(String.class));
-                }
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                database.userDao().addRSAPublicKeyToUser(snapshot.getRef().getParent().getKey(), snapshot.getValue(String.class));
+            }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                }
+            }
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-        }
-        new Thread(deleteMessagesLooper).start();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        for (ChildEventListener listener: listeners) {
-//            firebaseDB.addChildEventListener(listener);
-//        }
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
-    }
-
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("DIM", "onStartCommand: Service");
-        return START_STICKY;
+            }
+        });
     }
 
     public class LocalBinder extends Binder {
