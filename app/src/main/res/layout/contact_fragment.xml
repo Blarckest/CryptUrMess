@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:id="@+id/c_fragment">
+    android:id="@+id/c_fragment"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <FrameLayout
         android:layout_width="50dp"

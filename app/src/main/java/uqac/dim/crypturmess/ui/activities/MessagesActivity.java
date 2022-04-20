@@ -183,7 +183,6 @@ public class MessagesActivity extends AppCompatActivity {
             return;
         }
         Location location = locationManager.getLastKnownLocation(provider);
-
         String coord = Double.toString(location.getLatitude()) + Double.toString(location.getLongitude());
         ((EditText) findViewById(R.id.m_enter_message)).setText(coord);
         Log.i("LOCATION", coord);

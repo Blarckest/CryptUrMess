@@ -7,8 +7,7 @@
     tools:context=".ui.activities.ContactActivity"
     android:id="@+id/c_linear_contact"
     android:orientation="vertical"
-    android:background="@color/grey"
-    >
+    style="@style/Theme.CryptUrMess.forLinearLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +49,7 @@
                 android:id="@+id/c_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/grey"
+                android:background="?attr/selectableItemBackground"
                 android:text="@string/send"
                 android:textColor="@color/purple_500"
                 android:src="@drawable/ic_baseline_settings_24"
@@ -82,7 +81,10 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <fragment
@@ -100,7 +102,7 @@
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_baseline_add_24"
                     android:onClick="addContact"
-                    android:background="@color/green"/>
+                    style="@style/Theme.CryptUrMess"/>
             </FrameLayout>
 
         </androidx.cardview.widget.CardView>

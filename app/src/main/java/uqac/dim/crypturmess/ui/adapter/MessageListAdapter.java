@@ -100,7 +100,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         @SuppressLint("ResourceAsColor")
         void bind(Message message) {
             messageText.setText(message.getMessage());
-            messageText.setBackgroundResource(R.color.green);
+            messageText.setBackgroundResource(R.drawable.bubble_right);
             timeText.setText(dateFormat.format(new Date(message.getTimestamp())));// DateUtils.formatDateTime(itemView.getContext(), message.getTimestamp(),0)
             linear.setGravity(Gravity.END);
         }
@@ -122,7 +122,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         @SuppressLint("ResourceAsColor")
         void bind(Message message) {
             messageText.setText(message.getMessage());
-            messageText.setBackgroundResource(R.color.grey_200);
+            messageText.setBackgroundResource(R.drawable.bubble_left);
             messageText.setTextColor(R.color.black);
             timeText.setText(dateFormat.format(new Date(message.getTimestamp())));
             linear.setGravity(Gravity.START);
