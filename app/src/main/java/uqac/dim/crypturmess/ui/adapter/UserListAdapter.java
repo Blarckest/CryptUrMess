@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -74,7 +75,7 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
             vi = layoutInflater.inflate(R.layout.contact_fragment, null);
             ((TextView)vi.findViewById(R.id.c_user_name)).setText(nickname+"("+getItem(i).getUsername()+")");
             ((TextView)vi.findViewById(R.id.c_user_letter_frag)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
-            ((ImageView)vi.findViewById(R.id.c_user_icon)).setImageResource(new UserBGManager().getBackgroundByUserName(nickname));
+            ((FrameLayout)vi.findViewById(R.id.c_user_bg)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
         }
         return vi;
     }

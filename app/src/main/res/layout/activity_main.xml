@@ -19,16 +19,10 @@
         android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="50dp"
-            android:elevation="0dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round"
-                android:id="@+id/c_img_icon_user" />
+        <FrameLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/c_user_bg_contact">
 
             <TextView
                 android:id="@+id/c_user_letter_contact"
@@ -36,10 +30,10 @@
                 android:layout_height="wrap_content"
                 android:text="🐟"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textSize="25dp"
+                android:textSize="30dp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"/>
-        </androidx.cardview.widget.CardView>
+        </FrameLayout>
 
 
         <TextView
@@ -48,26 +42,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:padding="5dp"
+            android:textSize="18dp"
             android:text="🐟🐟🐟🐟🐟🐟🐟🐟🐟🐟" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="0dp"
-            android:layout_weight="1">
 
             <ImageButton
                 android:id="@+id/c_settings"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/grey"
                 android:text="@string/send"
                 android:textColor="@color/purple_500"
                 android:src="@drawable/ic_baseline_settings_24"
                 android:onClick="settings" />
-        </androidx.cardview.widget.CardView>
-
 
     </LinearLayout>
 
