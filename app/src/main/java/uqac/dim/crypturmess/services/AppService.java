@@ -82,7 +82,7 @@ public class AppService extends IntentService {
                             User userTask = task.getResult().getValue(User.class);
                             if (userTask != null) {
                                 UserClientSide friend = new UserClientSide(userTask, "");
-                                database.userDao().insert(friend);
+                                database.userDao().insertAndNotify(friend);
                                 database.conversationDao().insert(new Conversation(friend.getIdUser()));
                             }
                         }

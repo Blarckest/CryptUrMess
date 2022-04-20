@@ -18,6 +18,8 @@ import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Observable;
+import java.util.Observer;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
@@ -28,10 +30,11 @@ import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.adapter.UserListAdapter;
 
-public class FragmentContact extends ListFragment {
+public class FragmentContact extends ListFragment implements Observer {
     private AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
     private UserListAdapter adapter;
     private ArrayList<UserClientSide> users;
+    private AppLocalDatabase database=AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class FragmentContact extends ListFragment {
         Intent intent = new Intent(getActivity(), MessagesActivity.class);
         intent.putExtra("ID_USER", user.getIdUser());
         intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
+
         startActivity(intent);
     }
 
@@ -77,18 +81,21 @@ public class FragmentContact extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        users= new ArrayList<>(Arrays.asList(AppLocalDatabase.getInstance(CrypturMessApplication.getContext()).userDao().getFriends()));
+        users= new ArrayList<>(Arrays.asList(database.userDao().getFriends()));
         adapter = new UserListAdapter(getActivity(), users);
+        database.userDao().addObserver(this);
         setListAdapter(adapter);
         registerForContextMenu(getListView());
     }
 
-//    LiveData<UserClientSide> getData(){
-//       // return new Transformations.distinctUntilChanged(LiveData<UserClientSide> );
-//    }
-
     public void filter(CharSequence query) {
         adapter.clear();
         adapter.getFilter().filter(query);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        adapter.add((UserClientSide) o);
+        setListAdapter(adapter);
     }
 }
