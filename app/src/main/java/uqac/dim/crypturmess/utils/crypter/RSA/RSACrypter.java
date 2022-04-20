@@ -11,6 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
+import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.utils.crypter.Algorithm;

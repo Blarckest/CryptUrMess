@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     toast.show();
                 }
             }).addOnSuccessListener(task->{
-                pushKeys();
+                databaseHelper.pushRSAPublicKey();
                 SharedPreferencesHelper sharedPreferencesHelper= new SharedPreferencesHelper();
                 sharedPreferencesHelper.setValue(R.string.userIDSharedPref, authManager.getCurrentUser().getUid());
                 databaseHelper.getUser(authManager.getCurrentUser().getUid()).addOnSuccessListener(taskNickname -> {
@@ -105,9 +105,5 @@ public class LoginActivity extends AppCompatActivity {
            Toast toast = Toast.makeText(LoginActivity.this, R.string.error_mail, Toast.LENGTH_SHORT);
            toast.show();
        }
-    }
-    public void pushKeys(){
-        IDatabaseHelper dbHelper=new FirebaseHelper();
-        dbHelper.pushRSAPublicKey();
     }
 }

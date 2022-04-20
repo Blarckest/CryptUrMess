@@ -25,7 +25,8 @@ public class FirebaseHelper implements IDatabaseHelper {
 
     @Override
     public void pushRSAPublicKey() {
-        db.child("keys").child("RSA").child(authManager.getCurrentUser().getUid()).setValue(Base64.encodeToString(keysManager.getPublicKey().getEncoded(),Base64.DEFAULT));
+        db.child("keys").child("RSA").child(authManager.getCurrentUser().getUid()).removeValue();
+        db.child("keys").child("RSA").child(authManager.getCurrentUser().getUid()).push().setValue(Base64.encodeToString(keysManager.getPublicKey().getEncoded(),Base64.DEFAULT));
     }
 
     @Override

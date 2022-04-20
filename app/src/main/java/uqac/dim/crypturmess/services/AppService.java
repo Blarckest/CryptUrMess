@@ -85,7 +85,7 @@ public class AppService extends IntentService {
                             Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
                             intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
                             intent.putExtra("ID_USER", conv.getIdCorrespondant());
-                            notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, msg.getMessage().length() > 50 ? 50 : msg.getMessage().length()) + "...", intent);
+                            notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
                         }
                     }
                 }
@@ -117,12 +117,11 @@ public class AppService extends IntentService {
 
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                    database.userDao().addRSAPublicKeyToUser(snapshot.getRef().getParent().getKey(), snapshot.getValue(String.class));
                 }
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    database.userDao().addRSAPublicKeyToUser(user.getIdUser(), snapshot.getValue(String.class));
                 }
 
                 @Override

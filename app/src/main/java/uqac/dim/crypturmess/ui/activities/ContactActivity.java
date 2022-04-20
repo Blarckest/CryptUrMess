@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
+import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.services.AppService;
 import uqac.dim.crypturmess.ui.UserBGManager;
@@ -33,6 +35,7 @@ import uqac.dim.crypturmess.utils.auth.IAuthManager;
 public class ContactActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private IAuthManager authManager=new FirebaseAuthManager();
+    private IDatabaseHelper dbHelper=new FirebaseHelper();
 
 
     @Override
@@ -53,6 +56,7 @@ public class ContactActivity extends AppCompatActivity {
                         ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
                         ((ImageView)findViewById(R.id.c_img_icon_user)).setImageResource(new UserBGManager().getBackgroundByUserName(nickname));
                         ((TextView)findViewById(R.id.c_text_user)).setText(nickname);
+                        dbHelper.pushRSAPublicKey();
                     }
                 }
             });

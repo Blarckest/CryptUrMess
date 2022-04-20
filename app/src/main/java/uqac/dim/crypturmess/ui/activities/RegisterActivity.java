@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity{
                     User user=new User(authManager.getCurrentUser().getUid(),nickname);
                     fbHelper.saveUser(user);
                     Intent intent = new Intent(RegisterActivity.this, ContactActivity.class);
-                    pushKeys();
+                    fbHelper.pushRSAPublicKey();
                     SharedPreferencesHelper sharedPreferencesHelper= new SharedPreferencesHelper();
                     sharedPreferencesHelper.setValue(R.string.userIDSharedPref, authManager.getCurrentUser().getUid());
                     sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, nickname);
@@ -83,10 +83,5 @@ public class RegisterActivity extends AppCompatActivity{
             Toast toast = Toast.makeText(RegisterActivity.this, R.string.error_psw_mail, Toast.LENGTH_SHORT);
             toast.show();
         }
-    }
-
-    public void pushKeys(){
-        IDatabaseHelper dbHelper=new FirebaseHelper();
-        dbHelper.pushRSAPublicKey();
     }
 }

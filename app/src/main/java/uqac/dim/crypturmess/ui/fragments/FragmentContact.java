@@ -64,6 +64,8 @@ public class FragmentContact extends ListFragment {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
              db.userDao().delete(adapter.getItem(info.position));
              adapter.remove(adapter.getItem(info.position));
+//             adapter.clear();
+//             adapter.notifyDataSetChanged();
              return false;
         }
         return false;

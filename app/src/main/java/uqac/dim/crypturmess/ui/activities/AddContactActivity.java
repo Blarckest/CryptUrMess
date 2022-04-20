@@ -60,7 +60,7 @@ public class AddContactActivity extends AppCompatActivity {
         }).addOnSuccessListener(task -> {
             firebaseHelper.getRSAPublicKeyOfUser(idUser).addOnCompleteListener(task1 -> {
                 if (task1.isSuccessful()) {
-                    String publicKey = task1.getResult().getValue(String.class);
+                    String publicKey = task1.getResult().getChildren().iterator().next().getValue(String.class);
                     appLocalDatabase.userDao().addRSAPublicKeyToUser(idUser, publicKey);
                 }
                 else {

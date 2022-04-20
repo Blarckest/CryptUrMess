@@ -6,6 +6,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 
+import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.utils.crypter.Algorithm;
 import uqac.dim.crypturmess.utils.crypter.AlgorithmsSpec;
 import uqac.dim.crypturmess.utils.crypter.CipherInitializer;
