@@ -54,7 +54,7 @@ public class ContactActivity extends AppCompatActivity {
                         startService(new Intent(this, AppService.class));
                         String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
                         ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
-                        ((ImageView)findViewById(R.id.c_img_icon_user)).setImageResource(new UserBGManager().getBackgroundByUserName(nickname));
+                        ((FrameLayout)findViewById(R.id.c_user_bg_contact)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
                         ((TextView)findViewById(R.id.c_text_user)).setText(nickname);
                         dbHelper.pushRSAPublicKey();
                     }

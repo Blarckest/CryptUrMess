@@ -4,9 +4,11 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import uqac.dim.crypturmess.R;
 import uqac.dim.crypturmess.databaseAccess.SharedPreferencesHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.services.AppService;
+import uqac.dim.crypturmess.ui.UserBGManager;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
 import uqac.dim.crypturmess.utils.auth.IAuthManager;
 
@@ -28,10 +31,16 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
         setContentView(R.layout.activity_settings);
-        ((TextView)findViewById(R.id.s_text_user)).setText( new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref));
+        ((TextView)findViewById(R.id.s_text_user)).setText(nickname);
         ((TextView)findViewById(R.id.s_id_user)).setText(new SharedPreferencesHelper().getValue(R.string.userIDSharedPref));
+        ((TextView)findViewById(R.id.s_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
 
+        ((FrameLayout)findViewById(R.id.s_user_bg)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
+
+
+        //frameLayoutBG.setBackground();
     }
 
     public void copyID(View view) {

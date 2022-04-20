@@ -1,30 +1,32 @@
 package uqac.dim.crypturmess.ui;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 
 import uqac.dim.crypturmess.R;
 
 public class UserBGManager {
-    public int getBackgroundByUserName(String username) {
-        int charSeed = 0;
-        for(int i = 0; i < username.length(); i++){
-            charSeed = charSeed + username.charAt(i);
+    public GradientDrawable getBackgroundByUserName(String username) {
+        GradientDrawable bgShape = new GradientDrawable();
+        bgShape.setShape(GradientDrawable.OVAL);
+        bgShape.setOrientation(GradientDrawable.Orientation.TL_BR);
+        //Log.i("HEX", username + " : "+ username.hashCode());
+        long hash = (long) Math.pow(username.hashCode(), 2);
+        hash = hash%879879717;
+        hash = (long) Math.pow(hash,2);
+        String hashHex = Long.toHexString(hash);
+        while (hashHex.length()<9){
+            hashHex = Long.toHexString((long) Math.pow(Long.parseLong(hashHex), 2));
         }
-        int seed = charSeed%6;
-        switch (seed) {
-            case 0:
-                return R.drawable.user_bg1;
-            case 1:
-                return R.drawable.user_bg2;
-            case 2:
-                return R.drawable.user_bg3;
-            case 3:
-                return R.drawable.user_bg4;
-            case 4:
-                return R.drawable.user_bg5;
-            case 5:
-                return R.drawable.user_bg6;
-        }
-        return R.drawable.user_bg1;
+
+        Log.i("HEX", username + " : "+ hashHex);
+
+        int colors[] = {Color.parseColor("#"+ hashHex.subSequence(0,6)),Color.parseColor("#"+hashHex.subSequence(hashHex.length()-7,hashHex.length()-1))};
+
+        bgShape.setColors(colors);
+
+        return bgShape;
     }
 }
