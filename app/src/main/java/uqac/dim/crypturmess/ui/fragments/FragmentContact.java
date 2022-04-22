@@ -34,7 +34,6 @@ public class FragmentContact extends ListFragment implements Observer {
     private AppLocalDatabase db = AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
     private UserListAdapter adapter;
     private ArrayList<UserClientSide> users;
-    private AppLocalDatabase database=AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,21 +80,27 @@ public class FragmentContact extends ListFragment implements Observer {
     @Override
     public void onResume() {
         super.onResume();
-        users= new ArrayList<>(Arrays.asList(database.userDao().getFriends()));
+        users= new ArrayList<>(Arrays.asList(db.userDao().getFriends()));
         adapter = new UserListAdapter(getActivity(), users);
-        database.userDao().addObserver(this);
+        db.userDao().addObserver(this);
+        db.messageDao().addObserver(this);
         setListAdapter(adapter);
         registerForContextMenu(getListView());
     }
 
     public void filter(CharSequence query) {
-        adapter.clear();
-        adapter.getFilter().filter(query);
+        if(adapter != null) {
+            adapter.clear();
+            adapter.getFilter().filter(query);
+        }
     }
 
     @Override
     public void update(Observable observable, Object o) {
-        adapter.add((UserClientSide) o);
+        if(o instanceof UserClientSide) {
+            adapter.add((UserClientSide) o);
+        }
         setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

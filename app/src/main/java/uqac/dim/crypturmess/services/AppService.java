@@ -55,6 +55,7 @@ public class AppService extends IntentService {
     private Notifier notifier = null;
     private DeleteMessagesLooper deleteMessagesLooper = new DeleteMessagesLooper();
     private IDatabaseHelper fbHelper = new FirebaseHelper();
+    private int hashLastMessage = 0;
 
     public AppService() {
         super("AppService");
@@ -108,7 +109,8 @@ public class AppService extends IntentService {
                                                 msg = new Message(msgCrypte, AESDecrypter, true, true);
                                             else
                                                 Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
-                                            if (msg != null) {
+                                            int hash=msg.hashCode();
+                                            if (msg != null && hash!=hashLastMessage) {
                                                 Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                                                 UserClientSide userClientSide = database.userDao().getUserById(conv.getIdCorrespondant());
                                                 Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
@@ -117,6 +119,7 @@ public class AppService extends IntentService {
                                                 notifier.sendNotification(userClientSide.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
                                                 users.add(userClientSide);
                                                 registerUser(userClientSide);
+                                                hashLastMessage = hash;
                                             }
                                         }
                                     }
@@ -186,13 +189,15 @@ public class AppService extends IntentService {
                             msg = new Message(msgCrypte, AESDecrypter, true, true);
                         else
                             Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
-                        if (msg != null) {
+                        int hash=msg.hashCode();
+                        if (msg != null && hash!=hashLastMessage) {
                             Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                             UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
                             Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
                             intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
                             intent.putExtra("ID_USER", conv.getIdCorrespondant());
                             notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
+                            hashLastMessage=hash;
                         }
                     }
                 }

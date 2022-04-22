@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
@@ -69,7 +70,7 @@ public class Message {
         this.timestamp = message.getTimestamp();
         this.isReceived = isReceived;
         if(insertIntoDatabase) {
-            db.messageDao().insert(this);
+            db.messageDao().insertAndNotify(this);
         }
         else {
             this.idMessage = -1;
@@ -134,5 +135,18 @@ public class Message {
 
     public void setReceived(boolean isReceived) {
         this.isReceived = isReceived;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+        Message message1 = (Message) o;
+        return getTimestamp() == message1.getTimestamp() && isReceived() == message1.isReceived() && getMessage().equals(message1.getMessage());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMessage(), getTimestamp());
     }
 }

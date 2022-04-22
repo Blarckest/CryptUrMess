@@ -21,19 +21,22 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import uqac.dim.crypturmess.CrypturMessApplication;
 import uqac.dim.crypturmess.R;
+import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
 import uqac.dim.crypturmess.ui.UserBGManager;
 
 public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Filterable {
 
-    Activity activity;
-    ArrayList<UserClientSide> users;
-    ArrayList<UserClientSide> allUsers;
-    ArrayList<UserClientSide> res;
-    LayoutInflater layoutInflater = null;
-    CustomFilter filter;
+    private Activity activity;
+    private ArrayList<UserClientSide> users;
+    private ArrayList<UserClientSide> allUsers;
+    private ArrayList<UserClientSide> res;
+    private LayoutInflater layoutInflater = null;
+    private CustomFilter filter;
+    private AppLocalDatabase db=AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
 
     @NonNull
     @Override
@@ -76,6 +79,8 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
             ((TextView)vi.findViewById(R.id.c_user_name)).setText(nickname+"("+getItem(i).getUsername()+")");
             ((TextView)vi.findViewById(R.id.c_user_letter_frag)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
             ((FrameLayout)vi.findViewById(R.id.c_user_bg)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
+            String text=db.messageDao().getLastMessageFromConv(db.conversationDao().getConversation(getItem(i).getIdUser()).getIdConversation());
+            ((TextView)vi.findViewById(R.id.c_last_msg)).setText(text==null?"":text);//todo last message
         }
         return vi;
     }

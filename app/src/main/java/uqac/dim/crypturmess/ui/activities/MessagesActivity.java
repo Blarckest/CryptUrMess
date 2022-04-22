@@ -88,13 +88,13 @@ public class MessagesActivity extends AppCompatActivity {
                             if (msgCrypte.getAlgorithm() != null) {
                                 if (msgCrypte.getAlgorithm().equals(Algorithm.RSA)) {
                                     msg = new Message(msgCrypte, RSADecrypter, false, true);
-                                    m = p.matcher((CharSequence) msg);
-                                    Toast.makeText(getApplicationContext(), (CharSequence) msg, Toast.LENGTH_LONG).show();
+                                    //m = p.matcher((CharSequence) msg);
+                                    //Toast.makeText(getApplicationContext(), (CharSequence) msg, Toast.LENGTH_LONG).show();
                                 }
                                 else if (msgCrypte.getAlgorithm().equals(Algorithm.AES)) {
                                     msg = new Message(msgCrypte, AESDecrypter, false, true);
-                                    m = p.matcher((CharSequence) msg);
-                                    Toast.makeText(getApplicationContext(), (CharSequence) msg, Toast.LENGTH_LONG).show();
+                                    //m = p.matcher((CharSequence) msg);
+                                    //Toast.makeText(getApplicationContext(), (CharSequence) msg, Toast.LENGTH_LONG).show();
                                 }
                                 else
                                     Log.e("DIM", "onChildAdded: Bad algorithm while receiving");

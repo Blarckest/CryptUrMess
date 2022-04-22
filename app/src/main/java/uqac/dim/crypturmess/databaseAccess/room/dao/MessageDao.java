@@ -4,21 +4,40 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
+
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import uqac.dim.crypturmess.model.entity.Message;
 
 @Dao
-public interface MessageDao {
+public abstract class MessageDao extends Observable {
+    private ArrayList<Observer> observers = new ArrayList<>();
     @Delete
-    void delete(Message message);
+    public abstract void delete(Message message);
     @Query("DELETE FROM Message WHERE id_message = :id")
-    void deleteById(int id);
+    public abstract void deleteById(int id);
     @Insert
-    void insert(Message message);
+    public abstract void insert(Message message);
     @Insert
-    void insertAll(Message... messages);
+    public abstract void insertAll(Message... messages);
     @Query("DELETE FROM message WHERE timestamp < :date") //J-1
-    void deleteOldMessages(long date);
+    public abstract void deleteOldMessages(long date);
     @Query("SELECT * FROM message WHERE id_conversation = :convID ORDER BY timestamp ASC")
-    Message[] getAllMessagesByConvId(int convID);
+    public abstract Message[] getAllMessagesByConvId(int convID);
+    @Query("SELECT message_content FROM message WHERE id_conversation = :convID ORDER BY timestamp DESC LIMIT 1")
+    public abstract String getLastMessageFromConv(int convID);
+    @Transaction
+    public void insertAndNotify(Message message){
+        insert(message);
+        for (Observer observer : observers) {
+            observer.update(this, message);
+        }
+    }
+    public void addObserver(Observer observer){
+        observers.add(observer);
+    }
+
 }
