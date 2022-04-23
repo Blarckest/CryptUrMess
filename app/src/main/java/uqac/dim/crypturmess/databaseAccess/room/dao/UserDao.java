@@ -26,6 +26,8 @@ public abstract class UserDao extends Observable {
     public abstract UserClientSide getUserById(String id);
     @Query("UPDATE user SET RSA_public_key=:key WHERE id_user=:id ")
     public abstract void addRSAPublicKeyToUser(String id, String key);
+    @Query("UPDATE user SET username=:username WHERE id_user=:id")
+    public abstract void rename(String id, String username);
     @Transaction
     public void insertAndNotify(UserClientSide user){
         insert(user);

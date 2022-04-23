@@ -32,5 +32,7 @@
     <string name="id_copied">ID copied</string>
     <string name="logout">Logout</string>
     <string name="delete_contact">Delete</string>
+    <string name="rename_contact">Rename</string>
+    <string name="new_name_str">New name</string>
 
 </resources>

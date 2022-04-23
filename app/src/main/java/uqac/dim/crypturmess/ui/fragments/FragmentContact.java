@@ -1,5 +1,6 @@
 package uqac.dim.crypturmess.ui.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -8,10 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Transformation;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -73,6 +76,30 @@ public class FragmentContact extends ListFragment implements Observer {
              adapter.remove(adapter.getItem(info.position));
              setListAdapter(adapter);
              return false;
+        }
+        if (item.getItemId() == R.id.menu_c_contact_rename) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+            alert.setTitle(R.string.rename_contact);
+            alert.setMessage(R.string.new_name_str);
+
+            final EditText input = new EditText(getActivity());
+            input.setText(adapter.getItem(info.position).getUsername());
+            alert.setView(input);
+
+            alert.setPositiveButton("Ok", (dialog, whichButton) -> {
+                db.userDao().rename(adapter.getItem(info.position).getIdUser(),input.getText().toString());
+                adapter.getItem(info.position).setUsername(input.getText().toString());
+                setListAdapter(adapter);
+            });
+
+            alert.setNegativeButton("Cancel", (dialog, whichButton) -> {
+                // Canceled.
+            });
+
+            alert.show();
+            return false;
         }
         return false;
     }

@@ -6,4 +6,6 @@
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="error_mail">Invalid email</string>
     <string name="delete_contact">Delete</string>
+    <string name="rename_contact">Rename</string>
+    <string name="new_name_str">New name</string>
 </resources>
