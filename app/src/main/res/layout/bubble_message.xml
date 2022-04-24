@@ -7,18 +7,6 @@
     android:orientation="vertical"
     android:id="@+id/mg_linear">
 
-    <!--<TextView
-        android:id="@+id/bm_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="4dp"
-        android:text="janv 1970"
-        android:textColor="#C0C0C0" />-->
-
     <FrameLayout
         android:id="@+id/mg_bubble"
         android:layout_width="wrap_content"
@@ -32,17 +20,17 @@
             android:layout_height="wrap_content"
 
             android:maxWidth="260dp"
+            android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:paddingBottom="5dp"
             android:text="@string/unknown"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
 
-</FrameLayout>
+    </FrameLayout>
+
     <TextView
         android:id="@+id/mg_time"
         android:layout_width="wrap_content"
@@ -53,6 +41,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/card_gchat_message_me"
         app:layout_constraintEnd_toStartOf="@+id/card_gchat_message_me"
         tools:ignore="SmallSp" />
+
+    <Button
+        android:id="@+id/buttonOpenInMaps"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="openInMaps"
+        android:paddingVertical="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        tools:text="Open in Maps" />
 
 
 </LinearLayout>
