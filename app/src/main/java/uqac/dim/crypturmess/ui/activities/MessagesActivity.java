@@ -178,16 +178,15 @@ public class MessagesActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // Check that if the GPS and Network are available or not and if both are available then we use one with greater accuracy.
-        /*boolean hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         String provider;
         if (hasGps)
-            provider = LocationManager.GPS_PROVIDER;
+            provider = LocationManager.NETWORK_PROVIDER;
         else
-            provider = LocationManager.NETWORK_PROVIDER;*/
+            provider = LocationManager.GPS_PROVIDER;
 
-        String provider = LocationManager.NETWORK_PROVIDER;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -199,23 +198,34 @@ public class MessagesActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return null;
         }
-        Location location = locationManager.getLastKnownLocation(provider);
-        return new Pair<Double, Double>(location.getLatitude(), location.getLongitude());
+        try {
+            Location location = locationManager.getLastKnownLocation(provider);
+            Log.i("DIM", Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()) + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            return new Pair<Double, Double>(location.getLatitude(), location.getLongitude());
+        }
+        catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), "Impossible de récupérer les coordonnées GPS", Toast.LENGTH_LONG).show();
+            return new Pair<Double, Double>(null, null);
+        }
     }
 
     public void setUserLocation() {
         Pair<Double, Double> pcoord = getUserLocation();
-        String coord = Double.toString(pcoord.first) + " ; " + Double.toString(pcoord.second);
-        ((EditText) findViewById(R.id.m_enter_message)).setText(coord);
-        Log.i("LOCATION", coord);
+        if (pcoord.first != null && pcoord.second != null) {
+            String coord = Double.toString(pcoord.first) + " ; " + Double.toString(pcoord.second);
+            ((EditText) findViewById(R.id.m_enter_message)).setText(coord);
+            Log.i("LOCATION", coord);
+        }
     }
 
     public void openInMaps(View view) {
         Pair<Double, Double> pcoord = getUserLocation();
-        Uri navigationIntentUri = Uri.parse("google.navigation:q=" + Double.toString(pcoord.first) +"," + Double.toString(pcoord.second));
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        if (pcoord.first != null && pcoord.second != null) {
+            Uri navigationIntentUri = Uri.parse("google.navigation:q=" + Double.toString(pcoord.first) + "," + Double.toString(pcoord.second));
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        }
     }
 
     @Override
@@ -231,7 +241,7 @@ public class MessagesActivity extends AppCompatActivity {
                     setUserLocation();
 
                 } else {
-                   Toast.makeText(getApplicationContext(), "Impossible de récupérer la locatlisation actuellement", Toast.LENGTH_LONG).show();
+                   Toast.makeText(getApplicationContext(), "Impossible de récupérer la localisation actuellement", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
