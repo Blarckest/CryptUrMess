@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -63,9 +64,10 @@ public class Notifier{
            Notification n  = new Notification.Builder(context, CHANNEL_ID)
                    .setContentTitle(title)
                    .setContentText(text)
-                   .setSmallIcon(R.mipmap.ic_launcher)
+                   .setSmallIcon(R.mipmap.ic_cryturmess)
                    .setAutoCancel(true)
                    .setContentIntent(pendingIntent)
+                   .setColor(ContextCompat.getColor(context, R.color.green))
                    //.setFullScreenIntent(pIntent, true)
                    //.setStyle(new Notification.BigTextStyle().bigText(extra_nom))
                    .build();

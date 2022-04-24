@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.transition.Visibility;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -80,7 +81,10 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
             ((TextView)vi.findViewById(R.id.c_user_letter_frag)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
             ((FrameLayout)vi.findViewById(R.id.c_user_bg)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
             String text=db.messageDao().getLastMessageFromConv(db.conversationDao().getConversation(getItem(i).getIdUser()).getIdConversation());
-            ((TextView)vi.findViewById(R.id.c_last_msg)).setText(text==null?"":text);//todo last message
+            if (text != null)
+                ((TextView)vi.findViewById(R.id.c_last_msg)).setText(text);
+            else  ((TextView)vi.findViewById(R.id.c_last_msg)).setVisibility(View.GONE);
+
         }
         return vi;
     }

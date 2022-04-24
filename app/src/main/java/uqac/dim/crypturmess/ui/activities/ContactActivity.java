@@ -72,6 +72,7 @@ public class ContactActivity extends AppCompatActivity {
                     ((FragmentContact)getSupportFragmentManager().findFragmentById(R.id.c_scrollview_fragment)).filter(charSequence);
                 }
 
+
                 @Override
                 public void afterTextChanged(Editable editable) {
 

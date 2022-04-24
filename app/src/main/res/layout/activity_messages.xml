@@ -38,7 +38,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/enter_message"
             android:inputType="text"
-            android:layout_weight="200"
+            android:layout_weight="1000"
             android:maxLines="5" />
 
         <Button
@@ -48,7 +48,7 @@
             android:background="?attr/selectableItemBackground"
             android:onClick="onSendMessage"
             android:text="@string/send"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/green"
             android:layout_weight="1"
             android:textSize="18sp" />
     </LinearLayout>
