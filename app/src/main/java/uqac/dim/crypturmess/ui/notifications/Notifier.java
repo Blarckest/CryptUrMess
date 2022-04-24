@@ -28,9 +28,13 @@ import uqac.dim.crypturmess.model.entity.UserClientSide;
 
 public class Notifier{
     private static String CHANNEL_ID = "id_01";
-    private static String CHANNEL_NAME = "notifier";
+    private static String CHANNEL_ID_CONSTANT_NOTIF = "id_02";
+    private static String CHANNEL_NAME = "messages";
+    private static String CHANNEL_NAME_CONSTANT_NOTIF = "run_notif";
     private static String CHANNEL_DESCRIPTION = "notif";
+    private static String CHANNEL_DESCRIPTION_CONSTANT_NOTIF = "run_notif";
     private static int NOTIFICATION_ID = 42;
+    private static int NOTIFICATION_ID_CONSTANT_NOTIF = 43;
     private NotificationManager notifManager;
     private Context context;
     private AppLocalDatabase db=AppLocalDatabase.getInstance(CrypturMessApplication.getContext());
@@ -45,11 +49,14 @@ public class Notifier{
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notifManager = context.getSystemService(NotificationManager.class);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
             channel.setDescription(CHANNEL_DESCRIPTION);
-            notifManager = context.getSystemService(NotificationManager.class);
+            NotificationChannel channel2 = new NotificationChannel(CHANNEL_ID_CONSTANT_NOTIF, CHANNEL_NAME_CONSTANT_NOTIF, importance);
+            channel2.setDescription(CHANNEL_DESCRIPTION_CONSTANT_NOTIF);
             notifManager.createNotificationChannel(channel);
+            notifManager.createNotificationChannel(channel2);
         }
     }
 
@@ -78,6 +85,21 @@ public class Notifier{
                Log.i("ERROR", e.getMessage(), e);
            }
        }
+    }
+
+    public Notification appNotification(){
+        Notification n  = new Notification.Builder(context, CHANNEL_ID_CONSTANT_NOTIF)
+                .setContentTitle("CrypturMess")
+                .setContentText("CrypturMess is running")
+                .setSmallIcon(R.mipmap.ic_cryturmess)
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(context, R.color.green))
+                .build();
+        return n;
+    }
+
+    public void cancelNotification(int id){
+        notifManager.cancel(id);
     }
 
     public static void blockNotifForUser(String UID){

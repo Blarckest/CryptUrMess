@@ -2,6 +2,7 @@ package uqac.dim.crypturmess.services;
 
 import android.Manifest;
 import android.app.IntentService;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -69,6 +70,7 @@ public class AppService extends IntentService {
     public void onCreate() {
         super.onCreate();
         notifier = new Notifier(this);
+        startForeground(1,notifier.appNotification());
         for (UserClientSide user : users) {
             registerUser(user);
         }
@@ -155,7 +157,12 @@ public class AppService extends IntentService {
 
     @Override
     public void onDestroy() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("restartservice");
+        broadcastIntent.setClass(this, Restarter.class);
+        this.sendBroadcast(broadcastIntent);
         super.onDestroy();
+
     }
 
     @Override

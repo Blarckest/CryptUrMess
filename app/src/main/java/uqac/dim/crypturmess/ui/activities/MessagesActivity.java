@@ -99,9 +99,9 @@ public class MessagesActivity extends AppCompatActivity {
                                 else
                                     Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
 
-                                if (m.find()) {
-                                    Toast.makeText(getApplicationContext(), "Coucou la zone", Toast.LENGTH_LONG).show();
-                                }
+                                //if (m.find()) {
+                                  //  Toast.makeText(getApplicationContext(), "Coucou la zone", Toast.LENGTH_LONG).show();
+                                //}
                                 adapter.addMessage(msg);
                                 ((RecyclerView) findViewById(R.id.m_recycle)).scrollToPosition(adapter.getItemCount() - 1);
                             }

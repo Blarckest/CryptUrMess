@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaDataSource;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import uqac.dim.crypturmess.databaseAccess.firebase.FirebaseHelper;
 import uqac.dim.crypturmess.databaseAccess.firebase.IDatabaseHelper;
 import uqac.dim.crypturmess.databaseAccess.room.AppLocalDatabase;
 import uqac.dim.crypturmess.services.AppService;
+import uqac.dim.crypturmess.services.Restarter;
 import uqac.dim.crypturmess.ui.UserBGManager;
 import uqac.dim.crypturmess.ui.fragments.FragmentContact;
 import uqac.dim.crypturmess.utils.auth.FirebaseAuthManager;
@@ -51,7 +54,9 @@ public class ContactActivity extends AppCompatActivity {
                     }
                     else {
                         Log.d("DIM", "onAuthStateChanged: user is logged in (" + authManager.getCurrentUser().getUid() + ")");
-                        startService(new Intent(this, AppService.class));
+                        if (!isMyServiceRunning(AppService.class)) {
+                            startService(new Intent(this, AppService.class));
+                        }
                         String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
                         ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
                         ((FrameLayout)findViewById(R.id.c_user_bg_contact)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
@@ -86,6 +91,15 @@ public class ContactActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("restartservice");
+        broadcastIntent.setClass(this, Restarter.class);
+        this.sendBroadcast(broadcastIntent);
+        super.onDestroy();
+    }
+
     public void addContact(View view) {
         Intent intent = new Intent(ContactActivity.this, AddContactActivity.class);
         startActivity(intent);
@@ -94,5 +108,17 @@ public class ContactActivity extends AppCompatActivity {
     public void settings(View view) {
         Intent intent = new Intent(ContactActivity.this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("Service status", "Running");
+                return true;
+            }
+        }
+        Log.i ("Service status", "Not running");
+        return false;
     }
 }
