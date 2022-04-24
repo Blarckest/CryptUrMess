@@ -193,6 +193,7 @@ public class MessagesActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return null;
         }
+
         try {
             Location location = locationManager.getLastKnownLocation(provider);
             Log.i("DIM", Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
