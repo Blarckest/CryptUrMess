@@ -57,6 +57,13 @@ public class ContactActivity extends AppCompatActivity {
                         if (!isMyServiceRunning(AppService.class)) {
                             startService(new Intent(this, AppService.class));
                         }
+                        if (getIntent().getExtras() != null) {
+                            Intent intent = new Intent(this, MessagesActivity.class);
+                            intent.putExtra("ID_USER", getIntent().getExtras().getString("ID_USER"));
+                            intent.putExtra("ID_CONVERSATION", getIntent().getExtras().getInt("ID_CONVERSATION"));
+                            startActivity(intent);
+
+                        }
                         String nickname = new SharedPreferencesHelper().getValue(R.string.nicknameSharedPref);
                         ((TextView)findViewById(R.id.c_user_letter_contact)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
                         ((FrameLayout)findViewById(R.id.c_user_bg_contact)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));

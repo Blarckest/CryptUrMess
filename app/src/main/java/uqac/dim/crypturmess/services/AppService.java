@@ -36,6 +36,7 @@ import uqac.dim.crypturmess.model.entity.CryptedMessage;
 import uqac.dim.crypturmess.model.entity.Message;
 import uqac.dim.crypturmess.model.entity.User;
 import uqac.dim.crypturmess.model.entity.UserClientSide;
+import uqac.dim.crypturmess.ui.activities.ContactActivity;
 import uqac.dim.crypturmess.ui.activities.MessagesActivity;
 import uqac.dim.crypturmess.ui.notifications.Notifier;
 import uqac.dim.crypturmess.utils.crypter.AES.AESDecrypter;
@@ -115,7 +116,7 @@ public class AppService extends IntentService {
                                             if (msg != null && hash!=hashLastMessage) {
                                                 Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                                                 UserClientSide userClientSide = database.userDao().getUserById(conv.getIdCorrespondant());
-                                                Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
+                                                Intent intent = new Intent(CrypturMessApplication.getContext(), ContactActivity.class);
                                                 intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
                                                 intent.putExtra("ID_USER", userClientSide.getIdUser());
                                                 notifier.sendNotification(userClientSide.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
@@ -200,9 +201,9 @@ public class AppService extends IntentService {
                         if (msg != null && hash!=hashLastMessage) {
                             Conversation conv = database.conversationDao().getConversationById(msg.getIdConversation());
                             UserClientSide user = database.userDao().getUserById(conv.getIdCorrespondant());
-                            Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
+                            Intent intent = new Intent(CrypturMessApplication.getContext(), ContactActivity.class);
                             intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
-                            intent.putExtra("ID_USER", conv.getIdCorrespondant());
+                            intent.putExtra("ID_USER", user.getIdUser());
                             notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
                             hashLastMessage=hash;
                         }
