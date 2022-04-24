@@ -109,13 +109,18 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             Matcher m;
             m = p.matcher(message.getMessage());
 
-            if (m.find()) {
-                Toast.makeText(mContext.getApplicationContext(), "Coordonnes GPS envoyées", Toast.LENGTH_LONG).show();
-                openinmaps.setTag(message);
+            /*if (m.find()) {
+                //openinmaps.setTag(message);
             }
             else {
                 openinmaps.setVisibility(View.GONE);
+            }*/
+
+            if (m.find()) {
+                messageText.setTextColor(R.color.teal_700);
+                messageText.setTag(message.getMessage());
             }
+
 
             messageText.setText(message.getMessage());
             messageText.setBackgroundResource(R.drawable.bubble_right);
@@ -145,12 +150,16 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             Matcher m;
             m = p.matcher(message.getMessage());
 
-            if (m.find()) {
-                Toast.makeText(mContext.getApplicationContext(), "Coordonnes GPS reçues", Toast.LENGTH_LONG).show();
+            /*if (m.find()) {
                 openinmaps.setTag(message);
             }
             else {
                 openinmaps.setVisibility(View.GONE);
+            }*/
+
+            if (m.find()) {
+                messageText.setTextColor(R.color.teal_700);
+                messageText.setTag(message.getMessage());
             }
 
             messageText.setText(message.getMessage());

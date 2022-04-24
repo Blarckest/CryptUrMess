@@ -16,9 +16,9 @@
 
         <TextView
             android:id="@+id/mg_message"
+            android:onClick="openInMaps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:maxWidth="260dp"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -44,13 +44,14 @@
 
     <Button
         android:id="@+id/buttonOpenInMaps"
-        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="openInMaps"
         android:paddingVertical="0dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
+        android:textColor="@color/black"
+        android:visibility="gone"
         tools:text="Open in Maps" />
 
 
