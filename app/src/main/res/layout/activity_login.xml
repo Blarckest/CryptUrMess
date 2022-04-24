@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@mipmap/ic_crypturmess_round"
         android:id="@+id/l_icon"/>
 
     <TextView
@@ -59,8 +59,7 @@
         android:id="@+id/l_forget_password_button"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:paddingLeft="75dp"
-        android:paddingRight="75dp"
+
         android:text="@string/forgot_your_password"
         android:textSize="10dp"
         android:onClick="clickOnForgotPassword"/>
