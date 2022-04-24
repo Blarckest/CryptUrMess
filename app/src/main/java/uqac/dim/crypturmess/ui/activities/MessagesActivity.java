@@ -11,7 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -78,8 +82,6 @@ public class MessagesActivity extends AppCompatActivity {
 
         firebaseDB.child("messages").child(sharedPreferencesHelper.getValue(R.string.userIDSharedPref)).child(id_user).addChildEventListener(
                 new ChildEventListener() {
-                    Pattern p = Pattern.compile("[+-]?[0-9]{2}\\.[0-9]{7} ; [+-]?[0-9]{2}\\.[0-9]{7}");
-                    Matcher m;
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         if (snapshot.getValue() != null) {
@@ -88,20 +90,13 @@ public class MessagesActivity extends AppCompatActivity {
                             if (msgCrypte.getAlgorithm() != null) {
                                 if (msgCrypte.getAlgorithm().equals(Algorithm.RSA)) {
                                     msg = new Message(msgCrypte, RSADecrypter, false, true);
-                                    //m = p.matcher((CharSequence) msg);
-                                    //Toast.makeText(getApplicationContext(), (CharSequence) msg, Toast.LENGTH_LONG).show();
                                 }
                                 else if (msgCrypte.getAlgorithm().equals(Algorithm.AES)) {
                                     msg = new Message(msgCrypte, AESDecrypter, false, true);
-                                    //m = p.matcher((CharSequence) msg);
-                                    //Toast.makeText(getApplicationContext(), (CharSequence) msg, Toast.LENGTH_LONG).show();
                                 }
                                 else
                                     Log.e("DIM", "onChildAdded: Bad algorithm while receiving");
 
-                                if (m.find()) {
-                                    Toast.makeText(getApplicationContext(), "Coucou la zone", Toast.LENGTH_LONG).show();
-                                }
                                 adapter.addMessage(msg);
                                 ((RecyclerView) findViewById(R.id.m_recycle)).scrollToPosition(adapter.getItemCount() - 1);
                             }
@@ -200,7 +195,7 @@ public class MessagesActivity extends AppCompatActivity {
         }
         try {
             Location location = locationManager.getLastKnownLocation(provider);
-            Log.i("DIM", Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()) + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            Log.i("DIM", Double.toString(location.getLatitude()) + " " + Double.toString(location.getLongitude()));
             return new Pair<Double, Double>(location.getLatitude(), location.getLongitude());
         }
         catch (NullPointerException e) {
@@ -212,19 +207,25 @@ public class MessagesActivity extends AppCompatActivity {
     public void setUserLocation() {
         Pair<Double, Double> pcoord = getUserLocation();
         if (pcoord.first != null && pcoord.second != null) {
-            String coord = Double.toString(pcoord.first) + " ; " + Double.toString(pcoord.second);
+            String coord = Double.toString(pcoord.first) + "," + Double.toString(pcoord.second);
             ((EditText) findViewById(R.id.m_enter_message)).setText(coord);
             Log.i("LOCATION", coord);
         }
     }
 
     public void openInMaps(View view) {
-        Pair<Double, Double> pcoord = getUserLocation();
-        if (pcoord.first != null && pcoord.second != null) {
-            Uri navigationIntentUri = Uri.parse("google.navigation:q=" + Double.toString(pcoord.first) + "," + Double.toString(pcoord.second));
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
-            startActivity(mapIntent);
+        if (view.getTag() != null) {
+            // on vérifie que le format de coordonnes est sous la bonne forme
+            Pattern p = Pattern.compile("[+-]?[0-9]{2}\\.[0-9]*,[+-]?[0-9]{2}\\.[0-9]*");
+            Matcher m;
+            m = p.matcher(view.getTag().toString());
+            if (m.find()) {
+                // on ouvre maps
+                Uri navigationIntentUri = Uri.parse("google.navigation:q=" + view.getTag());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
         }
     }
 
@@ -247,10 +248,4 @@ public class MessagesActivity extends AppCompatActivity {
             }
         }
     }
-
-    /*
-    regex pour match les coordonnées GPS
-    2.7
-    ([0-9]{2}\.[0-9]{7}) ; ([0-9]{2}\.[0-9]{7})
-     */
 }
