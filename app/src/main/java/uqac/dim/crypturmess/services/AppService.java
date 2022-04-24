@@ -117,7 +117,7 @@ public class AppService extends IntentService {
                                                 UserClientSide userClientSide = database.userDao().getUserById(conv.getIdCorrespondant());
                                                 Intent intent = new Intent(CrypturMessApplication.getContext(), MessagesActivity.class);
                                                 intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
-                                                intent.putExtra("ID_USER", conv.getIdCorrespondant());
+                                                intent.putExtra("ID_USER", userClientSide.getIdUser());
                                                 notifier.sendNotification(userClientSide.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
                                                 users.add(userClientSide);
                                                 registerUser(userClientSide);
