@@ -2,6 +2,7 @@ package uqac.dim.crypturmess.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -117,7 +118,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             }*/
 
             if (m.find()) {
-                messageText.setTextColor(R.color.teal_700);
+                messageText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
                 messageText.setTag(message.getMessage());
             }
 
@@ -158,7 +159,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             }*/
 
             if (m.find()) {
-                messageText.setTextColor(R.color.teal_700);
+                messageText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
                 messageText.setTag(message.getMessage());
             }
 
