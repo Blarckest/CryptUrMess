@@ -219,7 +219,7 @@ public class MessagesActivity extends AppCompatActivity {
             Pattern p = Pattern.compile("[+-]?[0-9]{2}\\.[0-9]*,[+-]?[0-9]{2}\\.[0-9]*");
             Matcher m;
             m = p.matcher(view.getTag().toString());
-            if (m.find()) {
+            if (m.find() && view.getTag() != null) {
                 // on ouvre maps
                 Uri navigationIntentUri = Uri.parse("google.navigation:q=" + view.getTag());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
