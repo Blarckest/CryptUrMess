@@ -75,8 +75,6 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             ((ReceivedMessageHolder) holder).bind(message);
         else
             ((SentMessageHolder) holder).bind(message);
-
-
     }
 
     @Override
@@ -92,7 +90,6 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     private class SentMessageHolder extends RecyclerView.ViewHolder {
         private TextView messageText, timeText;
         private LinearLayout linear;
-        private Button openinmaps;
         private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE d MMM yyyy HH:mm:ss");
 
         SentMessageHolder(View itemView) {
@@ -101,7 +98,6 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             messageText = (TextView) itemView.findViewById(R.id.mg_message);
             timeText = (TextView) itemView.findViewById(R.id.mg_time);
             linear = (LinearLayout) itemView.findViewById(R.id.mg_linear);
-            openinmaps = (Button) itemView.findViewById(R.id.buttonOpenInMaps);
         }
 
         @SuppressLint("ResourceAsColor")
@@ -110,18 +106,16 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             Matcher m;
             m = p.matcher(message.getMessage());
 
-            /*if (m.find()) {
-                //openinmaps.setTag(message);
-            }
-            else {
-                openinmaps.setVisibility(View.GONE);
-            }*/
-
             if (m.find()) {
                 messageText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
                 messageText.setTag(message.getMessage());
             }
+            else {
+                messageText.setPaintFlags(0);
+                messageText.setTag(null);
+            }
 
+            m.reset();
 
             messageText.setText(message.getMessage());
             messageText.setBackgroundResource(R.drawable.bubble_right);
@@ -162,6 +156,12 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                 messageText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
                 messageText.setTag(message.getMessage());
             }
+            else {
+                messageText.setPaintFlags(0);
+                messageText.setTag(null);
+            }
+
+            m.reset();
 
             messageText.setText(message.getMessage());
             messageText.setBackgroundResource(R.drawable.bubble_left);
