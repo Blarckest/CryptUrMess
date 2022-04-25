@@ -57,7 +57,7 @@ public class ContactActivity extends AppCompatActivity {
                         if (!isMyServiceRunning(AppService.class)) {
                             startService(new Intent(this, AppService.class));
                         }
-                        if (getIntent().getExtras() != null) {
+                        if (getIntent().getExtras()!=null && getIntent().getExtras().size() >=2) {
                             Intent intent = new Intent(this, MessagesActivity.class);
                             intent.putExtra("ID_USER", getIntent().getExtras().getString("ID_USER"));
                             intent.putExtra("ID_CONVERSATION", getIntent().getExtras().getInt("ID_CONVERSATION"));
