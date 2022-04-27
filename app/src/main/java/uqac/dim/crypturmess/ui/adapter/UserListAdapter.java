@@ -77,7 +77,12 @@ public class UserListAdapter extends ArrayAdapter<UserClientSide> implements Fil
 
         if(vi==null) {
             vi = layoutInflater.inflate(R.layout.contact_fragment, null);
-            ((TextView)vi.findViewById(R.id.c_user_name)).setText(nickname+"("+getItem(i).getUsername()+")");
+            String userName;
+            if(!getItem(i).getUsername().equals(""))
+                userName= "("+getItem(i).getUsername()+")";
+            else
+                userName="";
+            ((TextView)vi.findViewById(R.id.c_user_name)).setText(nickname+" "+userName);
             ((TextView)vi.findViewById(R.id.c_user_letter_frag)).setText(new String(Character.toChars(nickname.codePointAt(0))).toUpperCase());
             ((FrameLayout)vi.findViewById(R.id.c_user_bg)).setBackground(new UserBGManager().getBackgroundByUserName(nickname));
             String text=db.messageDao().getLastMessageFromConv(db.conversationDao().getConversation(getItem(i).getIdUser()).getIdConversation());

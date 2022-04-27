@@ -123,7 +123,12 @@ public class AppService extends IntentService {
                                                 Intent intent = new Intent(CrypturMessApplication.getContext(), ContactActivity.class);
                                                 intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
                                                 intent.putExtra("ID_USER", userClientSide.getIdUser());
-                                                notifier.sendNotification(userClientSide.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
+                                                String end;
+                                                if(msg.getMessage().length()>50)
+                                                    end="...";
+                                                else
+                                                    end="";
+                                                notifier.sendNotification(userClientSide.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + end, intent);
                                                 users.add(userClientSide);
                                                 registerUser(userClientSide);
                                                 hashLastMessage = hash;
@@ -208,7 +213,12 @@ public class AppService extends IntentService {
                             Intent intent = new Intent(CrypturMessApplication.getContext(), ContactActivity.class);
                             intent.putExtra("ID_CONVERSATION", conv.getIdConversation());
                             intent.putExtra("ID_USER", user.getIdUser());
-                            notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + "...", intent);
+                            String end;
+                            if(msg.getMessage().length()>50)
+                                end="...";
+                            else
+                                end="";
+                            notifier.sendNotification(user.getIdUser(), msg.getMessage().substring(0, Math.min(msg.getMessage().length(), 50)) + end, intent);
                             hashLastMessage=hash;
                         }
                     }

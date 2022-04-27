@@ -67,7 +67,12 @@ public class Notifier{
                pendingIntent = PendingIntent.getActivity(CrypturMessApplication.getContext(), 0, intent, 0);
            }
            UserClientSide user=db.userDao().getUserById(UID);
-           String title=user.getNickname() + "(" + user.getUsername() + ")";
+           String userName;
+           if(!user.getUsername().equals(""))
+               userName= "("+user.getUsername()+")";
+           else
+               userName="";
+           String title=user.getNickname() + " " + userName;
            Notification n  = new Notification.Builder(context, CHANNEL_ID)
                    .setContentTitle(title)
                    .setContentText(text)
