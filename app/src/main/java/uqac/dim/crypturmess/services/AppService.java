@@ -86,8 +86,12 @@ public class AppService extends IntentService {
                             User userTask = task.getResult().getValue(User.class);
                             if (userTask != null) {
                                 UserClientSide friend = new UserClientSide(userTask, "");
-                                database.userDao().insertAndNotify(friend);
-                                database.conversationDao().insert(new Conversation(friend.getIdUser()));
+                                try {
+                                    database.userDao().insertAndNotify(friend);
+                                    database.conversationDao().insert(new Conversation(friend.getIdUser()));
+                                } catch (Exception e) {
+                                    Log.e("DIM", e.getMessage());
+                                }
                             }
                         }
                     }).addOnSuccessListener(task -> {

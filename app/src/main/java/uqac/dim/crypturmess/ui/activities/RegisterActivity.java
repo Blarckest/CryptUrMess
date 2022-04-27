@@ -63,11 +63,11 @@ public class RegisterActivity extends AppCompatActivity{
                     Log.d("DIM", "create user :success: for uid:"+ authManager.getCurrentUser().getUid());
                     User user=new User(authManager.getCurrentUser().getUid(),nickname);
                     fbHelper.saveUser(user);
-                    Intent intent = new Intent(RegisterActivity.this, ContactActivity.class);
                     fbHelper.pushRSAPublicKey();
                     SharedPreferencesHelper sharedPreferencesHelper= new SharedPreferencesHelper();
                     sharedPreferencesHelper.setValue(R.string.userIDSharedPref, authManager.getCurrentUser().getUid());
                     sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, nickname);
+                    Intent intent = new Intent(RegisterActivity.this, ContactActivity.class);
                     startActivity(intent);
                     finish();
                 }

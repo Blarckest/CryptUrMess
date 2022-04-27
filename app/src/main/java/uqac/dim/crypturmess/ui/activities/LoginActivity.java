@@ -61,8 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             authManager.signIn(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:success: for uid:"+ authManager.getCurrentUser().getUid());
-                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
-                    startActivity(intent);
+
                 }
                 else {
                     Log.d(TAG, "signInWithEmail:error");
@@ -76,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 databaseHelper.getUser(authManager.getCurrentUser().getUid()).addOnSuccessListener(taskNickname -> {
                     User user=taskNickname.getValue(User.class);
                     sharedPreferencesHelper.setValue(R.string.nicknameSharedPref, user.getNickname());
+                    Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+                    startActivity(intent);
                     finish();
                 });
             });

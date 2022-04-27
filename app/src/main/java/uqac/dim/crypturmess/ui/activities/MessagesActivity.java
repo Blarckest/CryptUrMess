@@ -163,7 +163,12 @@ public class MessagesActivity extends AppCompatActivity {
      * Get current location of the phone
      */
     public void onGetLocation(View view) {
-        setUserLocation();
+        try {
+            setUserLocation();
+        } catch (Exception e) {
+            Log.e("DIM", e.getMessage());
+        }
+
     }
 
     public Pair<Double, Double> getUserLocation() {
